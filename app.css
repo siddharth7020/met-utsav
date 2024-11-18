@@ -114,6 +114,35 @@ a.movie-item:hover {
  background: #000;
 }
 
+.btn {
+    padding: 10px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    border: 0;
+    background-color: #DC2626;
+    box-shadow: rgb(0 0 0 / 5%) 0 0 8px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-size: 15px;
+    transition: all 0.5s ease;
+  }
+  
+  .btn:hover {
+    letter-spacing: 3px;
+    background-color: hsl(0, 81%, 60%);
+    color: hsl(0, 0%, 100%);
+    box-shadow: rgb(10, 0, 0) 0px 7px 29px 0px;
+  }
+  
+  .btn:active {
+    letter-spacing: 3px;
+    background-color: hsl(261deg 80% 48%);
+    color: hsl(0, 0%, 100%);
+    box-shadow: rgb(93 24 220) 0px 0px 0px 0px;
+    transform: translateY(10px);
+    transition: 100ms;
+  }
+  
 /* .btn-hover::before {
     z-index: 1;
     content: "";
@@ -126,18 +155,9 @@ a.movie-item:hover {
     transition: 0.3s ease-in-out;
 } */
 
-.btn-hover:hover::before {
-    width: 100%;
-}
 
-.btn i,
-.btn span {
-    z-index: 1;
-}
 
-.btn i {
-    margin-right: 1rem;
-}
+
 
 .hamburger-menu {
     --size: 30px;
@@ -160,7 +180,7 @@ a.movie-item:hover {
     width: var(--size);
     height: 3px;
     border-radius: 0.5rem;
-    background-color: var(--text-color);
+    background-color: black;
     transition: 0.4s;
 }
 
@@ -461,7 +481,7 @@ a.movie-item:hover {
 
 footer.section {
     margin-top: 80px;
-    padding-bottom: 80px;
+    padding-bottom: 40px;
     position: relative;
     background-color: var(--box-bg);
 }
@@ -481,8 +501,8 @@ footer a.logo:hover {
 
 .social-list {
     display: flex;
-    align-items: center;
-    margin-top: 20px;
+    justify-content: center;
+    margin-top: 10px;
 }
 
 .social-item {
@@ -506,7 +526,7 @@ footer a.logo:hover {
 }
 
 footer .content {
-    margin-top: 20px;
+    margin-top: 40px;
 }
 
 .footer-menu {
