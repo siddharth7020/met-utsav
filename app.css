@@ -4,7 +4,7 @@
     --box-bg: #221f1f;
     --text-color: #ffffff;
     --text-color2: #000;
-    --tab-color:#ffffff;
+    --tab-color: #ffffff;
 
     --nav-height: 60px;
     --space-top: 30px;
@@ -90,7 +90,7 @@ img {
     padding: 0 20px;
 }
 
-.nav-menu li ~ li {
+.nav-menu li~li {
     margin-left: 30px;
 }
 
@@ -110,8 +110,8 @@ a.movie-item:hover {
 }
 
 .btn {
- color: #ffffff;
- background: #000;
+    color: #ffffff;
+    background: #000;
 }
 
 .btn {
@@ -125,38 +125,25 @@ a.movie-item:hover {
     text-transform: uppercase;
     font-size: 15px;
     transition: all 0.5s ease;
-  }
-  
-  .btn:hover {
+}
+
+.btn:hover {
     letter-spacing: 3px;
     background-color: hsl(0, 81%, 60%);
     color: hsl(0, 0%, 100%);
     box-shadow: rgb(10, 0, 0) 0px 7px 29px 0px;
-  }
-  
-  .btn:active {
+}
+
+.btn:active {
     letter-spacing: 3px;
     background-color: hsl(261deg 80% 48%);
     color: hsl(0, 0%, 100%);
     box-shadow: rgb(93 24 220) 0px 0px 0px 0px;
     transform: translateY(10px);
     transition: 100ms;
-  }
-  
-/* .btn-hover::before {
-    z-index: 1;
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 50%;
-    height: 100%;
-    background-color: var(--main-color);
-    transition: 0.3s ease-in-out;
-} */
+}
 
-
-
+/* From Uiverse.io by alexroumi */
 
 
 .hamburger-menu {
@@ -228,6 +215,58 @@ a.movie-item:hover {
     left: 0;
 }
 
+.detailssection {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    margin-top: 1rem;
+}
+
+.image img {
+    max-width: 100%;
+    height: 100%;
+}
+
+.details {
+    background-color: rgba(0, 0, 0, 0.8);
+    height: 100%;
+}
+
+.itemcontent {
+    padding-left: 2rem;
+}
+
+.seemorebutton {
+    padding: 5px 20px;
+    border: unset;
+    border-radius: 5px;
+    color: #ffffff;
+    z-index: 1;
+    background: var(--main-color);
+    position: relative;
+    font-weight: 1000;
+    font-size: 17px;
+    -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+    box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+    transition: all 250ms;
+    overflow: hidden;
+}
+
+.seemorebutton:hover {
+    padding: 5px 20px;
+    border: unset;
+    border-radius: 5px;
+    color: #ffffff;
+    z-index: 1;
+    background: var(--box-bg);
+    position: relative;
+    font-weight: 1000;
+    font-size: 17px;
+    -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+    box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+    transition: all 250ms;
+    overflow: hidden;
+}
+
 .hero-slide-item-content {
     position: absolute;
     top: 0;
@@ -286,7 +325,7 @@ a.movie-item:hover {
     color: var(--main-color);
 }
 
-.movie-info ~ .movie-info {
+.movie-info~.movie-info {
     margin-left: 5px;
 }
 
@@ -418,7 +457,7 @@ a.movie-item:hover {
 }
 
 .section-header {
-    margin-bottom: 30px;
+    margin-bottom: 10px;
     padding-left: 20px;
     text-transform: uppercase;
     font-size: 1.5rem;
@@ -426,6 +465,7 @@ a.movie-item:hover {
     border-left: 4px solid var(--main-color);
     display: flex;
     align-items: center;
+    justify-content: space-between;
     color: var(--text-color2);
 }
 
@@ -521,7 +561,7 @@ footer a.logo:hover {
     color: var(--text-color);
 }
 
-.social-item ~ .social-item {
+.social-item~.social-item {
     margin-left: 20px;
 }
 
