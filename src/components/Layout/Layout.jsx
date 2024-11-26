@@ -1,8 +1,15 @@
+import Footer from "../Common/Footer"
+import Slider from "../Common/Slider"
+import Navbar from "./Navbar"
 
 
 const Layout = () => {
   return (
-    <div>Layout</div>
+    <div>
+      <Navbar />
+      <Slider />
+      <Footer/>
+      </div>
   )
 }
 
