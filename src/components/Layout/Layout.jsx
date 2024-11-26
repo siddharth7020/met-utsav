@@ -1,3 +1,4 @@
+import Cards from "../Common/Cards"
 import Footer from "../Common/Footer"
 import Slider from "../Common/Slider"
 import Navbar from "./Navbar"
@@ -8,6 +9,7 @@ const Layout = () => {
     <div>
       <Navbar />
       <Slider />
+      <Cards />
       <Footer/>
       </div>
   )
