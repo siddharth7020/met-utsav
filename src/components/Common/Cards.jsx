@@ -60,7 +60,7 @@ const EventCard = ({ event }) => {
       <div className="p-4">
         <h3 className="font-bold text-lg mb-2">{event.title}</h3>
         <p className="text-gray-600 text-sm mb-4">{new Date(event.date).toLocaleDateString()}</p>
-        <button className="text-white px-6 py-2 rounded-lg bg-gradient-to-r from-red-500 to-red-700 hover:from-red-700 hover:to-red-900 transition-colors">
+        <button className="text-white px-6 py-2 rounded-lg bg-gradient-to-r from-red-500 to-red-700 hover:from-red-700 hover:to-red-900 transition-colors" >
           View Details
         </button>
       </div>
@@ -94,13 +94,12 @@ const Cards = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-12">
-      <h2 className="text-2xl font-bold mb-8">MET USTAV Events</h2>
+    
       <div className="relative">
         {/* Carousel Buttons */}
         <button
           onClick={() => scrollCarousel("left")}
-          className="absolute left-3 top-1/2 -translate-y-1/2 z-10 bg-gray-100 p-3 rounded-full shadow-lg hover:bg-gray-200 transition-transform transform hover:scale-105"
+          className="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-gray-100 p-3 rounded-full shadow-lg hover:bg-gray-200 transition-transform transform hover:scale-105"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-caret-left-fill" viewBox="0 0 16 16">
             <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z" />
@@ -108,7 +107,7 @@ const Cards = () => {
         </button>
         <button
           onClick={() => scrollCarousel("right")}
-          className="absolute right-3 top-1/2 -translate-y-1/2 z-10 bg-gray-100 p-3 rounded-full shadow-lg hover:bg-gray-200 transition-transform transform hover:scale-105"
+          className="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-gray-100 p-3 rounded-full shadow-lg hover:bg-gray-200 transition-transform transform hover:scale-105"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-caret-right-fill " viewBox="0 0 16 16">
             <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
@@ -125,8 +124,8 @@ const Cards = () => {
           ))}
         </div>
       </div>
-    </div>
   );
 };
 
 export default Cards;
+

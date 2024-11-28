@@ -1,17 +1,15 @@
-import Cards from "../Common/Cards"
-import Footer from "../Common/Footer"
-import Slider from "../Common/Slider"
-import Navbar from "./Navbar"
+import Navbar from "./Navbar";
+import Footer from "../Common/Footer";
+import { Outlet } from 'react-router-dom';
 
 
 const Layout = () => {
   return (
     <div>
       <Navbar />
-      <Slider />
-      <Cards />
+      <div><Outlet /></div>
       <Footer/>
-      </div>
+    </div>
   )
 }
 

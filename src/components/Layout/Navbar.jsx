@@ -1,8 +1,11 @@
 import { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import METLOGO from "../../assets/logo.png";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -27,30 +30,46 @@ const Navbar = () => {
         </div>
         <ul
           className="hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:flex lg:mx-auto lg:flex lg:items-center lg:w-auto lg:space-x-6">
-          <li><a className="text-sm text-gray-400 hover:text-red-600 font-bold" href="#">Home</a></li>
+          <li> <a
+            className={`text-sm text-gray-400 hover:text-red-600 font-bold ${location.pathname === "/" ? "active" : "text-red-600"}`}
+            onClick={() => navigate("/")}
+          >Home</a></li>
           <li className="text-gray-300">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-three-dots-vertical" viewBox="0 0 16 16">
               <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
             </svg>
           </li>
-          <li><a className="text-sm text-gray-400 hover:text-red-600 font-bold" href="#">Events</a></li>
+          <li> <a
+            className={`text-sm text-gray-400 hover:text-red-600 font-bold ${location.pathname === "/event" ? "active" : "text-red-600"}`}
+            onClick={() => navigate("/event")}
+          >Events</a></li>
           <li className="text-gray-300">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-three-dots-vertical" viewBox="0 0 16 16">
               <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
             </svg>
           </li>
-          <li><a className="text-sm text-gray-400 hover:text-red-600 font-bold" href="#">Attendace</a></li>
+          <li><a
+            className={`text-sm text-gray-400 hover:text-red-600 font-bold ${location.pathname === "/attendance" ? "active" : "text-red-600"}`}
+            onClick={() => navigate("/attendance")}
+          >Attendace</a></li>
           <li className="text-gray-300">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-three-dots-vertical" viewBox="0 0 16 16">
               <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
             </svg>
           </li>
-          <li><a className="text-sm text-gray-400 hover:text-red-600 font-bold" href="#">Notice</a></li>
+          <li><a
+            className={`text-sm text-gray-400 hover:text-red-600 font-bold ${location.pathname === "/notice" ? "active" : "text-red-600"}`}
+            onClick={() => navigate("/notice")}
+          >Notice</a></li>
           <li className="text-gray-300">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-three-dots-vertical" viewBox="0 0 16 16">
               <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
             </svg>
           </li>
+          <li><a
+            className={`text-sm text-gray-400 hover:text-red-600 font-bold ${location.pathname === "/roles" ? "active" : "text-red-600"}`}
+            onClick={() => navigate("/roles")}
+          >Role</a></li>
         </ul>
         <a className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-red-100 hover:bg-red-200 text-sm text-gray-900 font-bold  rounded-xl transition duration-200"
           href="#">Sign In</a>

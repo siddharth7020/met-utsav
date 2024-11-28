@@ -1,64 +1,7 @@
-import aboutimg1 from "../../assets/MET-USTAV/1.png";
-import aboutimg2 from "../../assets/MET-USTAV/2.png";
 
 const Footer = () => {
     return (
         <>
-
-            <section className="py-24 relative">
-                <div className="w-full max-w-7xl px-4 md:px-5 lg:px-5 mx-auto">
-                    <div className="w-full justify-start items-center gap-12 grid lg:grid-cols-2 grid-cols-1">
-                        <div
-                            className="w-full justify-center items-start gap-6 grid sm:grid-cols-2 grid-cols-1 lg:order-first order-last">
-                            <div className="pt-24 lg:justify-center sm:justify-end justify-start items-start gap-2.5 flex">
-                                <img className=" rounded-xl object-cover" src={aboutimg2}
-                                    alt="about Us image" />
-                            </div>
-                            <img className="sm:ml-0 ml-auto rounded-xl object-cover"
-                                src={aboutimg1} alt="about Us image" />
-                        </div>
-                        <div className="w-full flex-col justify-center lg:items-start items-center gap-10 inline-flex">
-                            <div className="w-full flex-col justify-center items-start gap-8 flex">
-                                <div className="w-full flex-col justify-start lg:items-start items-center gap-3 flex">
-                                    <h2
-                                        className="text-gray-900 text-4xl font-bold font-manrope leading-normal lg:text-start text-center">
-                                        About <span className=" text-[#BD1F1F] ">MET USTAV</span>
-                                    </h2>
-                                    <p
-                                        className="text-gray-500 text-base font-normal leading-relaxed lg:text-start text-center">
-                                        MET Utsav, the Grand Annual Cultural and Sports Fest of the Mumbai Educational Trust
-                                        (MET) returns with a bang! Amidst the uncertainty, let us resolve to be optimistic,
-                                        having a positive outlook at life. Thus, the theme for MET Utsav 2025 is All is
-                                        Well.
-                                        So lets gear up for fun and enthusiasm.
-                                    </p>
-                                </div>
-                                <div
-                                    className="w-full lg:justify-start justify-center items-center sm:gap-10 gap-5 inline-flex">
-                                    <div className="flex-col justify-start items-start inline-flex">
-                                        <h3 className="text-gray-900 text-4xl font-bold font-manrope leading-normal">33+</h3>
-                                        <h6 className="text-gray-500 text-base font-normal leading-relaxed">Years of Experience
-                                        </h6>
-                                    </div>
-                                    <div className="flex-col justify-start items-start inline-flex">
-                                        <h4 className="text-gray-900 text-4xl font-bold font-manrope leading-normal">125+</h4>
-                                        <h6 className="text-gray-500 text-base font-normal leading-relaxed">Successful Projects
-                                        </h6>
-                                    </div>
-                                    <div className="flex-col justify-start items-start inline-flex">
-                                        <h4 className="text-gray-900 text-4xl font-bold font-manrope leading-normal">52+</h4>
-                                        <h6 className="text-gray-500 text-base font-normal leading-relaxed">Happy Clients</h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <button
-                                className="sm:w-fit w-full px-3.5 py-2 bg-gradient-to-r from-red-500 to-red-700 hover:from-red-700 hover:to-red-900 transition-all duration-700 ease-in-out rounded-lg shadow-[0px_1px_2px_0px_rgba(16,_24,_40,_0.05)] justify-center items-center flex">
-                                <span className="px-1.5 text-white text-sm font-medium leading-6">Read More</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </section>
             <div className="bg-gray-900">
                 <div className="container px-6 py-12 mx-auto xl:px-32">
                     <h1 className="text-3xl font-bold text-red-500 text-center capitalize lg:text-4xl">Contact us</h1>
@@ -148,7 +91,7 @@ const Footer = () => {
                                 </a>
                                 <a href="javascript:;"
                                     className="relative w-8 h-8 rounded-full transition-all duration-500 flex justify-center items-center bg-[#FF0000]  hover:bg-gray-900 ">
-                                    <svg className="w-[1.25rem] h-[0.875rem] text-white bi bi-youtube" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"  viewBox="0 0 16 16">
+                                    <svg className="w-[1.25rem] h-[0.875rem] text-white bi bi-youtube" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                         <path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.01 2.01 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.01 2.01 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31 31 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.01 2.01 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A100 100 0 0 1 7.858 2zM6.4 5.209v4.818l4.157-2.408z" />
                                     </svg>
                                 </a>
