@@ -1,15 +1,19 @@
 import { useState, useEffect } from "react";
-import IMAGES from '../../assets/Image';
+import { BANNER1 } from '../../assets/Image';
+import { BANNER2 } from "../../assets/Image";
+import { BANNER3 } from "../../assets/Image";
+import { BANNER4 } from "../../assets/Image";
+import { BANNER5 } from "../../assets/Image";
+import { BANNER6 } from "../../assets/Image";
 
-const Slider = () => {
- 
+const Slider = () => { 
   const events = [
     {
       id: 1,
       title: "Dance Festival 2024",
       date: "2024-07-15",
       location: "MET Ground",
-      image: IMAGES.BANNER1,
+      image: BANNER1,
       description: "Join us for the biggest music festival of the summer featuring top artists from around the world."
     },
     {
@@ -17,7 +21,7 @@ const Slider = () => {
       title: "Techno Bollywood 2024",
       date: "2024-08-20",
       location: "Convention Center",
-      image: IMAGES.BANNER2,
+      image: BANNER2,
       description: "Experience the latest in technology trends and innovations at this premier tech conference."
     },
     {
@@ -25,7 +29,7 @@ const Slider = () => {
       title: "Play",
       date: "2024-09-10",
       location: "MET Ground",
-      image: IMAGES.BANNER3,
+      image: BANNER3,
       description: "Savor the finest cuisine and wines from renowned chefs and wineries."
     },
     {
@@ -33,7 +37,7 @@ const Slider = () => {
       title: "Photography Competition 2024",
       date: "2024-09-10",
       location: "MET Building",
-      image: IMAGES.BANNER4,
+      image: BANNER4,
       description: "Savor the finest cuisine and wines from renowned chefs and wineries."
     },
     {
@@ -41,7 +45,7 @@ const Slider = () => {
       title: "Kathak Dance 2024",
       date: "2024-09-10",
       location: "Convention Center",
-      image: IMAGES.BANNER5,
+      image: BANNER5,
       description: "Savor the finest cuisine and wines from renowned chefs and wineries."
     },
     {
@@ -49,7 +53,7 @@ const Slider = () => {
       title: "Talent Show 2024",
       date: "2024-09-10",
       location: "Convention Center",
-      image: IMAGES.BANNER6,
+      image: BANNER6,
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
     }
   ];

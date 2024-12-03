@@ -15,5 +15,5 @@ const Image = () => {
  BANNER5,
  BANNER6
 }
-
 export default Image;
+export { METLOGO, BANNER1, BANNER2, BANNER3, BANNER4, BANNER5, BANNER6 };
