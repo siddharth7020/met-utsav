@@ -1,10 +1,14 @@
 import { useState } from "react";
 import PropTypes from 'prop-types';
 
-AtdTable.propTypes = {
-    searchTerm: PropTypes.string.isRequired,
-  };
+
+
+
 const AtdTable = ({ searchTerm }) => {
+
+    AtdTable.propTypes = {
+        searchTerm: PropTypes.string.isRequired,
+      };
     const data = [
         {
             id: 1,
@@ -146,7 +150,7 @@ const AtdTable = ({ searchTerm }) => {
                             <tr>
                                 <th scope="col" className="px-6 py-3">Attendance</th>
                                 <th scope="col" className="px-6 py-3">Name</th>
-                                <th scope="col" className="px-6 py-3">Institute</th>
+                                <th scope="col" className="px-6 py-3 ">Institute</th>
                                 <th scope="col" className="px-6 py-3">Roll no.</th>
                                 <th scope="col" className="px-6 py-3">Event Name</th>
                             </tr>
@@ -171,7 +175,7 @@ const AtdTable = ({ searchTerm }) => {
                                             </div>
                                         </td>
                                         <th scope="row" className="px-6 py-4">{data.name}</th>
-                                        <td className="px-6 py-4">{data.institute}</td>
+                                        <td className="px-6 py-4 ">{data.institute}</td>
                                         <td className="px-6 py-4">{data.RollNo}</td>
                                         <td className="px-6 py-4">{data.eventName}</td>
                                     </tr>
@@ -225,4 +229,4 @@ const AtdTable = ({ searchTerm }) => {
     )
 }
 
-export default AtdTable
+export default AtdTable;
