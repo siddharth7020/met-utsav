@@ -145,8 +145,8 @@ const AtdTable = ({ searchTerm }) => {
         <>
             <div className="relative overflow-hidden shadow-md sm:rounded-lg">
                 <div className="overflow-x-auto"> {/* Add overflow-x-auto here */}
-                    <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-white">
+                    <table className="w-full text-sm text-left rtl:text-right   text-gray-400">
+                        <thead className="text-xs text-gray-700 uppercase   bg-gray-700  text-white">
                             <tr>
                                 <th scope="col" className="px-6 py-3">Attendance</th>
                                 <th scope="col" className="px-6 py-3">Name</th>
@@ -160,14 +160,14 @@ const AtdTable = ({ searchTerm }) => {
                                 currentRows.map((data) => (
                                     <tr
                                         key={data.id}
-                                        className="bg-white border-b text-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 dark:hover:text-white"
+                                        className="bg-white border-b text-gray-700 hover:bg-gray-50  hover:bg-gray-600  hover:text-white"
                                     >
                                         <td className="w-4 p-4">
                                             <div className="flex items-center">
                                                 <input
                                                     id={`checkbox-${data.id}`}
                                                     type="checkbox"
-                                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                    className="w-4 h-4 text-blue-600  border-gray-300 rounded focus:ring-blue-500  focus:ring-blue-600  ring-offset-gray-800  focus:ring-offset-gray-800 focus:ring-2  bg-gray-700  border-gray-600"
                                                 />
                                                 <label htmlFor={`checkbox-${data.id}`} className="sr-only">
                                                     checkbox

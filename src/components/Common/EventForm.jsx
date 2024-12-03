@@ -59,4 +59,5 @@ const EventForm = ({ setShowEventForm }) => {
     )
 }
 
-export default EventForm
+export default EventForm;
+

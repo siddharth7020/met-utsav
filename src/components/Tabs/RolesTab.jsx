@@ -102,7 +102,7 @@ const RolesTab = () => {
   };
 
   return (
-    <div className="bg-gray-300 h-full">
+    <div className="bg-gray-200 h-full">
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="flex flex-row justify-between mb-2">
           <h2 className="text-2xl font-bold mb-2">Roles</h2>

@@ -14,8 +14,8 @@ const Table = ({ columns, data }) => {
     return (
         
             <div className="overflow-x-auto">
-                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-white">
+                <table className="w-full text-sm text-left rtl:text-right  text-gray-400">
+                    <thead className="text-xs  uppercase  bg-gray-700 text-white">
                         <tr>
                             {columns.map((column) => (
                                 <th scope="col" className="px-6 py-3" key={column.field}>
@@ -28,7 +28,7 @@ const Table = ({ columns, data }) => {
                         {data.map((row, rowIndex) => (
                             <tr
                                 key={row.id || rowIndex}
-                                className="bg-white border-b text-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 dark:hover:text-white"
+                                className=" border-b text-gray-700 bg-gray-50  hover:bg-gray-600 hover:text-white"
                             >
                                 {columns.map((column) => (
                                     <td className="px-6 py-4" key={column.field}>
@@ -37,7 +37,7 @@ const Table = ({ columns, data }) => {
                                                 <input
                                                     type="checkbox"
                                                     defaultChecked={row[column.field] || false}
-                                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                    className="w-4 h-4 text-blue-600  border-gray-300 rounded focus:ring-blue-500 focus:ring-blue-600 ring-offset-gray-800 focus:ring-offset-gray-800 focus:ring-2 bg-gray-700 border-gray-600"
                                                 />
                                             </div>
                                         ) : (
