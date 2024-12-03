@@ -1,30 +1,58 @@
+import PropTypes from 'prop-types';
 
-
-const EventForm = () => {
+const EventForm = ({ setShowEventForm }) => {
+    EventForm.propTypes = {
+        setShowEventForm: PropTypes.func.isRequired,
+    };
     return (
-        <div className=" w-full">
-            <form className="px-7  grid justify-center items-center ">
-                <div className="grid gap-6 mt-10 mb-10 " id="form">
-                    <div className="grid gap-6 w-full">
-                        <input className="capitalize shadow-2xl p-3 ex w-full outline-none focus:border-solid focus:border-[1px] border-[#035ec5] placeholder:text-black" type="text" placeholder="Event Name" name="Event Name" required="" />
-                        <select className="shadow-2xl p-3 ex w-full outline-none focus:border-solid focus:border-[1px] border-[#035ec5] placeholder:text-black focus:ring-1 focus:ring-black-500 transition ease-in-out duration-150" id="gender">
-                            <option value="male">Dance</option>
-                            <option value="female">Sports</option>
-                            <option value="other">Other</option>
-                        </select>
-                        {/* <select className="shadow-2xl p-3 ex w-full outline-none focus:border-solid focus:border-[1px] border-[#035ec5] placeholder:text-black focus:ring-1 focus:ring-black-500 transition ease-in-out duration-150" id="gender">
-                            <option value="male">ICS</option>
-                            <option value="female">IOM</option>
-                            <option value="other">PGDM</option>
-                        </select> */}
-                        <input className="p-3 shadow-2xl  glass w-full placeholder:text-black outline-none focus:border-solid border-[#035ec5] focus:border-[1px]" type="Email" placeholder="Email" id="Email" name="email" />
-                        <input className="p-3 shadow-2xl   glass w-full text-black outline-none focus:border-solid focus:border-[1px]border-[#035ec5]" type="date" required="" />
-                    </div>
-                    <div className="flex gap-3">
-                        <input className="p-3 glass shadow-2xl  w-full placeholder:text-black outline-none focus:border-solid focus:border-[1px] border-[#035ec5]" type="password" placeholder="Password" id="password" name="password" required="" />
-                        <input className="p-3 glass shadow-2xl  w-full placeholder:text-black outline-none focus:border-solid focus:border-[1px] border-[#035ec5]" type="password" placeholder="Confirm password" required="" />
-                    </div>
-                    <button className="outline-none glass shadow-2xl  w-full p-3  bg-[#ffffff42] hover:border-[#035ec5] hover:border-solid hover:border-[1px]  hover:text-[#035ec5] font-bold" type="submit">Submit</button>
+        <div className="flex justify-center items-center ">
+            <form className="w-full max-w-lg mt-1 bg-white rounded-lg shadow-md p-6">
+                <h2 className='text-2xl font-bold mb-4 '>Create Event</h2>
+                <div className="mb-4">
+                    <input
+                        id="title"
+                        type="text"
+                        placeholder="Enter Event Name"
+                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-black focus:outline-none"
+                    />
+                </div>
+                <div className="mb-4">
+                    <select
+                        id="event"
+                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-black focus:outline-none"
+                    >
+                        <option value="">Select Category</option>
+                        <option value="">Category 1</option>
+                        <option value="">Category 2</option>
+                        <option value="">Category 3</option>
+                        <option value="">Category 4</option>
+                        <option value="">Category 5</option>
+                    </select>
+                </div>
+                <div className="mb-4">
+                    <input
+                        id="date"
+                        type="date"
+                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-black focus:outline-none"
+                    />
+                </div>
+                <div className="mb-4">
+                    <input id="picture" type="file" className="flex h-10 w-full rounded-md border border-input bg-white px-3 py-2 text-sm text-gray-400 file:border-0 file:bg-transparent file:text-gray-600 file:text-sm file:font-medium" />
+                </div>
+                <div className="flex justify-end space-x-4">
+                    <button
+                        type="submit"
+                        className="px-6 py-2 text-white bg-gradient-to-r from-red-500 to-red-700 hover:from-red-700 hover:to-red-900 text-sm text-white font-bold rounded-xl transition duration-200 "
+                    >
+                        Submit
+                    </button>
+                    <button
+                        type="button"
+                        className="px-6 py-2 bg-red-100 hover:bg-red-200 text-sm text-gray-900 font-bold  rounded-xl transition duration-200"
+                        onClick={() => setShowEventForm(false)}
+                    >
+                        Cancel
+                    </button>
                 </div>
             </form>
         </div>
