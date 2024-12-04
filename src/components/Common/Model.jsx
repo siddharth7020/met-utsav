@@ -1,58 +1,53 @@
 
+// import PropTypes from 'prop-types';
 
-const Model = () => {
-    // const [isOpen, setIsOpen] = useState(false);
-    // const handleOpenMode = () => {
-    //     setIsOpen(true);
-    // };
+// const Modal = ({ isOpen, closeModal, title, date, location, description, image }) => {
 
-    // const handleCloseMode = () => {
-    //     setIsOpen(false);
-    // };
-    // function showEventDetails(eventId) {
-    //     const event = events.find(e => e.id === eventId);
-    //     document.getElementById('modalImage').innerHTML = `
-    //         <img src="${event.image}" class="w-full h-full object-cover" alt="${event.title}">
-    //     `;
-    //     document.getElementById('modalTitle').textContent = event.title;
-    //     document.getElementById('modalDate').innerHTML = `<i class="bi bi-calendar mr-2"></i>${new Date(event.date).toLocaleDateString()}`;
-    //     document.getElementById('modalLocation').innerHTML = `<i class="bi bi-geo-alt mr-2"></i>${event.location}`;
-    //     document.getElementById('modalDescription').textContent = event.description;
-    //     document.getElementById('eventModal').classList.remove('hidden');
-    // }
+//     Modal.propTypes = {
+//         isOpen: PropTypes.bool.isRequired,
+//         closeModal: PropTypes.func.isRequired,
+//         title: PropTypes.string.isRequired,
+//         date: PropTypes.string.isRequired,
+//         location: PropTypes.string.isRequired,
+//         description: PropTypes.string.isRequired,
+//         image: PropTypes.string.isRequired,
+//     };
+//     if (!isOpen) return null;
 
-    return (
-        <>
-            {/* {isOpen && ( */}
-                <div id="eventModal" className="fixed inset-0 bg-black bg-opacity-50 z-50">
-                    <div className="bg-white max-w-4xl mx-auto mt-20 rounded-lg overflow-hidden">
-                        <div className="relative h-[300px]" id="modalImage"></div>
-                        <div className="p-6">
-                            <h2 id="modalTitle" className="text-2xl font-bold mb-4">Modal Title</h2>
-                            <div className="flex space-x-4 mb-4">
-                                <p id="modalDate" className="flex items-center">
-                                    <i className="bi bi-calendar mr-2"></i> Date Info
-                                </p>
-                                <p id="modalLocation" className="flex items-center">
-                                    <i className="bi bi-geo-alt mr-2"></i> Location Info
-                                </p>
-                            </div>
-                            <p id="modalDescription" className="text-gray-600 mb-6">Description of the modal</p>
-                        </div>
-                        {/* Close button */}
-                        <button  className="absolute top-4 right-4 text-white">
-                            <i className="bi bi-x-lg text-2xl"></i>
-                        </button>
-                    </div>
-                </div>
-            {/* )} */}
-            {/* Button to open the modal */}
-            <button  className="bg-blue-500 text-white p-2 rounded">
-                Open Modal
-            </button>
-        </>
-    );
-};
+//     return (
+//         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center">
+//             <div className="bg-white max-w-4xl w-full mx-4 rounded-lg overflow-hidden shadow-lg">
+//                 {/* <div
+//                     className="relative h-[300px] bg-cover bg-center"
+//                     style={{ backgroundImage: `url(${image})` }}
+//                 ></div>
+//                 <div className="p-6">
+//                     <h2 className="text-2xl font-bold mb-4">{title}</h2>
+//                     <div className="flex space-x-4 mb-4">
+//                         <p className="flex items-center text-gray-700">
+//                             <i className="bi bi-calendar mr-2"></i> {date}
+//                         </p>
+//                         <p className="flex items-center text-gray-700">
+//                             <i className="bi bi-geo-alt mr-2"></i> {location}
+//                         </p>
+//                     </div>
+//                     <p className="text-gray-600 mb-6">{description}</p>
+//                     <button
+//                         onClick={onClose}
+//                         className="w-full bg-gradient-to-r from-red-500 to-red-700 hover:from-red-700 hover:to-red-900 text-white py-3 rounded-lg font-medium transition-colors"
+//                     >
+//                         Close
+//                     </button>
+//                 </div> */}
+//                 <button
+//                     onClick={() => closeModal(false)}
+//                     className="absolute top-4 right-4 text-gray-700 hover:text-red-600"
+//                 >
+//                     <i className="bi bi-x-lg text-2xl"></i>
+//                 </button>
+//             </div>
+//         </div>
+//     );
+// };
 
-export default Model;
-
+// export default Modal;
