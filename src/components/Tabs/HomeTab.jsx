@@ -7,8 +7,15 @@ import { BANNER3 } from "../../assets/Image";
 import { BANNER4 } from "../../assets/Image";
 import { BANNER5 } from "../../assets/Image";
 import { BANNER6 } from "../../assets/Image";
+import { useState } from 'react';
+import Model from '../Common/Model';
 
 const HomeTab = () => {
+  const [openModel , setOpenModel] = useState(false);
+
+  const handleOpenModel = () => {
+    setOpenModel(true);
+  };
 
   const events = [
     {
@@ -62,11 +69,18 @@ const HomeTab = () => {
   ];
   return (
     <div className="">
+      {
+        openModel && 
+        <div className='bg-red'>
+         <Model /> 
+        </div>
+        
+      }
       <Slider events={events}/>
       <div>
         <div className="max-w-7xl mx-auto px-4 py-12">
           <h2 className="text-2xl font-bold mb-8">MET USTAV Events</h2>
-          <Cards events={events}/>
+          <Cards events={events} setOpenModel={handleOpenModel} />
         </div>
       </div>
       <About />
