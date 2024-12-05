@@ -43,6 +43,7 @@ const Table = ({ columns, data }) => {
             >
               {columns.map((column) => (
                 <td className="px-6 py-4" key={column.field}>
+                  {/* Editable Dropdown for Role */}
                   {editRow === row.id && column.field === "role" ? (
                     <select
                       defaultValue={row[column.field]}
@@ -51,6 +52,17 @@ const Table = ({ columns, data }) => {
                       <option value="Student">Student</option>
                       <option value="Volunteer">Volunteer</option>
                       <option value="Coordinator">Coordinator</option>
+                    </select>
+                  ) : editRow === row.id && column.field === "status" ? (
+                    // Editable Dropdown for Category Status
+                    <select
+                      defaultValue={row[column.field]}
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
+                    >
+                      <option value="Register">Register</option>
+                      <option value="Dance">Dance</option>
+                      <option value="Singing">Singing</option>
+                      <option value="Play">Play</option>
                     </select>
                   ) : (
                     row[column.field]
