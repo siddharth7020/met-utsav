@@ -2,14 +2,20 @@ import { useState } from "react";
 import NoticeCard from "../Common/NoticeCard";
 import NoticeForm from "../Common/NoticeForm";
 
-
 const NoticeTab = () => {
   const [showNoticeForm, setShowNoticeForm] = useState(false);
+  const [selectedNotice, setSelectedNotice] = useState(null); // Track selected card
 
   const handleNoticeButtonClick = () => {
     setShowNoticeForm(true);
-  }
-  
+    setSelectedNotice(null); // For creating a new notice
+  };
+
+  const handleEditNotice = (notice) => {
+    setSelectedNotice(notice);
+    setShowNoticeForm(true);
+  };
+
   return (
     <div className="bg-gray-200 h-full ">
       <div className="max-w-7xl mx-auto px-4 py-12">
@@ -33,15 +39,17 @@ const NoticeTab = () => {
           </button>
         </div>
 
-        {
-          showNoticeForm && (
-              <NoticeForm setShowNoticeForm={setShowNoticeForm}/>
-          )
-        }
-          <NoticeCard />
+        {showNoticeForm && (
+          <NoticeForm
+            setShowNoticeForm={setShowNoticeForm}
+            initialData={selectedNotice} // Pass selected notice for editing
+          />
+        )}
+
+        <NoticeCard onEdit={handleEditNotice} />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default NoticeTab
+export default NoticeTab;

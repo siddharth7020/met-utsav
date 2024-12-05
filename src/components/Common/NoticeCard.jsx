@@ -1,9 +1,7 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 
-const NoticeCard = () => {
-  const [visibleRows, setVisibleRows] = useState(2); 
-  const cardsPerRow = 2; 
-
+const NoticeCard = ({ onEdit }) => {
   const cards = [
     { id: 1, title: "Event 1", subject: "Early Good Morning", description: "Lorem ipsum dolor sit amet consectetuer adipiscing elit This approach ensures responsiveness, dynamic behavior, and a clean, functional UIThis approach ensures responsiveness, dynamic behavior, and a clean, functional UIThis approach ensures responsiveness, dynamic behavior, and a clean, functional UIThis approach ensures responsiveness, dynamic behavior, and a clean, functional UIThis approach ensures responsiveness, dynamic behavior, and a clean, functional UIThis approach ensures responsiveness, dynamic behavior, and a clean, functional UI", date: "May 12, 2023 : 9:00 AM", name: "Sr. Omprakash Mandage" },
     { id: 2, title: "Event 2", subject: "Early Good Morning", description: "Sed diam nonummy nibh euismod...", date: "May 15, 2023 : 2:00 PM", name: "Sr. Omprakash Mandage" },
@@ -29,27 +27,25 @@ const NoticeCard = () => {
     { id: 22, title: "Event 22", subject: "Early Good Morning", description: "Consectetuer adipiscing elit...", date: "January 15, 2025 : 8:00 AM", name: "Sr. Omprakash Mandage" },
   ];
 
-  // Dynamically calculate total rows
-  const totalRows = Math.ceil(cards.length / cardsPerRow);
 
-  const handleSeeMore = () => {
-    if (visibleRows < totalRows) setVisibleRows(visibleRows + 1);
-  };
+  const [showAll, setShowAll] = useState(false);
 
-  const visibleCards = cards.slice(0, visibleRows * cardsPerRow);
+  const displayedCards = showAll ? cards : cards.slice(0, 4);
 
   return (
     <div className="m-5">
-      {/* Card Grid */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-2">
-        {visibleCards.map((card) => (
+        {displayedCards.map((card) => (
           <div
             key={card.id}
             className="group bg-white flex flex-col rounded-lg border p-4 text-gray-700 shadow transition hover:shadow-lg"
           >
             <div className="flex justify-between items-center">
               <h3 className="text-xs text-gray-600">{card.title}</h3>
-              <button className="flex justify-center items-center hover:text-[#BD1F1F]" >
+              <button
+                className="flex justify-center items-center hover:text-[#BD1F1F]"
+                onClick={() => onEdit(card)} // Pass card details to edit
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -66,8 +62,6 @@ const NoticeCard = () => {
                 </svg>
               </button>
             </div>
-
-
             <a href="#" className="mb-2 text-base font-semibold sm:text-lg">
               {card.subject}
             </a>
@@ -91,27 +85,22 @@ const NoticeCard = () => {
       </div>
 
       {/* See More Button */}
-      {visibleRows < totalRows && (
-        <div className="flex justify-end mt-4">
+      {cards.length > 4 && (
+        <div className="mt-4 flex justify-center">
           <button
-            onClick={handleSeeMore}
-            className="rounded-lg bg-red-500 px-4 py-2 text-white shadow hover:bg-red-600 focus:outline-none"
+            className="px-6 py-2 text-white bg-gray-500 rounded-lg hover:bg-gray-600 transition"
+            onClick={() => setShowAll((prev) => !prev)}
           >
-            See More Notices
+            {showAll ? "Show Less" : "See More"}
           </button>
-        </div>
-      )}
-
-      {/* Scrollable Section */}
-      {visibleRows === totalRows && (
-        <div className="mt-4  overflow-y-auto border-t pt-4">
-          <p className="text-gray-500 text-sm text-center">
-            End of notices.
-          </p>
         </div>
       )}
     </div>
   );
+};
+
+NoticeCard.propTypes = {
+  onEdit: PropTypes.func.isRequired,
 };
 
 export default NoticeCard;
