@@ -8,6 +8,8 @@ import EventsTab from '../components/Tabs/EventsTab';
 import AttendanceTab from '../components/Tabs/AttendanceTab';
 import NoticeTab from '../components/Tabs/NoticeTab';
 import RolesTab from '../components/Tabs/RolesTab';
+import OTP from '../pages/OTP';
+import NewPassword from '../pages/NewPassword';
 
 const Routers = () => {
   return (
@@ -15,7 +17,9 @@ const Routers = () => {
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegistrationPage />} />
-        <Route path="/forget-password" element={<ForgetPasswordPage />} />
+        <Route path="/forget_password" element={<ForgetPasswordPage />} />
+        <Route path="/otp" element={<OTP />} />
+        <Route path="/newpassword" element={<NewPassword />} />
         <Route path="/" element={<Layout />}>
           <Route index element={<HomeTab />} />
           <Route path="event" element={<EventsTab />} />

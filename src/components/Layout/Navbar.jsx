@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import METLOGO from "../../assets/logo.png";
+import {Link} from 'react-router-dom';
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -71,10 +72,10 @@ const Navbar = () => {
             onClick={() => navigate("/roles")}
           >Role</a></li>
         </ul>
-        <a className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-red-100 hover:bg-red-200 text-sm text-gray-900 font-bold  rounded-xl transition duration-200"
-          href="#">Sign In</a>
-        <a className="hidden lg:inline-block py-2 px-6 bg-gradient-to-r from-red-500 to-red-700 hover:from-red-700 hover:to-red-900 text-sm text-white font-bold rounded-xl transition duration-200"
-          href="#">Sign up</a>
+        <Link className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-red-100 hover:bg-red-200 text-sm text-gray-900 font-bold  rounded-xl transition duration-200"
+          to={"/login"}>Sign In</Link>
+        <Link className="hidden lg:inline-block py-2 px-6 bg-gradient-to-r from-red-500 to-red-700 hover:from-red-700 hover:to-red-900 text-sm text-white font-bold rounded-xl transition duration-200"
+          to={"/register"}>Sign up</Link>
       </nav>
 
       {/* Responsive menu */}
@@ -120,7 +121,7 @@ const Navbar = () => {
             <div className="mt-auto">
               <div className="pt-6">
                 <a className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold leading-none bg-red-100 hover:bg-red-200 rounded-xl"
-                  href="#">Sign In</a>
+                  href="#" >Sign In</a>
                 <a className="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-gradient-to-r from-red-500 to-red-700 hover:from-red-700 hover:to-red-900 rounded-xl"
                   href="#">Sign Up</a>
               </div>

@@ -52,7 +52,7 @@ const Slider = ({events = []}) => {
               onClick={() => showEventDetails(event.id)}
               className="px-6 py-2 rounded-lg bg-gradient-to-r from-red-500 to-red-700 hover:from-red-700 hover:to-red-900 transition-colors"
             >
-              Register
+              View Details
             </button>
           </div>
         </div>
