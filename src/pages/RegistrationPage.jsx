@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 
@@ -12,11 +12,38 @@ const RegistrationPage = () => {
   const addPhoneNo = useRef();
   const addRollNo = useRef();
   const createPassword = useRef();
-  const reEnterPassword = useRef();
-  const [selectGender, setSelectGender] = useState(null);
-  const [selectIntitute, setSelectIntitute] = useState(null);
-  const [selectCategory, setSelectCategory] = useState(null);
-  const [selectRole, setSelectRole] = useState(null);
+  const [selectGender, setSelectGender] = useState("Select Gender");
+  const [institutes, setInstitutes] = useState([]);
+  const [selectInstitute, setSelectInstitute] = useState(""); // For selected institute
+  const [categorys, setCategorys] = useState([]);
+  const [selectCategory, setSelectCategory] = useState("Select Category");
+
+  useEffect(() => {
+    const getInstitutes = async () => {
+      try {
+        const response = await axios.get('http://utsav.hello.met.edu/api/institutes');
+        setInstitutes(response.data);
+      } catch (error) {
+        console.log('Error fetching institutes:', error.message);
+      }
+    };
+    getInstitutes();
+  }, []);
+
+  useEffect(() => {
+    const getCategory = async () => {
+      try {
+        const response = await axios.get('http://utsav.hello.met.edu/api/categories');
+        setCategorys(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.log('Error fetching category:', error.message);
+      }
+    };
+    getCategory();
+  }, []);
+
+
 
   const handleRegistration = async (event) => {
     event.preventDefault();
@@ -29,29 +56,35 @@ const RegistrationPage = () => {
         phoneNo: addPhoneNo.current.value,
         rollNo: addRollNo.current.value,
         gender: selectGender,
-        intitute: selectIntitute?.value,
-        category: selectCategory?.value,
-        role: selectRole?.value,
+        institute: selectInstitute,
+        category: selectCategory,
         password: createPassword.current.value,
-        reEnterPassword: reEnterPassword.current.value,
-      }
-      await axios.post('https://utsav.hello.met.edu/api/auth/register', userData);
+      };
+
+      console.log("userData:", userData); // Debugging output
+
+      const response = await axios.post("http://utsav.hello.met.edu/api/auth/register", userData);
+
+      console.log("Registration successful:", response.data);
+      console.log("Redirecting to login...");
       navigate("/login");
-      console.log('Data added successfully');
+      console.log("Navigated to login?");
     } catch (error) {
+      console.error("Registration failed:", error);
       if (error.response) {
         if (error.response.status === 500) {
-          console.error('Server error:', 'Something went wrong');
+          console.error("Server error: Something went wrong");
         } else if (error.response.status === 422) {
-          console.error('Invalid input:', error.message);
+          console.error("Invalid input:", error.message);
         } else {
           console.error(error.message);
         }
       } else {
-        console.error('Error:', error.message);
+        console.error("Error:", error.message);
       }
     }
-  }
+  };
+
 
   return (
     <div className="bg-gray-100">
@@ -67,46 +100,56 @@ const RegistrationPage = () => {
               <input ref={addPhoneNo} placeholder="Phone No." required className="text-sm mt-3 focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-black focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow" type="text" />
               <input ref={addRollNo} placeholder="Roll No." required className="text-sm mt-3 focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-black focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow" type="text" />
               <input ref={createPassword} placeholder="Password" required className="text-sm mt-3 focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-black focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow" type="password" />
-              
+
               <label className="text-sm mt-3 mb-2 text-gray-900 cursor-pointer" >
                 Gender
               </label>
-              <select required defaultValue={selectGender}
+              <select required
+                value={selectGender}
                 onChange={(event) => setSelectGender(event.target.value)}
                 className="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-black focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow" id="gender">
+                <option >Select gender</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
               </select>
-              <label className="text-sm mt-3 mb-2 text-gray-900 cursor-pointer" >
-                Intitute
+
+              <label className="text-sm mt-3 mb-2 text-gray-900 cursor-pointer">
+                Institute
               </label>
-              <select required defaultValue={selectIntitute}
-                onChange={(event) => setSelectIntitute(event.target.value)}
-                className="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-black focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow" id="Intitute">
-                <option value="ICS">ICS</option>
-                <option value="AMDC">AMDC</option>
-                <option value="IOM">IOM</option>
+              <select
+                required
+                value={selectInstitute}
+                onChange={(event) => setSelectInstitute(event.target.value)}
+                className="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-black focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"
+                id="institute"
+              >
+                <option value="">Select Institute</option>
+                {institutes.map((institute) => (
+                  <option key={institute.id} value={institute.id}>
+                    {institute.name}
+                  </option>
+                ))}
               </select>
 
-              <label className="text-sm mt-3 mb-2 text-gray-900 cursor-pointer" >
+
+              <label className="text-sm mt-3 mb-2 text-gray-900 cursor-pointer">
                 Category
               </label>
-              <select required defaultValue={selectCategory}
+              <select
+                required
+                value={selectCategory}
                 onChange={(event) => setSelectCategory(event.target.value)}
-                className="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-black focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow" id="Intitute">
-                <option value="Dance">Dance</option>
-                <option value="Singing">Singing</option>
-                <option value="Play">Play</option>
+                className="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-black focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"
+                id="institute"
+              >
+                <option value="">Select Cetgory</option>
+                {categorys.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
               </select>
-              <label className="text-sm mt-3 mb-2 text-gray-900 cursor-pointer" >
-                Type of Role
-              </label>
-              <select required defaultValue={selectRole}
-                onChange={(event) => setSelectRole(event.target.value)}
-                className="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-black focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow" id="Intitute">
-                <option value="Student">Student</option>
-                <option value="Coordinator">Coordinator</option>
-              </select>
+
             </div>
             <p className="text-gray-900 mt-4"> Already have an account? <a className="text-sm text-blue-500 -200 hover:underline mt-4" href="/login" onClick={handleRegistration}>Login</a></p>
             <button className="bg-gradient-to-r from-indigo-500 to-red-500 text-white font-bold py-2 px-4 rounded-md mt-4 hover:bg-indigo-600 hover:to-red-600 transition ease-in-out duration-150" type="submit">Register</button>
