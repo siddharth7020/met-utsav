@@ -22,7 +22,7 @@ const Routers = () => {
         <Route path="/newpassword" element={<NewPassword />} />
         <Route path="/" element={<Layout />}>
           <Route index element={<HomeTab />} />
-          <Route path="events" element={<EventsTab />} />
+          <Route path="event" element={<EventsTab />} />
           <Route path="attendance" element={<AttendanceTab />} />
           <Route path="notice" element={<NoticeTab />} />
           <Route path="roles" element={<RolesTab />} />
