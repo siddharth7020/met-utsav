@@ -1,29 +1,37 @@
-import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import METLOGO from "../../assets/logo.png";
 import { useAuth } from '../../context/AuthContext';
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation();
-  const { user } = useAuth(); 
+  const { user, logout } = useAuth();
+
+  useEffect(() => {
+    const userToken = localStorage.getItem("authToken");
+    setIsLoggedIn(!!userToken);
+  }, []);
 
   const menuItems = [
     { label: 'Home', path: '/' },
-    { label: 'Attendance', path: '/attendance', roles: ['Trustee','HOE','Coordinator', 'Volunteer'] },
-    { label: 'Notice', path: '/notice', roles: ['Trustee','HOE','Coordinator', 'Volunteer', 'Participant' ] },
-    { label: 'Roles', path: '/roles', roles: ['Trustee','HOE','Coordinator'] },
-    { label: 'Events', path: '/events', roles: ['Trustee','HOE'] },
+    { label: 'Attendance', path: '/attendance', roles: ['Trustee', 'HOE', 'Coordinator', 'Volunteer', 'Participant'] },
+    { label: 'Notice', path: '/notice', roles: ['Trustee', 'HOE', 'Coordinator', 'Volunteer', 'Participant'] },
+    { label: 'Roles', path: '/roles', roles: ['Trustee', 'HOE', 'Coordinator'] },
+    { label: 'Events', path: '/events', roles: ['Trustee', 'HOE'] },
   ];
 
-  // Filter menu items based on the user's role
-  const filteredMenuItems = menuItems.filter(
-    (item) => !item.roles || item.roles.includes(user?.role)
-  );
+  const filteredMenuItems = menuItems.filter(item => !item.roles || item.roles.includes(user?.role));
 
   const handleMenuToggle = () => {
     setMenuOpen(!menuOpen);
+  };
+
+  const handleLogout = () => {
+    logout();
+    setIsLoggedIn(false);
+    navigate("/login");
   };
 
   return (
@@ -49,12 +57,10 @@ const Navbar = () => {
         </div>
         {/* Desktop Menu */}
         <ul className="hidden lg:flex lg:mx-auto lg:flex lg:items-center lg:w-auto lg:space-x-6">
-          {filteredMenuItems.map((item) => (
+          {filteredMenuItems.map(item => (
             <li key={item.label}>
               <a
-                className={`text-sm text-gray-400 hover:text-red-600 font-bold ${
-                  location.pathname === item.path ? "active" : ""
-                }`}
+                className={`text-sm text-gray-400 hover:text-red-600 font-bold ${window.location.pathname === item.path ? "active" : ""}`}
                 onClick={() => navigate(item.path)}
               >
                 {item.label}
@@ -62,6 +68,29 @@ const Navbar = () => {
             </li>
           ))}
         </ul>
+        {!isLoggedIn ? (
+          <>
+            <Link
+              className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-red-100 hover:bg-red-200 text-sm text-gray-900 font-bold rounded-xl transition duration-200"
+              to={"/login"}
+            >
+              Sign In
+            </Link>
+            <Link
+              className="hidden lg:inline-block py-2 px-6 bg-gradient-to-r from-red-500 to-red-700 hover:from-red-700 hover:to-red-900 text-sm text-white font-bold rounded-xl transition duration-200"
+              to={"/register"}
+            >
+              Sign Up
+            </Link>
+          </>
+        ) : (
+          <button
+            onClick={handleLogout}
+            className="hidden lg:inline-block py-2 px-6 bg-gradient-to-r from-red-500 to-red-700 hover:from-red-700 hover:to-red-900 text-sm text-white font-bold rounded-xl transition duration-200"
+          >
+            Log out
+          </button>
+        )}
         {/* Responsive Menu */}
         {menuOpen && (
           <div className="navbar-menu relative z-50">
@@ -71,7 +100,7 @@ const Navbar = () => {
             ></div>
             <nav className="fixed top-0 left-0 bottom-0 flex flex-col w-5/6 max-w-sm py-6 px-6 bg-white border-r overflow-y-auto">
               <ul>
-                {filteredMenuItems.map((item) => (
+                {filteredMenuItems.map(item => (
                   <li key={item.label}>
                     <a
                       className="block p-4 text-sm font-semibold text-red-500 hover:bg-red-100 hover:text-red-600 rounded"
@@ -94,3 +123,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+

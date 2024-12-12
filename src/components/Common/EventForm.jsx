@@ -3,11 +3,11 @@ import { useState } from "react";
 
 const EventForm = ({ categories, onSubmit, onCancel }) => {
   const [formData, setFormData] = useState({
-    title: "",
+    name: "",
     date: "",
     categoryId: "",
-    location: "",
-    image: null,
+    banner: null,
+    poster: null,
   });
 
   const handleChange = (e) => {
@@ -29,16 +29,20 @@ const EventForm = ({ categories, onSubmit, onCancel }) => {
 
   return (
     <div className="flex justify-center items-center">
-      <form className="w-full max-w-lg mt-1 bg-white rounded-lg shadow-md p-6" onSubmit={handleSubmit}>
+      <form
+        className="w-full max-w-lg mt-1 bg-white rounded-lg shadow-md p-6"
+        onSubmit={handleSubmit}
+      >
         <h2 className="text-2xl font-bold mb-4">Create Event</h2>
         <div className="mb-4">
           <input
-            name="title"
+            name="name"
             type="text"
             placeholder="Enter Event Name"
             className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-black focus:outline-none"
-            value={formData.title}
+            value={formData.name}
             onChange={handleChange}
+            required
           />
         </div>
         <div className="mb-4">
@@ -47,6 +51,7 @@ const EventForm = ({ categories, onSubmit, onCancel }) => {
             className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-black focus:outline-none"
             value={formData.categoryId}
             onChange={handleChange}
+            required
           >
             <option value="">Select Category</option>
             {categories.map((category) => (
@@ -63,21 +68,23 @@ const EventForm = ({ categories, onSubmit, onCancel }) => {
             className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-black focus:outline-none"
             value={formData.date}
             onChange={handleChange}
+            required
           />
         </div>
         <div className="mb-4">
+          <label className="block text-gray-700 font-medium mb-2">Upload Banner</label>
           <input
-            name="location"
-            type="text"
-            placeholder="Enter Event Location"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-black focus:outline-none"
-            value={formData.location}
+            name="banner"
+            type="file"
+            className="w-full text-gray-400 file:border-0 file:bg-transparent file:text-gray-600 file:text-sm file:font-medium"
             onChange={handleChange}
+            required
           />
         </div>
         <div className="mb-4">
+          <label className="block text-gray-700 font-medium mb-2">Upload Poster</label>
           <input
-            name="image"
+            name="poster"
             type="file"
             className="w-full text-gray-400 file:border-0 file:bg-transparent file:text-gray-600 file:text-sm file:font-medium"
             onChange={handleChange}

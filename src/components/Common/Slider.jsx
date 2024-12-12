@@ -5,14 +5,16 @@ const Slider = ({events = []}) => {
 
   const [currentSlide, setCurrentSlide] = useState(0);
 
+  // const Base_URL = "http://utsav.hello.met.edu";
+  // const bannerUrl =  `${Base_URL}${events[currentSlide].banner}`;
+
 
   Slider.propTypes = {
     events: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.number.isRequired,
-      title: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
       date: PropTypes.string.isRequired,
-      location: PropTypes.string.isRequired,
-      image: PropTypes.string.isRequired,
+      // banner: PropTypes.string.isRequired,
       description: PropTypes.string,
     })).isRequired,
   };
@@ -40,13 +42,13 @@ const Slider = ({events = []}) => {
           }`}
         >
           <img
-            src={event.image}
+            src={event}
             className="w-full h-full object-cover"
-            alt={event.title}
+            alt={event.name}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
           <div className="absolute bottom-0 left-0 p-8 text-white">
-            <h1 className="text-4xl font-bold mb-4">{event.title}</h1>
+            <h1 className="text-4xl font-bold mb-4">{event.name}</h1>
             <p className="text-lg mb-4">{event.description}</p>
             <button
               onClick={() => showEventDetails(event.id)}
