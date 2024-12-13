@@ -42,7 +42,7 @@ const Navbar = () => {
         </a>
         <div className="lg:hidden">
           <button
-            className="navbar-burger flex items-center text-blue-600 p-3"
+            className="navbar-burger flex items-center text-gray-600 p-3"
             onClick={handleMenuToggle}
           >
             <svg
@@ -116,6 +116,34 @@ const Navbar = () => {
                     </a>
                   </li>
                 ))}
+                {!isLoggedIn && (
+                  <div className='flex flex-col gap-1 mt-1'>
+
+                    <Link
+                      className=" lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-red-100 hover:bg-red-200 text-sm text-gray-900 font-bold  rounded-xl transition duration-200"
+                      to={"/login"}
+                    >
+                      Sign In
+                    </Link>
+
+                    <Link
+                      className=" lg:inline-block py-2 px-6 bg-gradient-to-r from-red-500 to-red-700 hover:from-red-700 hover:to-red-900 text-sm text-white font-bold rounded-xl transition duration-200"
+                      to={"/register"}
+                    >
+                      Sign Up
+                    </Link>
+                  </div>
+                )}
+                {isLoggedIn && (
+                  <li>
+                    <button
+                      onClick={handleLogout}
+                      className=" lg:inline-block py-2 px-6 bg-gradient-to-r from-red-500 to-red-700 hover:from-red-700 hover:to-red-900 text-sm text-white font-bold rounded-xl transition duration-200"
+                    >
+                      Log out
+                    </button>
+                  </li>
+                )}
               </ul>
             </nav>
           </div>
