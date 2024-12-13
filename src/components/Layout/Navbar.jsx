@@ -16,10 +16,10 @@ const Navbar = () => {
 
   const menuItems = [
     { label: 'Home', path: '/' },
+    { label: 'Events', path: '/events', roles: ['Trustee', 'HOE'] },
     { label: 'Attendance', path: '/attendance', roles: ['Trustee', 'HOE', 'Coordinator', 'Volunteer', 'Participant'] },
     { label: 'Notice', path: '/notice', roles: ['Trustee', 'HOE', 'Coordinator', 'Volunteer', 'Participant'] },
     { label: 'Roles', path: '/roles', roles: ['Trustee', 'HOE', 'Coordinator'] },
-    { label: 'Events', path: '/events', roles: ['Trustee', 'HOE'] },
   ];
 
   const filteredMenuItems = menuItems.filter(item => !item.roles || item.roles.includes(user?.role));
@@ -58,13 +58,16 @@ const Navbar = () => {
         {/* Desktop Menu */}
         <ul className="hidden lg:flex lg:mx-auto lg:flex lg:items-center lg:w-auto lg:space-x-6">
           {filteredMenuItems.map(item => (
-            <li key={item.label}>
+            <li className='flex gap-2' key={item.label}>
               <a
-                className={`text-sm text-gray-400 hover:text-red-600 font-bold ${window.location.pathname === item.path ? "active" : ""}`}
+                className={`text-sm ${window.location.pathname === item.path ? "text-red-600 hover:text-black" : "text-gray-400"} hover:text-red-600 font-bold`}
                 onClick={() => navigate(item.path)}
               >
                 {item.label}
               </a>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-three-dots-vertical text-gray-400 mt-1" viewBox="0 0 16 16">
+                <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
+              </svg>
             </li>
           ))}
         </ul>
