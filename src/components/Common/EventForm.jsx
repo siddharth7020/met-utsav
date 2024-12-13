@@ -76,7 +76,7 @@ const EventForm = ({ categories, onSubmit, onCancel }) => {
           <input
             name="banner"
             type="file"
-            className="w-full text-gray-400 file:border-0 file:bg-transparent file:text-gray-600 file:text-sm file:font-medium"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-black focus:outline-none"
             onChange={handleChange}
             required
           />
@@ -86,7 +86,7 @@ const EventForm = ({ categories, onSubmit, onCancel }) => {
           <input
             name="poster"
             type="file"
-            className="w-full text-gray-400 file:border-0 file:bg-transparent file:text-gray-600 file:text-sm file:font-medium"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-black focus:outline-none"
             onChange={handleChange}
           />
         </div>
