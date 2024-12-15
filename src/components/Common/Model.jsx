@@ -1,43 +1,50 @@
+import PropTypes from 'prop-types';
+import { Base_URL } from '../Common/Constant';
 
+const Modal = ({ isOpen, onClose, event }) => {
+  if (!isOpen || !event) return null; // Don't render if the modal is closed or no event is passed
 
-const Modal = () => {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+      <div className="bg-white rounded-lg p-8 w-[90%] max-w-lg relative">
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-gray-600 hover:text-gray-900"
+        >
+          ✖
+        </button>
+        {/* Event Details */}
+        <h2 className="text-2xl font-bold mb-4">{event.name}</h2>
+        <p className="text-gray-700 mb-4">{event.description || "No description available."}</p>
+        <p className="text-gray-500 text-sm">Date: {event.date}</p>
+        <img
+          src={`${Base_URL}${event.banner}`}
+          alt={event.name}
+          className="w-full mt-4 rounded-md"
+        />
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="mt-6 px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-700 transition-colors"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  );
+};
 
-    
-
-    return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center">
-            <div className="bg-white max-w-4xl w-full mx-4 rounded-lg overflow-hidden shadow-lg">
-                {/* <div
-                    className="relative h-[300px] bg-cover bg-center"
-                    style={{ backgroundImage: `url(${image})` }}
-                ></div>
-                <div className="p-6">
-                    <h2 className="text-2xl font-bold mb-4">{title}</h2>
-                    <div className="flex space-x-4 mb-4">
-                        <p className="flex items-center text-gray-700">
-                            <i className="bi bi-calendar mr-2"></i> {date}
-                        </p>
-                        <p className="flex items-center text-gray-700">
-                            <i className="bi bi-geo-alt mr-2"></i> {location}
-                        </p>
-                    </div>
-                    <p className="text-gray-600 mb-6">{description}</p>
-                    <button
-                        onClick={onClose}
-                        className="w-full bg-gradient-to-r from-red-500 to-red-700 hover:from-red-700 hover:to-red-900 text-white py-3 rounded-lg font-medium transition-colors"
-                    >
-                        Close
-                    </button>
-                </div> */}
-                {/* <button
-                    onClick={() => closeModal(false)}
-                    className="absolute top-4 right-4 text-gray-700 hover:text-red-600"
-                >
-                    <i className="bi bi-x-lg text-2xl"></i>
-                </button> */}
-            </div>
-        </div>
-    );
+Modal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  event: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    date: PropTypes.string.isRequired,
+    banner: PropTypes.string.isRequired,
+    description: PropTypes.string,
+  }),
 };
 
 export default Modal;

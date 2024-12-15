@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Table from "../Common/Table";
+import axios from "axios";
 
 const RolesTab = () => {
   const [filteropen, setFilterOpen] = useState(false);
@@ -8,53 +9,62 @@ const RolesTab = () => {
   const [selectedRole, setSelectedRole] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
+  const [users, setUsers] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [institutes, setInstitutes] = useState([]);
+  const [roles, setRoles] = useState([]);
+
   const rowsPerPage = 10;
 
+  useEffect(() => {
+    // Fetch Users, Categories, and Roles
+    axios.get("http://utsav.hello.met.edu/api/auth/allusers")
+      .then(response => setUsers(response.data))
+      .catch(error => console.error("Error fetching users:", error));
+
+    axios.get("http://utsav.hello.met.edu/api/categories")
+      .then(response => setCategories(response.data))
+      .catch(error => console.error("Error fetching categories:", error));
+
+    axios.get("http://utsav.hello.met.edu/api/institutes/")
+      .then(response => setInstitutes(response.data))
+      .catch(error => console.error("Error fetching institutes:", error));
+
+    axios.get("http://utsav.hello.met.edu/api/roles/")
+      .then(response => setRoles(response.data))
+      .catch(error => console.error("Error fetching roles:", error));
+  }, []);
+
+
   const columns = [
-    { field: "name", header: "Name" },
+    { field: "name", header: "Name" }, // Use the computed fullName field
     { field: "role", header: "Role" },
-    { field: "status", header: "Category Status" },
-    { field: "institute", header: "Institute" },
+    { field: "category", header: "Category Status" },
+    { field: "institute", header: "Institute" }, // Use the computed instituteName field
   ];
 
-  const data = [
-    { id: 1, name: "Jane Smith", role: "Student", status: "Participant", institute: "ICS" },
-    { id: 2, name: "Harshad Zagade", role: "Student", status: "Participant", institute: "AMDC" },
-    { id: 3, name: "Sid Bhat", role: "Coordinator", status: "Participant", institute: "IOM" },
-    { id: 4, name: "Alice Brown", role: "Student", status: "Participant", institute: "NIT" },
-    { id: 5, name: "John Doe", role: "Volunteer", status: "Participant", institute: "IIT" },
-    { id: 6, name: "Eve Wilson", role: "Coordinator", status: "Participant", institute: "MIT" },
-    { id: 7, name: "Tom Green", role: "Student", status: "Participant", institute: "ICS" },
-    { id: 8, name: "Sophia Grey", role: "Volunteer", status: "Participant", institute: "AMDC" },
-    { id: 9, name: "Liam Black", role: "Coordinator", status: "Participant", institute: "IOM" },
-    { id: 10, name: "Mia Blue", role: "Student", status: "Participant", institute: "NIT" },
-    { id: 11, name: "Lucas Brown", role: "Volunteer", status: "Participant", institute: "IIT" },
-    { id: 12, name: "Ella Scott", role: "Coordinator", status: "Participant", institute: "MIT" },
-    { id: 13, name: "Noah Green", role: "Student", status: "Participant", institute: "ICS" },
-    { id: 14, name: "Olivia Davis", role: "Volunteer", status: "Participant", institute: "AMDC" },
-    { id: 15, name: "James Black", role: "Coordinator", status: "Participant", institute: "IOM" },
-    { id: 16, name: "Isabella White", role: "Student", status: "Participant", institute: "NIT" },
-    { id: 17, name: "Henry Wilson", role: "Volunteer", status: "Participant", institute: "IIT" },
-    { id: 18, name: "Emily Blue", role: "Coordinator", status: "Participant", institute: "MIT" },
-    { id: 19, name: "Jack Grey", role: "Student", status: "Participant", institute: "ICS" },
-    { id: 20, name: "Amelia Scott", role: "Volunteer", status: "Participant", institute: "AMDC" },
-  ];
+  // Combine name fields
+  const formattedUsers = users.map(user => ({
+    ...user,
+    name: `${user.firstName} ${user.middleName || ""} ${user.lastName || ""}`.trim(),
+    institute: user.Institute?.name || "",
+    category: user.Category?.name || "",
+  }));
 
 
   // Filter data dynamically based on search term, institute, and role
-  const filteredData = data.filter((row) => {
+  const filteredData = formattedUsers.filter((user) => {
     const matchesSearch = searchTerm
-      ? row.name.toLowerCase().includes(searchTerm) ||
-        row.role.toLowerCase().includes(searchTerm) ||
-        row.status.toLowerCase().includes(searchTerm) ||
-        row.institute.toLowerCase().includes(searchTerm)
+      ? user.name.toLowerCase().includes(searchTerm) ||
+      user.role.toLowerCase().includes(searchTerm) ||
+      user.institute.toLowerCase().includes(searchTerm)
       : true;
 
     const matchesInstitute = selectedInstitute
-      ? row.institute === selectedInstitute
+      ? user.institute === selectedInstitute
       : true;
 
-    const matchesRole = selectedRole ? row.role === selectedRole : true;
+    const matchesRole = selectedRole ? user.role === selectedRole : true;
 
     return matchesSearch && matchesInstitute && matchesRole;
   });
@@ -134,10 +144,11 @@ const RolesTab = () => {
                   onChange={handleInstituteChange}
                 >
                   <option value="">Select an Institute</option>
-                  <option value="ICS">ICS</option>
-                  <option value="IIT">IIT</option>
-                  <option value="AMDC">AMDC</option>
-                  <option value="IOM">IOM</option>
+                  {institutes.map((institute) => (
+                    <option key={institute.id} value={institute.name}>
+                      {institute.name}
+                    </option>
+                  ))}
                 </select>
               </div>
 
@@ -153,9 +164,11 @@ const RolesTab = () => {
                   onChange={handleRoleChange}
                 >
                   <option value="">Select a Role</option>
-                  <option value="Student">Student</option>
-                  <option value="Volunteer">Volunteer</option>
-                  <option value="Coordinator">Coordinator</option>
+                  {roles.map((role) => (
+                    <option key={role.id} value={role.name}>
+                      {role.name}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -172,7 +185,13 @@ const RolesTab = () => {
         )}
 
         <div className="relative overflow-hidden shadow-md sm:rounded-lg">
-          <Table columns={columns} data={currentRows} />
+          <Table
+            columns={columns}
+            data={currentRows}
+            roles={roles} // Pass roles for dropdown
+            categories={categories} // Pass categories for dropdown
+          />
+
           <div className="flex justify-between items-center mt-4 flex-wrap">
             <button
               onClick={handlePreviousPage}

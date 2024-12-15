@@ -3,15 +3,9 @@ import Cards from '../Common/Cards';
 import About from '../Common/About';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import Model from '../Common/Model';
 
 const HomeTab = () => {
-  const [openModel , setOpenModel] = useState(false);
   const [events, setEvents] = useState([]);
-
-  const handleOpenModel = () => {
-    setOpenModel(true);
-  };
 
   useEffect(() => {
     axios
@@ -23,18 +17,11 @@ const HomeTab = () => {
 
   return (
     <div className="">
-      {
-        openModel && 
-        <div className='bg-red'>
-         <Model /> 
-        </div>
-        
-      }
       <Slider events={events}/>
       <div>
         <div className="max-w-7xl mx-auto px-4 py-12">
           <h2 className="text-2xl font-bold mb-8">MET USTAV Events</h2>
-          <Cards events={events} setOpenModel={handleOpenModel} />
+          <Cards events={events}  />
         </div>
       </div>
       <About />

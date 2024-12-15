@@ -7,6 +7,7 @@ const RegistrationPage = () => {
   const [selectGender, setSelectGender] = useState("");
   const [selectInstitute, setSelectInstitute] = useState("");
   const [selectCategory, setSelectCategory] = useState("");
+  const [selectType, setSelectType] = useState("");
   const Navigation = useNavigate();
 
   // Refs for input fields
@@ -56,6 +57,7 @@ const RegistrationPage = () => {
       email: addEmail.current.value,
       password: createPassword.current.value,
       role: "User", // Default role
+      type: selectType,
       rollNo: addRollNo.current.value,
       instituteId: parseInt(selectInstitute),
       phoneNo: addPhoneNo.current.value,
@@ -99,6 +101,13 @@ const RegistrationPage = () => {
               <input ref={addPhoneNo} placeholder="Phone No." required className="text-sm mt-3 focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700" type="text" />
               <input ref={addRollNo} placeholder="Roll No." required className="text-sm mt-3 focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700" type="text" />
               <input ref={createPassword} placeholder="Password" required className="text-sm mt-3 focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700" type="password" />
+
+              <label className="text-sm mt-3 mb-2 text-gray-900">Type</label>
+              <select required value={selectType} onChange={(e) => setSelectType(e.target.value)} className="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700">
+                <option >Select type</option>
+                <option value="Staff">Staff</option>
+                <option value="Student">Student</option>
+              </select>
 
               <label className="text-sm mt-3 mb-2 text-gray-900">Gender</label>
               <select required value={selectGender} onChange={(e) => setSelectGender(e.target.value)} className="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700">

@@ -1,38 +1,12 @@
-import { useRef } from 'react';
+import { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-
-const EventCard = ({ event, handleOpenModel }) => {
-  const Base_URL = "http://utsav.hello.met.edu";
-  const posterUrl =  `${Base_URL}${event.poster}`;
-  
-
-  EventCard.propTypes = {
-    event: PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-      date: PropTypes.string.isRequired,
-      poster: PropTypes.string.isRequired,
-      description: PropTypes.string, 
-    }).isRequired,
-    handleOpenModel: PropTypes.func.isRequired,
-  };
-
-  return (
-    <div className="flex-shrink-0 w-[300px] bg-white rounded-lg shadow-lg overflow-hidden">
-      <img src={posterUrl} className="w-full h-[200px] object-cover" alt={event.name} />
-      <div className="p-4">
-        <h3 className="font-bold text-lg mb-2">{event.name}</h3>
-        <p className="text-gray-600 text-sm mb-4">{new Date(event.date).toLocaleDateString()}</p>
-        <button onClick={handleOpenModel} className="text-white px-6 py-2 rounded-lg bg-gradient-to-r from-red-500 to-red-700 hover:from-red-700 hover:to-red-900 transition-colors" >
-          View Details
-        </button>
-      </div>
-    </div>
-  );
-};
+import EventCard from './DetailsCard';
 
 const Cards = ({ events = [] }) => {
   const eventCarouselRef = useRef(null);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState(null);
 
   Cards.propTypes = {
     events: PropTypes.arrayOf(PropTypes.shape({
@@ -40,7 +14,7 @@ const Cards = ({ events = [] }) => {
       name: PropTypes.string.isRequired,
       date: PropTypes.string.isRequired,
       poster: PropTypes.string.isRequired,
-      description: PropTypes.string, 
+      description: PropTypes.string,
     })).isRequired,
   };
 
@@ -53,6 +27,16 @@ const Cards = ({ events = [] }) => {
         eventCarouselRef.current.scrollLeft += scrollAmount;
       }
     }
+  };
+
+  const handleOpenModal = (event) => {
+    setSelectedEvent(event); // Set the selected event
+    setIsModalOpen(true);   // Open the modal
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);  // Close the modal
+    setSelectedEvent(null); // Clear the selected event
   };
 
   return (
@@ -81,9 +65,27 @@ const Cards = ({ events = [] }) => {
         ref={eventCarouselRef}
       >
         {events && events.map((event) => (
-          <EventCard key={event.id} event={event} />
+          <EventCard key={event.id} event={event} handleOpenModal={handleOpenModal} />
         ))}
       </div>
+
+      {/* Modal */}
+      {isModalOpen && selectedEvent && (
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 w-3/4 md:w-1/2 lg:w-1/3">
+            <h2 className="text-2xl font-bold mb-4">{selectedEvent.name}</h2>
+            <p className="text-gray-700 mb-2"><strong>Date:</strong> {new Date(selectedEvent.date).toLocaleDateString()}</p>
+            <p className="text-gray-700 mb-4"><strong>Description:</strong> {selectedEvent.description}</p>
+            <img src={`http://utsav.hello.met.edu${selectedEvent.poster}`} alt={selectedEvent.name} className="w-full h-64 object-cover rounded-lg mb-4" />
+            <button
+              onClick={handleCloseModal}
+              className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-800 transition"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
 import PropTypes from 'prop-types';
+import { Base_URL } from "../Common/Constant";
 
 const Slider = ({events = []}) => { 
 
   const [currentSlide, setCurrentSlide] = useState(0);
-
-  // const Base_URL = "http://utsav.hello.met.edu";
-  // const bannerUrl =  `${Base_URL}${events[currentSlide].banner}`;
 
 
   Slider.propTypes = {
@@ -14,16 +12,19 @@ const Slider = ({events = []}) => {
       id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
       date: PropTypes.string.isRequired,
-      // banner: PropTypes.string.isRequired,
+      banner: PropTypes.string.isRequired,
       description: PropTypes.string,
     })).isRequired,
   };
 
+  
+
  useEffect(() => {
   if (events && events.length > 0) {
+    setCurrentSlide(0);
     const interval = setInterval(() => {
       setCurrentSlide((prevSlide) => (prevSlide + 1) % events.length);
-    }, 3000); // Auto-slide every 3 seconds
+    }, 5000); // Auto-slide every 5 seconds
     return () => clearInterval(interval);
   }
 }, [events]);
@@ -42,7 +43,7 @@ const Slider = ({events = []}) => {
           }`}
         >
           <img
-            src={event}
+            src={`${Base_URL}${event.banner}`}
             className="w-full h-full object-cover"
             alt={event.name}
           />

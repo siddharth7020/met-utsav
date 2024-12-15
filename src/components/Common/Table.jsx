@@ -1,8 +1,10 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
+import axios from "axios";
 
-const Table = ({ columns, data }) => {
+const Table = ({ columns, data, roles, categories }) => {
   const [editRow, setEditRow] = useState(null); // State to track which row is being edited
+  const [updatedData, setUpdatedData] = useState({ role: "", category: "" }); // Track role and category changes
 
   Table.propTypes = {
     columns: PropTypes.arrayOf(
@@ -12,14 +14,44 @@ const Table = ({ columns, data }) => {
       })
     ).isRequired,
     data: PropTypes.arrayOf(PropTypes.object).isRequired,
+    roles: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        name: PropTypes.string.isRequired,
+      })
+    ),
+    categories: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        name: PropTypes.string.isRequired,
+      })
+    ),
   };
 
   const handleEditClick = (rowId) => {
     setEditRow(rowId); // Set the ID of the row being edited
   };
 
-  const handleSaveClick = () => {
-    setEditRow(null); // Exit edit mode
+  const handleSaveClick = async (rowId) => {
+    try {
+      // Send API request to update role and category
+      await axios.put(`http://utsav.hello.met.edu/api/auth/${rowId}`, {
+        role: updatedData.role,
+        categoryId: updatedData.category,
+      });
+
+      // Reset editing state
+      setEditRow(null);
+
+      alert("Role and category updated successfully!");
+    } catch (error) {
+      console.error("Error updating role and category:", error);
+      alert("Failed to update role and category.");
+    }
+  };
+
+  const handleInputChange = (field, value) => {
+    setUpdatedData((prevState) => ({ ...prevState, [field]: value }));
   };
 
   return (
@@ -48,21 +80,28 @@ const Table = ({ columns, data }) => {
                     <select
                       defaultValue={row[column.field]}
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
+                      onChange={(e) => handleInputChange("role", e.target.value)}
                     >
-                      <option value="Student">Student</option>
-                      <option value="Volunteer">Volunteer</option>
-                      <option value="Coordinator">Coordinator</option>
+                      {roles.map((role) => (
+                        <option key={role.id} value={role.name}>
+                          {role.name}
+                        </option>
+                      ))}
                     </select>
-                  ) : editRow === row.id && column.field === "status" ? (
+                  ) : editRow === row.id && column.field === "category" ? (
                     // Editable Dropdown for Category Status
                     <select
                       defaultValue={row[column.field]}
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
+                      onChange={(e) =>
+                        handleInputChange("category", e.target.value)
+                      }
                     >
-                      <option value="Register">Register</option>
-                      <option value="Dance">Dance</option>
-                      <option value="Singing">Singing</option>
-                      <option value="Play">Play</option>
+                      {categories.map((category) => (
+                        <option key={category.id} value={category.id}>
+                          {category.name}
+                        </option>
+                      ))}
                     </select>
                   ) : (
                     row[column.field]
@@ -72,7 +111,7 @@ const Table = ({ columns, data }) => {
               <td className="px-6 py-4">
                 {editRow === row.id ? (
                   <button
-                    onClick={handleSaveClick}
+                    onClick={() => handleSaveClick(row.id)}
                     className="px-4 py-2 text-white bg-gray-500 rounded hover:bg-red-600"
                   >
                     Save
