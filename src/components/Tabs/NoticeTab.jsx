@@ -7,19 +7,28 @@ const NoticeTab = () => {
   const [showNoticeForm, setShowNoticeForm] = useState(false);
   const [selectedNotice, setSelectedNotice] = useState(null);
   const [notices, setNotices] = useState([]);
+  const [institutes, setInstitutes] = useState([]); // State for institutes
 
-  // Fetch all notices
+  // Fetch all notices and institutes
   useEffect(() => {
     const fetchNotices = async () => {
       try {
-        const response = await axios.get('http://utsav.hello.met.edu/api/notice');
-        const data = response.data;
-        setNotices(data); // Update notices in the state
-        console.log("Fetched notices:", data);
+        const noticeResponse = await axios.get('http://utsav.hello.met.edu/api/notice');
+        const instituteResponse = await axios.get('http://utsav.hello.met.edu/api/institutes');
+
+        const noticesData = noticeResponse.data;
+        const institutesData = instituteResponse.data;
+
+        setNotices(noticesData);
+        setInstitutes(institutesData); // Set the institutes data
+
+        console.log("Fetched notices:", noticesData);
+        console.log("Fetched institutes:", institutesData);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
+
     fetchNotices();
   }, []);
 
@@ -40,6 +49,12 @@ const NoticeTab = () => {
       console.error('Updated notices must be an array');
     }
     setShowNoticeForm(false);
+  };
+
+  // Find institute name by ID
+  const getInstituteName = (instituteId) => {
+    const institute = institutes.find((inst) => inst.id === instituteId);
+    return institute ? institute.name : "Unknown Institute";
   };
 
   return (
@@ -75,7 +90,11 @@ const NoticeTab = () => {
 
         <div>
           {notices.map((notice) => (
-            <NoticeCard key={notice.id} notice={notice} onEdit={handleEditNotice} />
+            <NoticeCard
+              key={notice.id}
+              notice={{ ...notice, instituteName: getInstituteName(notice.instituteId) }} // Add institute name
+              onEdit={handleEditNotice}
+            />
           ))}
         </div>
       </div>

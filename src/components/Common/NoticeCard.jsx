@@ -1,13 +1,11 @@
-
 import PropTypes from "prop-types";
 
 const NoticeCard = ({ notice, onEdit }) => {
-
   return (
     <div className="m-5">
       <div className="group bg-white flex flex-col rounded-lg border p-4 text-gray-700 shadow transition hover:shadow-lg">
         <div className="flex justify-between items-center">
-          <h3 className="text-xs text-gray-600">{notice.instituteId}</h3>
+          <h3 className="text-xs text-gray-600">{notice.instituteName}</h3> {/* Display institute name */}
           <button
             className="flex justify-center items-center hover:text-[#BD1F1F]"
             onClick={() => onEdit(notice)} // Pass card details to edit
@@ -55,6 +53,7 @@ NoticeCard.propTypes = {
   notice: PropTypes.shape({
     id: PropTypes.number.isRequired,
     instituteId: PropTypes.string.isRequired,
+    instituteName: PropTypes.string.isRequired, // Add instituteName prop
     title: PropTypes.string.isRequired,
     message: PropTypes.string.isRequired,
     addDate: PropTypes.string.isRequired,
