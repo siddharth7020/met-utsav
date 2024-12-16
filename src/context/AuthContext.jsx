@@ -1,5 +1,5 @@
-import { createContext, useState, useContext } from "react";
-import PropTypes from 'prop-types';
+import { createContext, useState, useContext, useEffect } from "react";
+import PropTypes from "prop-types";
 
 // Create the AuthContext
 const AuthContext = createContext();
@@ -53,8 +53,13 @@ export const AuthContextProvider = ({ children }) => {
     }
   };
 
+  // Call restoreAuth when the component mounts
+  useEffect(() => {
+    restoreAuth(); // Restore user and token from localStorage
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ user, token, login, logout, restoreAuth }}>
+    <AuthContext.Provider value={{ user, token, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
