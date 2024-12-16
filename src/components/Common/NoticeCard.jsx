@@ -5,7 +5,7 @@ const NoticeCard = ({ notice, onEdit }) => {
     <div className="m-5">
       <div className="group bg-white flex flex-col rounded-lg border p-4 text-gray-700 shadow transition hover:shadow-lg">
         <div className="flex justify-between items-center">
-          <h3 className="text-xs text-gray-600">{notice.instituteName}</h3> {/* Display institute name */}
+          <h3 className="text-xs text-gray-600">{notice.instituteName}</h3> {/* Changed to instituteName */}
           <button
             className="flex justify-center items-center hover:text-[#BD1F1F]"
             onClick={() => onEdit(notice)} // Pass card details to edit

@@ -7,34 +7,38 @@ const NoticeTab = () => {
   const [showNoticeForm, setShowNoticeForm] = useState(false);
   const [selectedNotice, setSelectedNotice] = useState(null);
   const [notices, setNotices] = useState([]);
-  const [institutes, setInstitutes] = useState([]); // State for institutes
+  const [institutes, setInstitutes] = useState([]);
 
-  // Fetch all notices and institutes
+  // Fetch institutes
+  useEffect(() => {
+    const fetchInstitutes = async () => {
+      try {
+        const response = await axios.get("http://utsav.hello.met.edu/api/institutes/");
+        setInstitutes(response.data);
+      } catch (error) {
+        console.error("Error fetching institutes:", error);
+      }
+    };
+    fetchInstitutes();
+  }, []);
+
+  // Fetch notices
   useEffect(() => {
     const fetchNotices = async () => {
       try {
-        const noticeResponse = await axios.get('http://utsav.hello.met.edu/api/notice');
-        const instituteResponse = await axios.get('http://utsav.hello.met.edu/api/institutes');
-
-        const noticesData = noticeResponse.data;
-        const institutesData = instituteResponse.data;
-
-        setNotices(noticesData);
-        setInstitutes(institutesData); // Set the institutes data
-
-        console.log("Fetched notices:", noticesData);
-        console.log("Fetched institutes:", institutesData);
+        const response = await axios.get("http://utsav.hello.met.edu/api/notice");
+        const data = response.data;
+        setNotices(data);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching notices:", error);
       }
     };
-
     fetchNotices();
   }, []);
 
   const handleNoticeButtonClick = () => {
     setShowNoticeForm(true);
-    setSelectedNotice(null); // Reset for a new notice
+    setSelectedNotice(null);
   };
 
   const handleEditNotice = (notice) => {
@@ -42,17 +46,22 @@ const NoticeTab = () => {
     setShowNoticeForm(true);
   };
 
-  const handleFormSubmit = (updatedNotices) => {
-    if (Array.isArray(updatedNotices)) {
-      setNotices(updatedNotices);
+  const handleFormSubmit = (updatedNotice) => {
+    if (Array.isArray(updatedNotice)) {
+      setNotices(updatedNotice);
     } else {
-      console.error('Updated notices must be an array');
+      // Update the specific notice in the state
+      setNotices((prevNotices) =>
+        prevNotices.map((notice) =>
+          notice.id === updatedNotice.id ? updatedNotice : notice
+        )
+      );
     }
     setShowNoticeForm(false);
   };
 
-  // Find institute name by ID
-  const getInstituteName = (instituteId) => {
+  // Map the instituteId to instituteName for each notice
+  const getInstituteNameById = (instituteId) => {
     const institute = institutes.find((inst) => inst.id === instituteId);
     return institute ? institute.name : "Unknown Institute";
   };
@@ -92,7 +101,10 @@ const NoticeTab = () => {
           {notices.map((notice) => (
             <NoticeCard
               key={notice.id}
-              notice={{ ...notice, instituteName: getInstituteName(notice.instituteId) }} // Add institute name
+              notice={{
+                ...notice,
+                instituteName: getInstituteNameById(notice.instituteId), // Pass instituteName to the card
+              }}
               onEdit={handleEditNotice}
             />
           ))}
