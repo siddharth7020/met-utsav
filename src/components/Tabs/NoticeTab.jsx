@@ -29,6 +29,7 @@ const NoticeTab = () => {
         const response = await axios.get("http://utsav.hello.met.edu/api/notice");
         const data = response.data;
         setNotices(data);
+        
       } catch (error) {
         console.error("Error fetching notices:", error);
       }

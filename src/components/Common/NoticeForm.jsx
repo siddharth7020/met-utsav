@@ -7,17 +7,16 @@ const NoticeForm = ({ setShowNoticeForm, initialData, onFormSubmit }) => {
     title: "",
     message: "",
   });
-  const [institutes, setInstitutes] = useState([]); // State to store institutes
-  const [isSubmitting, setIsSubmitting] = useState(false); // State for form submission status
+  const [institutes, setInstitutes] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    // Fetch institutes on component mount
     const fetchInstitutes = async () => {
       try {
         const response = await fetch("http://utsav.hello.met.edu/api/institutes/");
         if (response.ok) {
           const data = await response.json();
-          setInstitutes(data); // Update state with fetched institutes
+          setInstitutes(data);
         } else {
           console.error("Failed to fetch institutes");
         }
@@ -29,7 +28,9 @@ const NoticeForm = ({ setShowNoticeForm, initialData, onFormSubmit }) => {
     fetchInstitutes();
 
     if (initialData) {
-      setFormData(initialData); // Prefill form with selected notice data if editing
+      setFormData({
+        ...initialData, // Populate all fields, including `instituteId`
+      });
     }
   }, [initialData]);
 
@@ -40,7 +41,7 @@ const NoticeForm = ({ setShowNoticeForm, initialData, onFormSubmit }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true); // Indicate submission in progress
+    setIsSubmitting(true);
     try {
       const url = initialData
         ? `http://utsav.hello.met.edu/api/notice/${initialData.id}`
@@ -55,15 +56,15 @@ const NoticeForm = ({ setShowNoticeForm, initialData, onFormSubmit }) => {
         },
         body: JSON.stringify({
           ...formData,
-          addBy: "currentLoggedInUser", // Replace with logged-in user logic
-          updateBy: "currentLoggedInUser", // Replace with logged-in user logic
+          addBy: "currentLoggedInUser",
+          updateBy: "currentLoggedInUser",
         }),
       });
 
       if (response.ok) {
         const updatedNotices = await response.json();
         onFormSubmit(updatedNotices);
-        setShowNoticeForm(false); // Close form on success
+        setShowNoticeForm(false);
       } else {
         console.error("Failed to submit notice");
         alert("Failed to submit the notice. Please try again.");
@@ -72,7 +73,7 @@ const NoticeForm = ({ setShowNoticeForm, initialData, onFormSubmit }) => {
       console.error("Error submitting notice:", error);
       alert("An error occurred while submitting the notice.");
     } finally {
-      setIsSubmitting(false); // Reset submission status
+      setIsSubmitting(false);
     }
   };
 
@@ -82,7 +83,6 @@ const NoticeForm = ({ setShowNoticeForm, initialData, onFormSubmit }) => {
         onSubmit={handleSubmit}
         className="w-full max-w-lg bg-white rounded-lg shadow-md p-6"
       >
-        {/* Dropdown for Institutes */}
         <div className="mb-4">
           <label htmlFor="instituteId" className="block text-gray-700 font-semibold mb-2">
             Institute
@@ -105,7 +105,6 @@ const NoticeForm = ({ setShowNoticeForm, initialData, onFormSubmit }) => {
           </select>
         </div>
 
-        {/* Input for Title */}
         <div className="mb-4">
           <label htmlFor="title" className="block text-gray-700 font-semibold mb-2">
             Title
@@ -120,7 +119,6 @@ const NoticeForm = ({ setShowNoticeForm, initialData, onFormSubmit }) => {
           />
         </div>
 
-        {/* Textarea for Description */}
         <div className="mb-4">
           <label htmlFor="message" className="block text-gray-700 font-semibold mb-2">
             Description
@@ -135,7 +133,6 @@ const NoticeForm = ({ setShowNoticeForm, initialData, onFormSubmit }) => {
           ></textarea>
         </div>
 
-        {/* Buttons */}
         <div className="flex justify-end space-x-4 mt-4">
           <button
             type="submit"
@@ -162,7 +159,12 @@ const NoticeForm = ({ setShowNoticeForm, initialData, onFormSubmit }) => {
 
 NoticeForm.propTypes = {
   setShowNoticeForm: PropTypes.func.isRequired,
-  initialData: PropTypes.object, // Optional, only provided for editing
+  initialData: PropTypes.shape({
+    id: PropTypes.number,
+    instituteId: PropTypes.string,
+    title: PropTypes.string,
+    message: PropTypes.string,
+  }),
   onFormSubmit: PropTypes.func.isRequired,
 };
 
