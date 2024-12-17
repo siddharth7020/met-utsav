@@ -52,8 +52,8 @@ const Navbar = () => {
             <li className="flex gap-2" key={item.label}>
               <a
                 className={`text-sm ${
-                  window.location.pathname === item.path ? "text-red-600 hover:text-black" : "text-gray-400"
-                } hover:text-red-600 font-bold`}
+                  window.location.pathname === item.path ? "text-red-600 hover:text-black font-bold" : "text-gray-400"
+                } hover:text-black font-bold`}
                 onClick={() => navigate(item.path)}
               >
                 {item.label}
