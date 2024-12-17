@@ -1,6 +1,21 @@
 import PropTypes from "prop-types";
 
 const NoticeCard = ({ notice, onEdit }) => {
+
+// i want a date in date and time formate
+
+const date = new Date(notice.addDate);
+const formattedDateTime = date.toLocaleString('en-US', {
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit',
+  second: '2-digit',
+  hour12: true
+});
+  
+
   return (
     <div className="m-5">
       <div className="group bg-white flex flex-col rounded-lg border p-4 text-gray-700 shadow transition hover:shadow-lg">
@@ -34,7 +49,7 @@ const NoticeCard = ({ notice, onEdit }) => {
           <div>
             Date & Time:
             <span className="ml-2 mr-3 rounded-full bg-green-100 px-2 py-0.5 text-green-900">
-              {notice.addDate}
+              {formattedDateTime}
             </span>
           </div>
           <div>

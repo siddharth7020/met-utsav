@@ -10,6 +10,12 @@ const NoticeForm = ({ setShowNoticeForm, initialData, onFormSubmit }) => {
   const [institutes, setInstitutes] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // fetch user from locastorage
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  // combine first name and last name
+  const userName = user ? `${user.firstName} ${user.lastName}` : "";
+
   useEffect(() => {
     const fetchInstitutes = async () => {
       try {
@@ -56,8 +62,8 @@ const NoticeForm = ({ setShowNoticeForm, initialData, onFormSubmit }) => {
         },
         body: JSON.stringify({
           ...formData,
-          addBy: "currentLoggedInUser",
-          updateBy: "currentLoggedInUser",
+          addBy: userName,
+          updateBy: userName,
         }),
       });
 
