@@ -2,7 +2,7 @@ import { BANNER1 } from '../../assets/Image';
 import { BANNER2 } from "../../assets/Image";
 import { BANNER3 } from "../../assets/Image";
 
-const SubEventsCard = () => {
+const EventsCard = () => {
   const subEvents = [
     {
       id: 1,
@@ -60,4 +60,4 @@ const SubEventsCard = () => {
   );
 };
 
-export default SubEventsCard;
+export default EventsCard;
