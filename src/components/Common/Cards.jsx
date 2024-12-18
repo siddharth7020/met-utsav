@@ -73,9 +73,27 @@ const Cards = ({ events = [] }) => {
       {isModalOpen && selectedEvent && (
         <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 w-3/4 md:w-1/2 lg:w-1/3">
-            <h2 className="text-2xl font-bold mb-4">{selectedEvent.name}</h2>
+            <div className='flex justify-between'>
+              <h2 className="text-2xl font-bold mb-2">{selectedEvent.name}</h2>
+              <button className='color-gray-600 hover:text-[#BD1F1F]'>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  className="bi bi-pencil-square"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                  <path
+                    fillRule="evenodd"
+                    d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
+                  />
+                </svg>
+              </button>
+            </div>
             <p className="text-gray-700 mb-2"><strong>Date:</strong> {new Date(selectedEvent.date).toLocaleDateString()}</p>
-            <p className="text-gray-700 mb-4"><strong>Description:</strong> {selectedEvent.description}</p>
+            <p className="text-gray-700 mb-4"><strong>Category:</strong> {selectedEvent.description}</p>
             <img src={`http://utsav.hello.met.edu${selectedEvent.poster}`} alt={selectedEvent.name} className="w-full h-64 object-cover rounded-lg mb-4" />
             <button
               onClick={handleCloseModal}

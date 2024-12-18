@@ -211,6 +211,9 @@ const AttendanceTab = () => {
             </button>
           </div>
         </div>
+        <button className="px-4 py-2 text-white bg-red-500 rounded mt-2 hover:bg-red-600">
+          Save Attendance
+        </button>
       </div>
     </div>
   );
