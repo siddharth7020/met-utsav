@@ -9,9 +9,10 @@ import { BANNER5 } from "../../assets/Image";
 import { BANNER6 } from "../../assets/Image";
 import { useState } from 'react';
 import Model from '../Common/Model';
+import SubEventsCard from '../Common/SubEventsCard';
 
 const HomeTab = () => {
-  const [openModel , setOpenModel] = useState(false);
+  const [openModel, setOpenModel] = useState(false);
 
   const handleOpenModel = () => {
     setOpenModel(true);
@@ -70,14 +71,18 @@ const HomeTab = () => {
   return (
     <div className="">
       {
-        openModel && 
+        openModel &&
         <div className='bg-red'>
-         <Model /> 
+          <Model />
         </div>
-        
+
       }
-      <Slider events={events}/>
+      <Slider events={events} />
       <div>
+        <div className="max-w-7xl mx-auto px-4 py-12">
+          <h2 className="text-2xl font-bold mb-8">MET SUB Events</h2>
+          <SubEventsCard  setOpenModel={handleOpenModel} />
+        </div>
         <div className="max-w-7xl mx-auto px-4 py-12">
           <h2 className="text-2xl font-bold mb-8">MET USTAV Events</h2>
           <Cards events={events} setOpenModel={handleOpenModel} />
