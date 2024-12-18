@@ -14,7 +14,7 @@ const EventDeatils = () => {
             <p id="modalDescription" className="text-gray-600 mb-6"></p>
             <button 
                 className="w-full bg-gradient-to-r from-red-500 to-red-700 hover:from-red-700 hover:to-red-900 text-white py-3 rounded-lg font-medium transition-colors">
-                Registerr
+                Register
             </button>
         </div>
         <button className="absolute top-4 right-4 text-white">
