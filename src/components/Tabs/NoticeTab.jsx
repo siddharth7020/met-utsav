@@ -29,7 +29,6 @@ const NoticeTab = () => {
         const response = await axios.get("http://utsav.hello.met.edu/api/notice");
         const data = response.data;
         setNotices(data);
-        
       } catch (error) {
         console.error("Error fetching notices:", error);
       }
@@ -99,16 +98,18 @@ const NoticeTab = () => {
         )}
 
         <div>
-          {notices.map((notice) => (
-            <NoticeCard
-              key={notice.id}
-              notice={{
-                ...notice,
-                instituteName: getInstituteNameById(notice.instituteId), // Pass instituteName to the card
-              }}
-              onEdit={handleEditNotice}
-            />
-          ))}
+          {notices
+            .sort((a, b) => b.id - a.id) // Sort by id in descending order
+            .map((notice) => (
+              <NoticeCard
+                key={notice.id}
+                notice={{
+                  ...notice,
+                  instituteName: getInstituteNameById(notice.instituteId), // Pass instituteName to the card
+                }}
+                onEdit={handleEditNotice}
+              />
+            ))}
         </div>
       </div>
     </div>
