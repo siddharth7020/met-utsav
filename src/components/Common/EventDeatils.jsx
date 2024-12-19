@@ -1,10 +1,19 @@
+import { useState } from "react";
 import { BANNER7 } from "../../assets/Image";
+import Modal from "../Common/Model";
 
 const EventDeatils = () => {
+  const [open, setOpen] = useState(false);
+  const [isGroup, setIsGroup] = useState(false); // State to track if 'Group' is selected
+
+  // Handle radio button change
+  const handleRadioChange = (e) => {
+    setIsGroup(e.target.id === "radio3");
+  };
+
   return (
     <section className="py-12 sm:py-6">
       <div className="container mx-auto px-4">
-
         <div className="lg:col-gap-12 xl:col-gap-16 mt-8 grid grid-cols-1 gap-12 lg:mt-12 lg:grid-cols-5 lg:gap-16">
           <div className="lg:col-span-3 lg:row-end-1">
             <div className="lg:flex lg:items-start">
@@ -48,22 +57,110 @@ const EventDeatils = () => {
                 <span className="font-medium">MET Convention Center</span>
               </div>
               <hr className="border-r-2 border-gray-400 m-0" />
-              <button className="w-full mt-4 rounded-xl bg-red-600 px-4 py-3 text-xl font-medium text-white">Register</button>
+              <button onClick={() => setOpen(true)} className="w-full mt-4 rounded-xl bg-red-600 px-4 py-3 text-xl font-medium text-white">Register</button>
             </div>
           </div>
 
+          <Modal open={open} onClose={() => setOpen(false)}>
+            <div className="w-70">
+              <div>
+                <h3 className="text-lg font-black text-gray-800">Talent Show Registration</h3>
+                <p className="font-medium mt-1 mb-1 text-gray-500">Type</p>
+                <div className="flex gap-x-4">
+                  <div className="relative flex w-56 items-center justify-center rounded-xl bg-gray-50 px-4 py-3 font-medium text-gray-700">
+                    <input
+                      className="peer hidden"
+                      type="radio"
+                      name="radio"
+                      id="radio1"
+                      checked={!isGroup}
+                      onChange={handleRadioChange}
+                    />
+                    <label
+                      className="peer-checked:border-blue-400 peer-checked:bg-blue-200 absolute top-0 h-full w-full cursor-pointer rounded-xl border"
+                      htmlFor="radio1"
+                    >
+                      {" "}
+                    </label>
+                    <div className="peer-checked:border-transparent peer-checked:bg-blue-400 peer-checked:ring-2 absolute left-4 h-5 w-5 rounded-full border-2 border-gray-300 bg-gray-200 ring-blue-400 ring-offset-2"></div>
+                    <span className="pointer-events-none z-10">Solo</span>
+                  </div>
+                  <div className="relative flex w-56 items-center justify-center rounded-xl bg-gray-50 px-4 py-3 font-medium text-gray-700">
+                    <input
+                      className="peer hidden"
+                      type="radio"
+                      name="radio"
+                      id="radio3"
+                      checked={isGroup}
+                      onChange={handleRadioChange}
+                    />
+                    <label
+                      className="peer-checked:border-blue-400 peer-checked:bg-blue-200 absolute top-0 h-full w-full cursor-pointer rounded-xl border"
+                      htmlFor="radio3"
+                    >
+                      {" "}
+                    </label>
+                    <div className="peer-checked:border-transparent peer-checked:bg-blue-400 peer-checked:ring-2 absolute left-4 h-5 w-5 rounded-full border-2 border-gray-300 bg-gray-200 ring-blue-400 ring-offset-2"></div>
+                    <span className="pointer-events-none z-10">Group</span>
+                  </div>
+                </div>
+
+                {/* Leader Name and Team Members Fields */}
+                {isGroup && (
+                  <>
+                    <div className="mt-4">
+                      <label htmlFor="" className="font-medium mb-1 text-gray-500">
+                        Leader Name
+                      </label>
+                      <input
+                        type="text"
+                        className="w-full rounded-xl border bg-gray-50 px-4 py-3 text-gray-700"
+                      />
+                    </div>
+
+                    <div className="mt-4">
+                      <label htmlFor="" className="font-medium mb-1 text-gray-500">
+                        Team Members
+                      </label>
+                      <input
+                        type="text"
+                        className="w-full rounded-xl border bg-gray-50 px-4 py-3 text-gray-700"
+                      />
+                    </div>
+                  </>
+                )}
+
+                {/* Phone No. and File Upload Fields (Always shown) */}
+                <div className="mt-4">
+                  <label htmlFor="" className="font-medium mb-1 text-gray-500">
+                    Phone No.
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full rounded-xl border bg-gray-50 px-4 py-3 text-gray-700"
+                  />
+                </div>
+
+                <div className="mt-4">
+                  <label htmlFor="" className="font-medium mb-1 text-gray-500">
+                    File Upload
+                  </label>
+                  <input
+                    type="file"
+                    className="w-full rounded-xl border bg-gray-50 px-4 py-3 text-gray-700"
+                  />
+                </div>
+              </div>
+
+              <div className="flex gap-4">
+                <button className="btn btn-danger w-full mt-4 rounded-xl bg-red-600 px-4 py-3 text-xl font-medium text-white">
+                  Save
+                </button>
+              </div>
+            </div>
+          </Modal>
+          
           <div className="lg:col-span-3">
-            {/* <div className="border-b border-gray-300">
-              <nav className="flex gap-4">
-                <a href="#" title="" className="border-b-2 border-gray-900 py-4 text-sm font-medium text-gray-900 hover:border-gray-400 hover:text-gray-800"> Description </a>
-
-                <a href="#" title="" className="inline-flex items-center border-b-2 border-transparent py-4 text-sm font-medium text-gray-600">
-                  Reviews
-                  <span className="ml-2 block rounded-full bg-gray-500 px-2 py-px text-xs font-bold text-gray-100"> 1,209 </span>
-                </a>
-              </nav>
-            </div> */}
-
             <div className="mt-8 flow-root sm:mt-2">
               <h1 className="text-3xl font-bold">About the Event</h1>
               <p className="mt-4">
@@ -121,4 +218,4 @@ const EventDeatils = () => {
   )
 }
 
-export default EventDeatils
+export default EventDeatils;
