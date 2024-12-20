@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
+import {Base_URL} from '../Common/Constant';
 
 const EventsCard = ({ events }) => {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ const EventsCard = ({ events }) => {
           <a href="#">
             <img
               className="rounded-t-lg"
-              src={event.banner} // Assuming the banner URL is stored in the 'banner' field
+              src={`${Base_URL}${event.banner}`} // Assuming the banner URL is stored in the 'banner' field
               alt={event.name}
             />
           </a>

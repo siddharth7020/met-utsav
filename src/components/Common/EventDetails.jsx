@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Modal from "../Common/Model";
 import { useLocation } from "react-router-dom";
+import {Base_URL} from '../Common/Constant';
 
 const EventDeatils = () => {
   const [open, setOpen] = useState(false);
@@ -17,6 +18,13 @@ const EventDeatils = () => {
   if (!event) {
     return <p>No event details available.</p>; // Handle the case where no event is passed
   }
+  // i want to date formate in date and time
+  const date = new Date(event.date);
+  const formattedDateTime = date.toLocaleString('en-US', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  });
 
   
 
@@ -28,7 +36,7 @@ const EventDeatils = () => {
             <div className="lg:flex lg:items-start">
               <div className="lg:order-2 ">
                 <div className="max-w-xl overflow-hidden rounded-lg">
-                  <img className="h-full w-full max-w-full object-cover" src={event.banner} alt="" />
+                  <img className="h-full w-full max-w-full object-cover" src={`${Base_URL}${event.banner}`} alt="" />
                 </div>
               </div>
             </div>
@@ -42,10 +50,10 @@ const EventDeatils = () => {
                 <span className="font-medium">{event.categoryId}</span>
               </div>
               <div className="mb-4 flex items-center space-x-5">
-                <span className="font-medium">{event.date} | {event.fromTime} - {event.toTime}</span>
+                <span className="font-medium">{formattedDateTime} | {event.fromTime} - {event.toTime}</span>
               </div>
               <div className="mb-4 flex items-center space-x-5">
-                <span className="font-medium">{event.contactPerson} | {event.contact}</span>
+                <span className="font-medium">{event.contactPerson} | {event.contactNumber}</span>
               </div>
               <div className="mb-4 flex items-center space-x-5">
                 <span className="font-medium">{event.location}</span>

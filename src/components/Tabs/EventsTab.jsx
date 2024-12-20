@@ -48,6 +48,7 @@ const EventsTab = () => {
     setShowCategoryForm(true); // Show the event form
   };
 
+  
 
   return (
     <div className="bg-gray-200 h-full">
