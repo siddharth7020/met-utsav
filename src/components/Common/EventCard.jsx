@@ -26,7 +26,7 @@ const EventsCard = ({ events }) => {
               </p>
             </div>
             <button
-              onClick={() => navigate('/eventsdeatils')}
+              onClick={() => navigate('/eventsdeatils', { state: { event } })}
               className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800"
             >
               Read more

@@ -1,50 +1,42 @@
-import PropTypes from 'prop-types';
-import { Base_URL } from '../Common/Constant';
+import PropTypes from "prop-types";
 
-const Modal = ({ isOpen, onClose, event }) => {
-  if (!isOpen || !event) return null; // Don't render if the modal is closed or no event is passed
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="bg-white rounded-lg p-8 w-[90%] max-w-lg relative">
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 text-gray-600 hover:text-gray-900"
+const Modal = ({ open, onClose, children }) => {
+
+    Modal.propTypes = {
+        open: PropTypes.bool.isRequired,
+        onClose: PropTypes.func.isRequired,
+        children: PropTypes.node.isRequired,
+    };
+
+    return (
+        <div
+            onClick={onClose}
+            className={`
+          fixed inset-0 flex justify-center items-center transition-colors
+          ${open ? "visible bg-black/20" : "invisible"}
+        `}
         >
-          ✖
-        </button>
-        {/* Event Details */}
-        <h2 className="text-2xl font-bold mb-4">{event.name}</h2>
-        <p className="text-gray-700 mb-4">{event.description || "No description available."}</p>
-        <p className="text-gray-500 text-sm">Date: {event.date}</p>
-        <img
-          src={`${Base_URL}${event.banner}`}
-          alt={event.name}
-          className="w-full mt-4 rounded-md"
-        />
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="mt-6 px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-700 transition-colors"
-        >
-          Close
-        </button>
-      </div>
-    </div>
-  );
-};
-
-Modal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  event: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    date: PropTypes.string.isRequired,
-    banner: PropTypes.string.isRequired,
-    description: PropTypes.string,
-  }),
+            {/* modal */}
+            <div
+                onClick={(e) => e.stopPropagation()}
+                className={`
+            bg-white rounded-xl shadow p-6 transition-all
+            ${open ? "scale-100 opacity-100" : "scale-125 opacity-0"}
+          `}
+            >
+                <button
+                    onClick={onClose}
+                    className="absolute top-2 right-2 p-1 rounded-lg text-gray-400 bg-white hover:bg-gray-50 hover:text-gray-600"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
+                    </svg>
+                </button>
+                {children}
+            </div>
+        </div>
+    );
 };
 
 export default Modal;
