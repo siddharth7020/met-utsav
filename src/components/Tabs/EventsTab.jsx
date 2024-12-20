@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import EventForm from "../Common/EventForm";
-import Cards from "../Common/Cards";
 import axios from "axios";
 import PropTypes from "prop-types";
+import EventsCard from "../Common/EventCard";
 
 const EventsTab = () => {
   const [events, setEvents] = useState([]);
@@ -101,7 +101,7 @@ const EventsTab = () => {
               onCancel={() => setShowEventForm(false)}
             />
           )}
-          <Cards events={events} />
+          <EventsCard events={events} />
         </div>
       </div>
     </div>
