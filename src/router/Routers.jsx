@@ -10,6 +10,7 @@ import NoticeTab from '../components/Tabs/NoticeTab';
 import RolesTab from '../components/Tabs/RolesTab';
 import OTP from '../pages/OTP';
 import NewPassword from '../pages/NewPassword';
+import EventDeatils from '../components/Common/EventDetails';
 
 const Routers = () => {
   return (
@@ -26,6 +27,7 @@ const Routers = () => {
           <Route path="attendance" element={<AttendanceTab />} />
           <Route path="notice" element={<NoticeTab />} />
           <Route path="roles" element={<RolesTab />} />
+          <Route path="eventsdeatils" element={<EventDeatils />} />
         </Route>
       </Routes>
     </Router>
