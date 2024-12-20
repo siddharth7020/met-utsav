@@ -4,10 +4,22 @@ import { useNavigate } from 'react-router-dom';
 const EventsCard = ({ events }) => {
   const navigate = useNavigate();
 
+  // i want to date formate in date and time
+  const date = new Date(events.date);
+  const formattedDateTime = date.toLocaleString('en-US', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  });
+
+
   return (
     <div className="flex flex-wrap gap-4 justify-center">
       {events.map((event) => (
-        <div key={event.id} className="max-w-sm bg-white border border-gray-200 rounded-lg shadow">
+        <div key={event.id} className="max-w-sm w-full sm:w-1/2 md:w-1/3 lg:w-1/3 bg-white border border-gray-200 rounded-lg shadow">
           <a href="#">
             <img
               className="rounded-t-lg"
@@ -20,9 +32,8 @@ const EventsCard = ({ events }) => {
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">{event.name}</h5>
             </a>
             <div>
-              {/* <p className="mb-3 h-20 font-normal text-gray-700 truncate">{event.aboutEvent}</p> */}
               <p className="font-bold">
-                {event.date} | {event.location}
+                {formattedDateTime} | {event.location}
               </p>
             </div>
             <button
@@ -50,6 +61,7 @@ const EventsCard = ({ events }) => {
         </div>
       ))}
     </div>
+
   );
 };
 
