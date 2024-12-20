@@ -8,6 +8,7 @@ const NoticeTab = () => {
   const [selectedNotice, setSelectedNotice] = useState(null);
   const [notices, setNotices] = useState([]);
   const [institutes, setInstitutes] = useState([]);
+  
 
   // Fetch institutes
   useEffect(() => {
@@ -97,7 +98,7 @@ const NoticeTab = () => {
           />
         )}
 
-        <div>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-2">
           {notices
             .sort((a, b) => b.id - a.id) // Sort by id in descending order
             .map((notice) => (
