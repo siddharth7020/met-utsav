@@ -16,9 +16,9 @@ const AttendanceTab = () => {
     const fetchData = async () => {
       try {
         const [instituteRes, roleRes, userRes] = await Promise.all([
-          axios.get("http://localhost:5500/api/institutes/"),
-          axios.get("http://localhost:5500/api/roles/"),
-          axios.get("http://localhost:5500/api/auth/allusers"),
+          axios.get("http://utsav.hello.met.edu/api/institutes/"),
+          axios.get("http://utsav.hello.met.edu/api/roles/"),
+          axios.get("http://utsav.hello.met.edu/api/auth/allusers"),
         ]);
         setInstitutes(instituteRes.data);
         setRoles(roleRes.data);
@@ -77,7 +77,7 @@ const AttendanceTab = () => {
     
 
     try {
-      await axios.post("http://localhost:5500/api/attendance", attendanceData);
+      await axios.post("http://utsav.hello.met.edu/api/attendance", attendanceData);
       alert("Attendance saved successfully!");
     } catch (error) {
       console.error("Error saving attendance:", error);
