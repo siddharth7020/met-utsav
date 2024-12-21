@@ -1,32 +1,96 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Modal from "../Common/Model";
 import { useLocation } from "react-router-dom";
-import {Base_URL} from '../Common/Constant';
+import { Base_URL } from "../Common/Constant";
+import axios from "axios";
 
-const EventDeatils = () => {
+const EventDetails = () => {
   const [open, setOpen] = useState(false);
-  const [isGroup, setIsGroup] = useState(false); // State to track if 'Group' is selected
+  const [isGroup, setIsGroup] = useState(false);
+  const [isRegistered, setIsRegistered] = useState(false); // New state for registration status
+  const [formData, setFormData] = useState({
+    leaderName: "",
+    leaderEmail: "",
+    leaderPhoneNo: "",
+    teamMembers: "",
+    groupName: "",
+    taskName: "",
+    fileUrl: "",
+  });
+  const user = JSON.parse(localStorage.getItem("user"));
 
-  // Handle radio button change
+  const location = useLocation();
+  const event = location.state?.event;
+
+  if (!event) {
+    return <p>No event details available.</p>;
+  }
+
+  const userId = user.id;
+  const eventId = event.id;
+  const categoryId = event.categoryId;
+
+  const date = new Date(event.date);
+  const formattedDateTime = date.toLocaleString("en-US", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+
+  useEffect(() => {
+    // Check if the user is already registered
+    const checkRegistrationStatus = async () => {
+      try {
+        const response = await axios.get(
+          `http://utsav.hello.met.edu/api/userevents/check/${userId}/${eventId}`
+        ); // Replace with your API endpoint
+        if (response.data?.isRegistered) {
+          setIsRegistered(true);
+        }
+      } catch (error) {
+        console.error("Error checking registration status:", error);
+      }
+    };
+
+    checkRegistrationStatus();
+  }, [userId, eventId]);
+
   const handleRadioChange = (e) => {
     setIsGroup(e.target.id === "radio3");
   };
 
-  const location = useLocation();
-  const event = location.state?.event; // Access the event details passed via state
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
 
-  if (!event) {
-    return <p>No event details available.</p>; // Handle the case where no event is passed
-  }
-  // i want to date formate in date and time
-  const date = new Date(event.date);
-  const formattedDateTime = date.toLocaleString('en-US', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit'
-  });
+  const handleSubmit = async () => {
+    const payload = {
+      userId,
+      eventId,
+      categoryId,
+      type: isGroup ? "Group" : "Solo",
+      leaderName: formData.leaderName,
+      teamMembers: formData.teamMembers,
+      groupName: formData.groupName,
+      taskName: formData.taskName,
+      fileUrl: formData.fileUrl,
+    };
 
-  
+    try {
+      const response = await axios.post("http://utsav.hello.met.edu/api/userevents", payload);
+      console.log("Registration successful:", response.data);
+      alert("Registration successful!");
+      setIsRegistered(true); // Update registration status after successful registration
+      setOpen(false);
+    } catch (error) {
+      console.error("Error registering event:", error);
+      alert("Failed to register. Please try again.");
+    }
+  };
 
   return (
     <section className="py-12 sm:py-6">
@@ -34,7 +98,7 @@ const EventDeatils = () => {
         <div className="lg:col-gap-12 xl:col-gap-16 mt-8 grid grid-cols-1 gap-12 lg:mt-12 lg:grid-cols-5 lg:gap-16">
           <div className="lg:col-span-3 lg:row-end-1">
             <div className="lg:flex lg:items-start">
-              <div className="lg:order-2 ">
+              <div className="lg:order-2">
                 <div className="max-w-xl overflow-hidden rounded-lg">
                   <img className="h-full w-full max-w-full object-cover" src={`${Base_URL}${event.banner}`} alt="" />
                 </div>
@@ -62,8 +126,9 @@ const EventDeatils = () => {
               <button
                 onClick={() => setOpen(true)}
                 className="w-full mt-4 rounded-xl bg-red-600 px-4 py-3 text-xl font-medium text-white"
+                disabled={isRegistered} // Disable if already registered
               >
-                Register
+                {isRegistered ? "Already Registered" : "Register"}
               </button>
             </div>
           </div>
@@ -87,9 +152,7 @@ const EventDeatils = () => {
                     <label
                       className="peer-checked:border-blue-400 peer-checked:bg-blue-200 absolute top-0 h-full w-full cursor-pointer rounded-xl border"
                       htmlFor="radio1"
-                    >
-                      {" "}
-                    </label>
+                    ></label>
                     <div className="peer-checked:border-transparent peer-checked:bg-blue-400 peer-checked:ring-2 absolute left-4 h-5 w-5 rounded-full border-2 border-gray-300 bg-gray-200 ring-blue-400 ring-offset-2"></div>
                     <span className="pointer-events-none z-10">Solo</span>
                   </div>
@@ -105,63 +168,86 @@ const EventDeatils = () => {
                     <label
                       className="peer-checked:border-blue-400 peer-checked:bg-blue-200 absolute top-0 h-full w-full cursor-pointer rounded-xl border"
                       htmlFor="radio3"
-                    >
-                      {" "}
-                    </label>
+                    ></label>
                     <div className="peer-checked:border-transparent peer-checked:bg-blue-400 peer-checked:ring-2 absolute left-4 h-5 w-5 rounded-full border-2 border-gray-300 bg-gray-200 ring-blue-400 ring-offset-2"></div>
                     <span className="pointer-events-none z-10">Group</span>
                   </div>
                 </div>
 
-                {/* Leader Name and Team Members Fields */}
+
                 {isGroup && (
                   <>
-                    <div className="mt-4">
-                      <label htmlFor="" className="font-medium mb-1 text-gray-500">
+                    <div className="mt-2">
+                      <label htmlFor="leaderName" className="font-medium mb-1 text-gray-500">
                         Leader Name
                       </label>
                       <input
                         type="text"
-                        className="w-full rounded-xl border bg-gray-50 px-4 py-3 text-gray-700"
+                        name="leaderName"
+                        value={formData.leaderName}
+                        onChange={handleInputChange}
+                        className="w-full rounded-xl border bg-gray-50 px-4 py-1 text-gray-700"
                       />
                     </div>
-
-                    <div className="mt-4">
-                      <label htmlFor="" className="font-medium mb-1 text-gray-500">
+                    <div className="mt-2">
+                      <label htmlFor="teamMembers" className="font-medium mb-1 text-gray-500">
                         Team Members
                       </label>
                       <input
                         type="text"
-                        className="w-full rounded-xl border bg-gray-50 px-4 py-3 text-gray-700"
+                        name="teamMembers"
+                        value={formData.teamMembers}
+                        onChange={handleInputChange}
+                        className="w-full rounded-xl border bg-gray-50 px-4 py-1 text-gray-700"
+                      />
+                    </div>
+                    <div className="mt-2">
+                      <label htmlFor="groupName" className="font-medium mb-1 text-gray-500">
+                        Group Name
+                      </label>
+                      <input
+                        type="text"
+                        name="groupName"
+                        value={formData.groupName}
+                        onChange={handleInputChange}
+                        className="w-full rounded-xl border bg-gray-50 px-4 py-1 text-gray-700"
                       />
                     </div>
                   </>
                 )}
-
-                {/* Phone No. and File Upload Fields (Always shown) */}
-                <div className="mt-4">
-                  <label htmlFor="" className="font-medium mb-1 text-gray-500">
-                    Phone No.
+                <div className="mt-2">
+                  <label htmlFor="taskName" className="font-medium mb-1 text-gray-500">
+                    Task Name
                   </label>
                   <input
                     type="text"
-                    className="w-full rounded-xl border bg-gray-50 px-4 py-3 text-gray-700"
+                    name="taskName"
+                    value={formData.taskName}
+                    onChange={handleInputChange}
+                    className="w-full rounded-xl border bg-gray-50 px-4 py-1 text-gray-700"
+                  />
+                </div>
+                <div className="mt-2">
+                  <label htmlFor="fileUrl" className="font-medium mb-1 text-gray-500">
+                    URL
+                  </label>
+                  <input
+                    type="text"
+                    name="fileUrl"
+                    value={formData.fileUrl}
+                    onChange={handleInputChange}
+                    className="w-full rounded-xl border bg-gray-50 px-4 py-1 text-gray-700"
                   />
                 </div>
 
-                <div className="mt-4">
-                  <label htmlFor="" className="font-medium mb-1 text-gray-500">
-                    File Upload
-                  </label>
-                  <input
-                    type="file"
-                    className="w-full rounded-xl border bg-gray-50 px-4 py-3 text-gray-700"
-                  />
-                </div>
+
               </div>
 
               <div className="flex gap-4">
-                <button className="btn btn-danger w-full mt-4 rounded-xl bg-red-600 px-4 py-3 text-xl font-medium text-white">
+                <button
+                  onClick={handleSubmit}
+                  className="btn btn-danger w-full mt-4 rounded-xl bg-red-600 px-4 py-3 text-xl font-medium text-white"
+                >
                   Save
                 </button>
               </div>
@@ -184,4 +270,4 @@ const EventDeatils = () => {
   );
 };
 
-export default EventDeatils;
+export default EventDetails;
