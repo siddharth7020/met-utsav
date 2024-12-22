@@ -11,6 +11,7 @@ import RolesTab from '../components/Tabs/RolesTab';
 import OTP from '../pages/OTP';
 import NewPassword from '../pages/NewPassword';
 import EventDeatils from '../components/Common/EventDetails';
+import TalentShow from '../pages/TalentShow';
 
 const Routers = () => {
   return (
@@ -28,6 +29,7 @@ const Routers = () => {
           <Route path="notice" element={<NoticeTab />} />
           <Route path="roles" element={<RolesTab />} />
           <Route path="eventsdeatils" element={<EventDeatils />} />
+          <Route path="talentshow" element={<TalentShow />} />
         </Route>
       </Routes>
     </Router>
