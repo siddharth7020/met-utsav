@@ -12,6 +12,7 @@ import OTP from '../pages/OTP';
 import NewPassword from '../pages/NewPassword';
 import EventDeatils from '../components/Common/EventDetails';
 import TalentShow from '../pages/TalentShow';
+import Report from '../pages/Report';
 
 const Routers = () => {
   return (
@@ -24,6 +25,7 @@ const Routers = () => {
         <Route path="/newpassword" element={<NewPassword />} />
         <Route path="/" element={<Layout />}>
           <Route index element={<HomeTab />} />
+          <Route path='report' element={<Report />} />
           <Route path="events" element={<EventsTab />} />
           <Route path="attendance" element={<AttendanceTab />} />
           <Route path="notice" element={<NoticeTab />} />

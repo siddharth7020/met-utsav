@@ -1,16 +1,23 @@
 import Navbar from "./Navbar";
 import Footer from "../Common/Footer";
 import { Outlet } from 'react-router-dom';
-
+import Navbar2 from "./Navbar2";
 
 const Layout = () => {
+
+  const user = JSON.parse(localStorage.getItem("user"));
+  const role = user.role;
+  console.log(role);
+  
+  
+
   return (
     <div>
-      <Navbar />
+      {role === "Trustee" ? <Navbar2 /> : <Navbar />}
       <div><Outlet /></div>
-      <Footer/>
+      <Footer />
     </div>
   )
 }
 
-export default Layout
+export default Layout;
