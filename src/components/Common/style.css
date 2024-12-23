@@ -1,0 +1,65 @@
+@import url("https://fonts.googleapis.com/css2?family=Michroma&display=swap");
+
+
+
+/* 
+.container {
+  background-color: black;
+  color: #9b1414;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+} */
+
+.loading-page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* background: linear-gradient(to right, #2c5364, #203a43, #0f2027); */
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+  justify-content: center;
+  color: #541616;
+}
+
+#svg {
+  height: 150px;
+  width: 250px;
+  stroke: rgb(163, 11, 11);
+  fill-opacity: 0;
+  stroke-width: 3px;
+  stroke-dasharray: 4500;
+  animation: animate 3s linear infinite;
+}
+
+@keyframes animate {
+  0% {
+    stroke-dashoffset: 4500;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.name-container {
+  display: flex;
+  justify-content: center;
+  /* height: 30px; */
+  overflow: hidden;
+  text-align: center;
+}
+
+.logo-name {
+  color: #ca0f0f;
+  font-size: 20px;
+  letter-spacing: 12px;
+  text-transform: uppercase;
+  font-weight: bolder;
+}
