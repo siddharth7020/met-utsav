@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 
-const NoticeForm = ({ setShowNoticeForm, initialData, onFormSubmit }) => {
+const NoticeForm = ({ setShowNoticeForm, initialData, onFormSubmit,setLoading }) => {
   const [formData, setFormData] = useState({
     instituteId: "",
     title: "",
@@ -66,7 +66,7 @@ const NoticeForm = ({ setShowNoticeForm, initialData, onFormSubmit }) => {
           updateBy: userName,
         }),
       });
-
+      setLoading(true);
       if (response.ok) {
         const updatedNotices = await response.json();
         onFormSubmit(updatedNotices);
@@ -172,6 +172,7 @@ NoticeForm.propTypes = {
     message: PropTypes.string,
   }),
   onFormSubmit: PropTypes.func.isRequired,
+  setLoading: PropTypes.func.isRequired,
 };
 
 export default NoticeForm;

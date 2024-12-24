@@ -2,13 +2,26 @@ import { useState, useEffect } from "react";
 import NoticeCard from "../Common/NoticeCard";
 import NoticeForm from "../Common/NoticeForm";
 import axios from "axios";
+import OvelLoader from "../Common/OvelLoader";
 
 const NoticeTab = () => {
   const [showNoticeForm, setShowNoticeForm] = useState(false);
   const [selectedNotice, setSelectedNotice] = useState(null);
   const [notices, setNotices] = useState([]);
   const [institutes, setInstitutes] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   
+  useEffect(() => {
+    let timer;
+    if (loading) {
+      timer = setTimeout(() => {
+        setLoading(false);
+      }, 3000);
+    }
+    return () => clearTimeout(timer); // Cleanup timer on component unmount or when loading changes
+  }, [loading]);
+
 
   // Fetch institutes
   useEffect(() => {
@@ -89,15 +102,23 @@ const NoticeTab = () => {
             Add Notice
           </button>
         </div>
-
-        {showNoticeForm && (
-          <NoticeForm
-            setShowNoticeForm={setShowNoticeForm}
-            initialData={selectedNotice}
-            onFormSubmit={handleFormSubmit}
-          />
-        )}
-
+        {
+          loading && <OvelLoader />
+        }
+        {
+          !loading && (
+            <div>
+              {showNoticeForm && (
+                <NoticeForm
+                  setShowNoticeForm={setShowNoticeForm}
+                  initialData={selectedNotice}
+                  onFormSubmit={handleFormSubmit}
+                  setLoading={setLoading}
+                />
+              )}
+            </div>
+          )
+        }
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-2">
           {notices
             .sort((a, b) => b.id - a.id) // Sort by id in descending order

@@ -4,7 +4,7 @@ const NoticeCard = ({ notice, onEdit }) => {
 
 // i want a date in date and time formate
 
-const date = new Date(notice.addDate);
+const date = new Date(notice.createdAt);
 const formattedDateTime = date.toLocaleString('en-US', {
   year: 'numeric',
   month: '2-digit',
@@ -14,10 +14,11 @@ const formattedDateTime = date.toLocaleString('en-US', {
   second: '2-digit',
   hour12: true
 });
+  console.log(date);
   
 
   return (
-    <div className="m-5">
+    <div className="m-2">
       <div className="group bg-white flex flex-col rounded-lg border p-4 text-gray-700 shadow transition hover:shadow-lg">
         <div className="flex justify-between items-center">
           <h3 className="text-xs text-gray-600">{notice.instituteName}</h3> {/* Changed to instituteName */}
@@ -71,7 +72,7 @@ NoticeCard.propTypes = {
     instituteName: PropTypes.string.isRequired, // Add instituteName prop
     title: PropTypes.string.isRequired,
     message: PropTypes.string.isRequired,
-    addDate: PropTypes.string.isRequired,
+    createdAt: PropTypes.string.isRequired,
     addBy: PropTypes.string.isRequired,
   }).isRequired,
   onEdit: PropTypes.func.isRequired,
