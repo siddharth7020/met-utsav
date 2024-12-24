@@ -18,7 +18,6 @@ const EventDetails = () => {
     fileUrl: "",
   });
   const user = JSON.parse(localStorage.getItem("user"));
-
   const location = useLocation();
   const event = location.state?.event;
 
@@ -68,6 +67,10 @@ const EventDetails = () => {
   };
 
   const handleSubmit = async () => {
+    if (user.type !== "student") {
+      alert("Only students can register for this event.");
+      return;
+    }
     const payload = {
       userId,
       eventId,
