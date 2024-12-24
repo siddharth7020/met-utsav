@@ -13,6 +13,7 @@ import NewPassword from '../pages/NewPassword';
 import EventDeatils from '../components/Common/EventDetails';
 import TalentShow from '../pages/TalentShow';
 import Report from '../pages/Report';
+import UserEventsTable from '../pages/UserEvents';
 
 const Routers = () => {
   return (
@@ -32,6 +33,8 @@ const Routers = () => {
           <Route path="roles" element={<RolesTab />} />
           <Route path="eventsdeatils" element={<EventDeatils />} />
           <Route path="talentshow" element={<TalentShow />} />
+          <Route path="talentshow" element={<TalentShow />} />
+          <Route path="registeredparticipants" element={<UserEventsTable />} />
         </Route>
       </Routes>
     </Router>

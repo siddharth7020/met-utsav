@@ -24,7 +24,8 @@
     "react-sweetalert2": "^0.6.0",
     "react-toastify": "^11.0.0",
     "slate": "^0.112.0",
-    "slate-react": "^0.112.0"
+    "slate-react": "^0.112.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",

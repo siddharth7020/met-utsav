@@ -3,7 +3,6 @@ import EventForm from "../Common/EventForm";
 import axios from "axios";
 import PropTypes from "prop-types";
 import EventsCard from "../Common/EventCard";
-// import Loader from "../Common/Loader";
 import OvelLoader from "../Common/OvelLoader";
 
 const EventsTab = () => {
@@ -111,7 +110,7 @@ const EventsTab = () => {
             !loading && (
               <div>
                 {
-                  showCategoryForm && <CategoryForm  setShowCategoryForm={setShowCategoryForm} />
+                  showCategoryForm && <CategoryForm setLoading={setLoading} setShowCategoryForm={setShowCategoryForm} />
                 }
                 {showEventForm && (
                   <EventForm
@@ -120,7 +119,7 @@ const EventsTab = () => {
                     onCancel={() => setShowEventForm(false)}
                   />
                 )}
-                <EventsCard events={events} setLoading={setLoading} />
+                <EventsCard events={events} />
               </div>
             )
           }
