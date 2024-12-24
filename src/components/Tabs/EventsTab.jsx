@@ -3,12 +3,25 @@ import EventForm from "../Common/EventForm";
 import axios from "axios";
 import PropTypes from "prop-types";
 import EventsCard from "../Common/EventCard";
+// import Loader from "../Common/Loader";
+import OvelLoader from "../Common/OvelLoader";
 
 const EventsTab = () => {
   const [events, setEvents] = useState([]);
   const [categories, setCategories] = useState([]);
   const [showEventForm, setShowEventForm] = useState(false);
   const [showCategoryForm, setShowCategoryForm] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    let timer;
+    if (loading) {
+      timer = setTimeout(() => {
+        setLoading(false);
+      }, 3000);
+    }
+    return () => clearTimeout(timer);
+  }, [loading]);
 
   useEffect(() => {
     // Fetch all events
@@ -25,6 +38,7 @@ const EventsTab = () => {
   }, []);
 
   const handleEventSubmit = async (eventData) => {
+    setLoading(true);
     try {
       // Add current user and dates
       const currentUser = "logged-in-user"; // Replace with actual user from auth context
@@ -48,7 +62,7 @@ const EventsTab = () => {
     setShowCategoryForm(true); // Show the event form
   };
 
-  
+
 
   return (
     <div className="bg-gray-200 h-full">
@@ -92,17 +106,25 @@ const EventsTab = () => {
             </div>
 
           </div>
+          {loading && <OvelLoader />}
           {
-            showCategoryForm && <CategoryForm setShowCategoryForm={setShowCategoryForm} />
+            !loading && (
+              <div>
+                {
+                  showCategoryForm && <CategoryForm  setShowCategoryForm={setShowCategoryForm} />
+                }
+                {showEventForm && (
+                  <EventForm
+                    categories={categories}
+                    onSubmit={handleEventSubmit}
+                    onCancel={() => setShowEventForm(false)}
+                  />
+                )}
+                <EventsCard events={events} setLoading={setLoading} />
+              </div>
+            )
           }
-          {showEventForm && (
-            <EventForm
-              categories={categories}
-              onSubmit={handleEventSubmit}
-              onCancel={() => setShowEventForm(false)}
-            />
-          )}
-          <EventsCard events={events} />
+
         </div>
       </div>
     </div>
@@ -112,16 +134,18 @@ const EventsTab = () => {
 export default EventsTab;
 
 
-const CategoryForm = ({ setShowCategoryForm }) => {
+const CategoryForm = ({ setShowCategoryForm, setLoading }) => {
   const [name, setName] = useState('');
   const [errorMessage, setErrorMessage] = useState(null);
 
   CategoryForm.propTypes = {
     setShowCategoryForm: PropTypes.func.isRequired,
+    setLoading: PropTypes.func.isRequired
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
     const currentUser = "logged-in-user"; // Replace with actual user from auth context
     try {
       const response = await fetch('http://utsav.hello.met.edu/api/categories', {

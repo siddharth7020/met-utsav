@@ -89,6 +89,30 @@ const EventForm = ({ categories, onSubmit, onCancel }) => {
           </div>
         ))}
 
+        <div className="mb-4">
+          <label
+            htmlFor="categoryId"
+            className="block text-gray-700 font-medium mb-2"
+          >
+            Select Category
+          </label>
+          <select
+            id="categoryId"
+            name="categoryId"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-black focus:outline-none"
+            value={formData.categoryId}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Select Category</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
         {[ // Jodit editor for description and instruction
           {
             name: "aboutEvent",
@@ -117,30 +141,6 @@ const EventForm = ({ categories, onSubmit, onCancel }) => {
             />
           </div>
         ))}
-
-        <div className="mb-4">
-          <label
-            htmlFor="categoryId"
-            className="block text-gray-700 font-medium mb-2"
-          >
-            Select Category
-          </label>
-          <select
-            id="categoryId"
-            name="categoryId"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-black focus:outline-none"
-            value={formData.categoryId}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Select Category</option>
-            {categories.map((category) => (
-              <option key={category.id} value={category.id}>
-                {category.name}
-              </option>
-            ))}
-          </select>
-        </div>
 
         <div className="mb-4">
           <label

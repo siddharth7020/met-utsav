@@ -2,7 +2,6 @@ import Slider from '../Common/Slider';
 import About from '../Common/About';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import EventsCard from '../Common/EventCard';
 
 const HomeTab = () => {
   const [events, setEvents] = useState([]);
@@ -20,8 +19,7 @@ const HomeTab = () => {
       <Slider events={events}/>
       <div>
         <div className="max-w-7xl mx-auto px-4 py-12">
-          <h2 className="text-2xl font-bold mb-8">MET USTAV Events</h2>
-          <EventsCard events={events} />
+          <h2 className="text-2xl font-bold mb-8">MET USTAV Content</h2>
         </div>
       </div>
       <About />
