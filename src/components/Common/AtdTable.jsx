@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
+import Swal from "sweetalert2";
 
 const Table = ({ columns, data, onEdit, onSave }) => {
   const [attendance, setAttendance] = useState(
@@ -30,7 +31,11 @@ const Table = ({ columns, data, onEdit, onSave }) => {
       .map(([id]) => id);
 
     if (selectedRows.length === 0) {
-      alert("No attendance data selected to save.");
+      // alert("No attendance data selected to save.");
+      Swal.fire({
+        icon: "error",
+        title: "No attendance data selected to save.",
+      });
       return;
     }
 

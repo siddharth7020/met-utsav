@@ -3,6 +3,7 @@ import Modal from "../Common/Model";
 import { useLocation } from "react-router-dom";
 import { Base_URL } from "../Common/Constant";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const EventDetails = () => {
   const [open, setOpen] = useState(false);
@@ -68,7 +69,11 @@ const EventDetails = () => {
 
   const handleSubmit = async () => {
     if (user.type !== "student") {
-      alert("Only students can register for this event.");
+      // alert("Only students can register for this event.");
+      Swal.fire({
+        icon: "error",
+        title: "Only students can register for this event.",
+      });
       return;
     }
     const payload = {
@@ -86,12 +91,20 @@ const EventDetails = () => {
     try {
       const response = await axios.post("http://utsav.hello.met.edu/api/userevents", payload);
       console.log("Registration successful:", response.data);
-      alert("Registration successful!");
+      // alert("Registration successful!");
+      Swal.fire({
+        icon: "success",
+        title: "Registration successful!",
+      });
       setIsRegistered(true); // Update registration status after successful registration
       setOpen(false);
     } catch (error) {
       console.error("Error registering event:", error);
-      alert("Failed to register. Please try again.");
+      // alert("Failed to register. Please try again.");
+      Swal.fire({
+        icon: "error",
+        title: "Failed to register. Please try again.",
+      });
     }
   };
 

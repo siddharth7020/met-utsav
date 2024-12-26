@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const Table = ({ columns, data, roles, categories }) => {
   const [editRow, setEditRow] = useState(null); // State to track which row is being edited
@@ -43,10 +44,20 @@ const Table = ({ columns, data, roles, categories }) => {
       // Reset editing state
       setEditRow(null);
 
-      alert("Role and category updated successfully!");
+      // alert("Role and category updated successfully!");
+      Swal.fire({
+        icon: "success",
+        title: "Success!",
+        text: "Role and category updated successfully!",
+      });
     } catch (error) {
       console.error("Error updating role and category:", error);
-      alert("Failed to update role and category.");
+      // alert("Failed to update role and category.");
+      Swal.fire({
+        icon: "error",
+        title: "Error!",
+        text: "Failed to update role and category.",
+      });
     }
   };
 

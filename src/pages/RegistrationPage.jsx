@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import Loader from "../components/Common/Loader";
+import Swal from "sweetalert2";
 
 const RegistrationPage = () => {
   const [institutes, setInstitutes] = useState([]);
@@ -10,17 +10,7 @@ const RegistrationPage = () => {
   // const [selectCategory, setSelectCategory] = useState("");
   const [selectType, setSelectType] = useState("");
   const Navigation = useNavigate();
-  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    let timer;
-    if (loading) {
-      timer = setTimeout(() => {
-        setLoading(false);
-      }, 20000); // 10 seconds timer
-    }
-    return () => clearTimeout(timer);
-  }, [loading]);
 
   // Refs for input fields
   const addFName = useRef();
@@ -75,8 +65,6 @@ const RegistrationPage = () => {
       phoneNo: addPhoneNo.current.value,
       // categoryId: parseInt(selectCategory),
     };
-
-
     try {
       const response = await fetch("http://utsav.hello.met.edu/api/auth/register", {
         method: "POST",
@@ -85,76 +73,85 @@ const RegistrationPage = () => {
         },
         body: JSON.stringify(payload),
       });
-      setLoading(true);
 
       if (response.ok) {
-        // alert("Registration successful!");
-        setTimeout(() => {
-          Navigation("/login"); // Redirect after loader finishes
-        }, 3000);
+        Swal.fire({
+          icon: "success",
+          title: "Registration Successful!",
+          text: "Please login to continue",
+        });
+        Navigation("/login");
 
       } else {
         const errorData = await response.json();
-        alert("Registration failed: " + errorData.message);
+        // alert("Registration failed: " + errorData.message);
+        Swal.fire({
+          icon: "error",
+          title: "Registration Failed",
+          text: errorData.message,
+        });
       }
     } catch (error) {
       console.error("Error during registration:", error);
-      alert("An error occurred. Please try again.");
+      // alert("An error occurred. Please try again.");
+      Swal.fire({
+        icon: "error",
+        title: "An error occurred",
+        text: "Please try again",
+      });
     }
   };
 
   return (
     <div className="bg-gray-100">
       <div className="flex flex-col items-center justify-center h-screen">
-        {loading && <Loader />}
-        {
-          !loading &&
-          <div className="w-full max-w-md bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Register Here</h2>
-            <form onSubmit={handleRegistration}>
-              <div className="overflow-auto h-96 flex flex-col p-2">
 
-                <input ref={addFName} placeholder="First Name" required className="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700" type="text" />
+        <div className="w-full max-w-md bg-white rounded-lg shadow-md p-6">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">Register Here</h2>
+          <form onSubmit={handleRegistration}>
+            <div className="overflow-auto h-96 flex flex-col p-2">
 
-                <input ref={addMName} placeholder="Middle Name" required className="text-sm mt-3 focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700" type="text" />
+              <input ref={addFName} placeholder="First Name" required className="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700" type="text" />
 
-                <input ref={addLName} placeholder="Last Name" required className="text-sm mt-3 focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700" type="text" />
+              <input ref={addMName} placeholder="Middle Name" required className="text-sm mt-3 focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700" type="text" />
 
-                <input ref={addEmail} placeholder="Email" required className="text-sm mt-3 focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700" type="email" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" />
+              <input ref={addLName} placeholder="Last Name" required className="text-sm mt-3 focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700" type="text" />
 
-                <input ref={createPassword} placeholder="PIN" required className="text-sm mt-3 focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700" type="password" pattern="^\d{4}$" title="PIN should be a 4-digit number" />
+              <input ref={addEmail} placeholder="Email" required className="text-sm mt-3 focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700" type="email" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" />
 
-                <input ref={addRollNo} placeholder="Roll No." required className="text-sm mt-3 focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700" type="text" />
+              <input ref={createPassword} placeholder="PIN" required className="text-sm mt-3 focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700" type="password" pattern="^\d{4}$" title="PIN should be a 4-digit number" />
 
-                <input ref={addPhoneNo} placeholder="Phone No." required className="text-sm mt-3 focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700" type="text" pattern="^\d{10}$" />
+              <input ref={addRollNo} placeholder="Roll No." required className="text-sm mt-3 focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700" type="text" />
+
+              <input ref={addPhoneNo} placeholder="Phone No." required className="text-sm mt-3 focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700" type="text" pattern="^\d{10}$" />
 
 
-                <label className="text-sm mt-3 mb-2 text-gray-900">Type</label>
-                <select required value={selectType} onChange={(e) => setSelectType(e.target.value)} className="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700">
-                  <option >Select type</option>
-                  <option value="Staff">Staff</option>
-                  <option value="Student">Student</option>
-                </select>
+              <label className="text-sm mt-3 mb-2 text-gray-900">Type</label>
+              <select required value={selectType} onChange={(e) => setSelectType(e.target.value)} className="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700">
+                <option >Select type</option>
+                <option value="Staff">Staff</option>
+                <option value="Student">Student</option>
+              </select>
 
-                <label className="text-sm mt-3 mb-2 text-gray-900">Gender</label>
-                <select required value={selectGender} onChange={(e) => setSelectGender(e.target.value)} className="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700">
-                  <option>Select gender</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Other">Other</option>
-                </select>
+              <label className="text-sm mt-3 mb-2 text-gray-900">Gender</label>
+              <select required value={selectGender} onChange={(e) => setSelectGender(e.target.value)} className="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700">
+                <option>Select gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
 
-                <label className="text-sm mt-3 mb-2 text-gray-900">Institute</label>
-                <select required value={selectInstitute} onChange={(e) => setSelectInstitute(e.target.value)} className="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700">
-                  <option value="">Select Institute</option>
-                  {institutes.map((institute) => (
-                    <option key={institute.id} value={institute.id}>
-                      {institute.name}
-                    </option>
-                  ))}
-                </select>
+              <label className="text-sm mt-3 mb-2 text-gray-900">Institute</label>
+              <select required value={selectInstitute} onChange={(e) => setSelectInstitute(e.target.value)} className="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700">
+                <option value="">Select Institute</option>
+                {institutes.map((institute) => (
+                  <option key={institute.id} value={institute.id}>
+                    {institute.name}
+                  </option>
+                ))}
+              </select>
 
-                {/* <label className="text-sm mt-3 mb-2 text-gray-900">Category</label>
+              {/* <label className="text-sm mt-3 mb-2 text-gray-900">Category</label>
             <select required value={selectCategory} onChange={(e) => setSelectCategory(e.target.value)} className="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700">
               <option value="">Select Category</option>
               {categories.map((category) => (
@@ -163,13 +160,11 @@ const RegistrationPage = () => {
                 </option>
               ))}
             </select> */}
-              </div>
-              <p className="text-gray-900 mt-4">Already have an account? <a className="text-sm text-blue-500 hover:underline" href="/login">Login</a></p>
-              <button className="bg-gradient-to-r from-indigo-500 to-red-500 text-white font-bold py-2 px-4 rounded-md mt-4 hover:bg-indigo-600 hover:to-red-600 transition ease-in-out duration-150" type="submit">Register</button>
-            </form>
-          </div>
-        }
-
+            </div>
+            <p className="text-gray-900 mt-4">Already have an account? <a className="text-sm text-blue-500 hover:underline" href="/login">Login</a></p>
+            <button className="bg-gradient-to-r from-indigo-500 to-red-500 text-white font-bold py-2 px-4 rounded-md mt-4 hover:bg-indigo-600 hover:to-red-600 transition ease-in-out duration-150" type="submit">Register</button>
+          </form>
+        </div>
       </div>
     </div>
   );

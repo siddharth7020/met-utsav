@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
+import Swal from "sweetalert2";
 
 const NoticeForm = ({ setShowNoticeForm, initialData, onFormSubmit,setLoading }) => {
   const [formData, setFormData] = useState({
@@ -72,12 +73,20 @@ const NoticeForm = ({ setShowNoticeForm, initialData, onFormSubmit,setLoading })
         onFormSubmit(updatedNotices);
         setShowNoticeForm(false);
       } else {
-        console.error("Failed to submit notice");
-        alert("Failed to submit the notice. Please try again.");
+        // alert("Failed to submit the notice. Please try again.");
+        Swal.fire({
+          icon: "error",
+          title: "Failed to submit the notice. Please try again.",
+        });
       }
     } catch (error) {
       console.error("Error submitting notice:", error);
-      alert("An error occurred while submitting the notice.");
+      // alert("An error occurred while submitting the notice.");
+      Swal.fire({
+        icon: "error",
+        title: "An error occurred while submitting the notice.",
+      }); 
+      
     } finally {
       setIsSubmitting(false);
     }

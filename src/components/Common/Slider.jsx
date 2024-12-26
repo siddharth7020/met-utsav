@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import PropTypes from 'prop-types';
 import { Base_URL } from "../Common/Constant";
+import Swal from "sweetalert2";
 
 const Slider = ({events = []}) => { 
 
@@ -30,7 +31,12 @@ const Slider = ({events = []}) => {
 }, [events]);
 
   const showEventDetails = (id) => {
-    alert(`Event ID: ${id}`); // Replace with actual navigation or modal logic
+    // alert(`Event ID: ${id}`);
+    Swal.fire({
+      icon: "info",
+      title: "Event Details",
+      text: `Event ID: ${id}`,
+    });
   };
 
   return (

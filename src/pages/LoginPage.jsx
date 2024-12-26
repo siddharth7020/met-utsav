@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import Loader from "../components/Common/Loader"; // Assuming Loader is your loader component
+import Swal from "sweetalert2";
 
 const LoginPage = () => {
   const { login } = useAuth();
@@ -23,22 +24,24 @@ const LoginPage = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault();
-
-    // Start loading for 10 seconds
-    setLoading(true);
-
+  
     try {
       const isSuccess = await login(email, password);
       if (isSuccess) {
+        setLoading(true); // Show loader only when login is successful
         // Wait until the loader timer ends before redirecting
         setTimeout(() => {
-          navigate("/"); // Redirect after loader finishes
+          navigate("/");
         }, 3000);
       }
     } catch (err) {
       setError(err.message || "Login failed. Please try again.");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong!",
+      });
     }
-    // The loader will stop automatically after 10 seconds
   };
 
   return (
