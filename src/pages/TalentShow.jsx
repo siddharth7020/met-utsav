@@ -10,7 +10,7 @@ const TalentShow = () => {
         axios
             .get('http://utsav.hello.met.edu/api/events')
             .then((response) => {
-                const filteredEvents = response.data.filter(event => event.categoryId === 1 && event.Category.name === 'Talent Show');
+                const filteredEvents = response.data.filter(event => event.categoryId === event.Category.id && event.Category.name === 'Talent Show');
                 console.log(filteredEvents);
 
                 setEvents(filteredEvents);
