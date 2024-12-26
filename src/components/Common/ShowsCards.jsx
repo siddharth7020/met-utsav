@@ -3,6 +3,20 @@ import { useNavigate } from 'react-router-dom';
 
 const ShowsCards = () => {
     const navigate = useNavigate();
+    const user = JSON.parse(localStorage.getItem("user"));
+    const role = user && user.role;
+
+    console.log(role);
+
+
+    const handleClick = () => {
+        if (role === null) {
+            navigate('/register');
+        } else {
+            navigate('/talentshow');
+        }
+    };
+
     return (
         <div className='max-w-7xl mx-auto '>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -26,8 +40,8 @@ const ShowsCards = () => {
                     </div>
                     <div className="flex items-center justify-between p-4">
                         <div className="flex items-center">
-                            <button className='bg-red-600 text-white px-4 py-2 rounded-md' onClick={() => navigate('/talentshow')}>
-                                Intrested 
+                            <button className='bg-red-600 text-white px-4 py-2 rounded-md' onClick={handleClick}>
+                                Intrested
                             </button>
                         </div>
                     </div>
