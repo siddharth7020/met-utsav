@@ -68,7 +68,7 @@ const EventDetails = () => {
   };
 
   const handleSubmit = async () => {
-    if (user.type !== "student") {
+    if (user.type !== "user") {
       // alert("Only students can register for this event.");
       Swal.fire({
         icon: "error",
