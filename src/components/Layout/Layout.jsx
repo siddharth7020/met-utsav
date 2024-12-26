@@ -6,10 +6,7 @@ import Navbar2 from "./Navbar2";
 const Layout = () => {
 
   const user = JSON.parse(localStorage.getItem("user"));
-  const role = user.role;
-  console.log(role);
-  
-  
+  const role = user && user.role; // add a null check here
 
   return (
     <div>
