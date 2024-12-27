@@ -7,17 +7,11 @@ import Swal from "sweetalert2";
 
 const EventDetails = () => {
   const [open, setOpen] = useState(false);
-  const [isGroup, setIsGroup] = useState(false);
-  const [isRegistered, setIsRegistered] = useState(false); // New state for registration status
+  const [isRegistered, setIsRegistered] = useState(false);
   const [formData, setFormData] = useState({
-    leaderName: "",
-    leaderEmail: "",
-    leaderPhoneNo: "",
-    teamMembers: "",
-    groupName: "",
-    taskName: "",
     fileUrl: "",
   });
+
   const user = JSON.parse(localStorage.getItem("user"));
   const location = useLocation();
   const event = location.state?.event;
@@ -29,6 +23,8 @@ const EventDetails = () => {
   const userId = user.id;
   const eventId = event.id;
   const categoryId = event.categoryId;
+  const categoryName = event.Category.name;
+
 
   const date = new Date(event.date);
   const formattedDateTime = date.toLocaleString("en-US", {
@@ -38,69 +34,56 @@ const EventDetails = () => {
   });
 
   useEffect(() => {
-    // Check if the user is already registered
     const checkRegistrationStatus = async () => {
       try {
         const response = await axios.get(
-          `http://utsav.hello.met.edu/api/userevents/check/${userId}/${eventId}`
-        ); // Replace with your API endpoint
-        if (response.data?.isRegistered) {
+          `http://utsav.hello.met.edu/api/userevents/user/${userId}/event/${eventId}`,
+          {
+            timeout: 10000, // 10 seconds
+          }
+        );
+        // console.log("Registration status:", response.data);
+        // console.log("isRegistered", response.data.status);
+        if (response.data && response.data.status === "Submitted") {
           setIsRegistered(true);
+          localStorage.setItem(`isRegistered_${eventId}`, "true");
         }
       } catch (error) {
         console.error("Error checking registration status:", error);
       }
     };
 
-    checkRegistrationStatus();
+    // Check if the registration status is already saved in localStorage if in localStorage not available then check from API
+    if (localStorage.getItem(`isRegistered_${eventId}`) === "true") {
+      setIsRegistered(true);
+    } else {
+      checkRegistrationStatus();
+    }
   }, [userId, eventId]);
 
-  const handleRadioChange = (e) => {
-    setIsGroup(e.target.id === "radio3");
-  };
-
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async () => {
-    if (user.type !== "user") {
-      // alert("Only students can register for this event.");
-      Swal.fire({
-        icon: "error",
-        title: "Only students can register for this event.",
-      });
-      return;
-    }
     const payload = {
       userId,
       eventId,
       categoryId,
-      type: isGroup ? "Group" : "Solo",
-      leaderName: formData.leaderName,
-      teamMembers: formData.teamMembers,
-      groupName: formData.groupName,
-      taskName: formData.taskName,
       fileUrl: formData.fileUrl,
     };
 
     try {
-      const response = await axios.post("http://utsav.hello.met.edu/api/userevents", payload);
-      console.log("Registration successful:", response.data);
-      // alert("Registration successful!");
+      await axios.post("http://utsav.hello.met.edu/api/userevents", payload);
       Swal.fire({
         icon: "success",
         title: "Registration successful!",
       });
-      setIsRegistered(true); // Update registration status after successful registration
+      setIsRegistered(true);
+      localStorage.setItem(`isRegistered_${eventId}`, "true");
       setOpen(false);
     } catch (error) {
       console.error("Error registering event:", error);
-      // alert("Failed to register. Please try again.");
       Swal.fire({
         icon: "error",
         title: "Failed to register. Please try again.",
@@ -124,128 +107,70 @@ const EventDetails = () => {
 
           {/* Banner Content */}
           <div className="lg:col-span-2 lg:row-span-2 lg:row-end-2">
-            <div className="mx-auto max-w-xs rounded-xl border bg-white px-6 py-8 text-gray-800">
-              <h1 className="mb-2 text-2xl font-medium">{event.name}</h1>
-              <div className="mb-4 flex items-center space-x-5">
-                <span className="font-medium">{event.categoryId}</span>
+            <div className="mx-auto max-w-xs rounded-xl border shadow-lg bg-white px-6 py-8 text-gray-800">
+              {/* Event Name */}
+              <h1 className="mb-4 text-2xl font-bold text-center text-gray-900">
+                {event.name}
+              </h1>
+
+              {/* Category */}
+              <div className="mb-4 flex justify-center">
+                <span className="rounded-full bg-green-100 px-3 py-1 text-sm font-medium text-green-700">
+                  {categoryName}
+                </span>
               </div>
-              <div className="mb-4 flex items-center space-x-5">
-                <span className="font-medium">{formattedDateTime} | {event.fromTime} - {event.toTime}</span>
+
+              {/* Date and Time */}
+              <div className="mb-4">
+                <p className="text-center text-gray-700">
+                  <span className="font-medium">Date:</span> {formattedDateTime}
+                </p>
+                <p className="text-center text-gray-700">
+                  <span className="font-medium">Time:</span> {event.fromTime} - {event.toTime}
+                </p>
               </div>
-              <div className="mb-4 flex items-center space-x-5">
-                <span className="font-medium">{event.contactPerson} | {event.contactNumber}</span>
+
+              {/* Contact Information */}
+              <div className="mb-4 space-y-2">
+                <div className="flex justify-between items-center rounded-lg bg-green-100 px-4 py-2">
+                  <span className="font-medium text-green-700">{event.contactPerson}</span>
+                </div>
+                <div className="flex justify-between items-center rounded-lg bg-blue-100 px-4 py-2">
+                  <span className="font-medium text-blue-700">{event.contactNumber}</span>
+                </div>
               </div>
-              <div className="mb-4 flex items-center space-x-5">
-                <span className="font-medium">{event.location}</span>
+
+              {/* Location */}
+              <div className="mb-4 text-center">
+                <p className="font-medium text-gray-700">
+                  <span className="font-medium">Location:</span> {event.location}
+                </p>
               </div>
-              <hr className="border-r-2 border-gray-400 m-0" />
+
+              {/* Divider */}
+              <hr className="my-4 border-t border-gray-300" />
+
+              {/* Register Button */}
               <button
                 onClick={() => setOpen(true)}
-                className="w-full mt-4 rounded-xl bg-red-600 px-4 py-3 text-xl font-medium text-white"
-                disabled={isRegistered} // Disable if already registered
+                className="w-full rounded-lg bg-red-600 px-4 py-3 text-lg font-medium text-white transition duration-300 hover:bg-red-700 disabled:bg-gray-400"
+                disabled={isRegistered}
               >
                 {isRegistered ? "Already Registered" : "Register"}
               </button>
             </div>
           </div>
 
+
           {/* Modal Component */}
           <Modal open={open} onClose={() => setOpen(false)}>
             <div className="w-70">
               <div>
-                <h3 className="text-lg font-black text-gray-800">Talent Show Registration</h3>
-                <p className="font-medium mt-1 mb-1 text-gray-500">Type</p>
-                <div className="flex gap-x-4">
-                  <div className="relative flex w-56 items-center justify-center rounded-xl bg-gray-50 px-4 py-3 font-medium text-gray-700">
-                    <input
-                      className="peer hidden"
-                      type="radio"
-                      name="radio"
-                      id="radio1"
-                      checked={!isGroup}
-                      onChange={handleRadioChange}
-                    />
-                    <label
-                      className="peer-checked:border-blue-400 peer-checked:bg-blue-200 absolute top-0 h-full w-full cursor-pointer rounded-xl border"
-                      htmlFor="radio1"
-                    ></label>
-                    <div className="peer-checked:border-transparent peer-checked:bg-blue-400 peer-checked:ring-2 absolute left-4 h-5 w-5 rounded-full border-2 border-gray-300 bg-gray-200 ring-blue-400 ring-offset-2"></div>
-                    <span className="pointer-events-none z-10">Solo</span>
-                  </div>
-                  <div className="relative flex w-56 items-center justify-center rounded-xl bg-gray-50 px-4 py-3 font-medium text-gray-700">
-                    <input
-                      className="peer hidden"
-                      type="radio"
-                      name="radio"
-                      id="radio3"
-                      checked={isGroup}
-                      onChange={handleRadioChange}
-                    />
-                    <label
-                      className="peer-checked:border-blue-400 peer-checked:bg-blue-200 absolute top-0 h-full w-full cursor-pointer rounded-xl border"
-                      htmlFor="radio3"
-                    ></label>
-                    <div className="peer-checked:border-transparent peer-checked:bg-blue-400 peer-checked:ring-2 absolute left-4 h-5 w-5 rounded-full border-2 border-gray-300 bg-gray-200 ring-blue-400 ring-offset-2"></div>
-                    <span className="pointer-events-none z-10">Group</span>
-                  </div>
-                </div>
+                <h3 className="text-lg font-black text-gray-800">Register For {event.name}</h3>
 
-
-                {isGroup && (
-                  <>
-                    <div className="mt-2">
-                      <label htmlFor="leaderName" className="font-medium mb-1 text-gray-500">
-                        Leader Name
-                      </label>
-                      <input
-                        type="text"
-                        name="leaderName"
-                        value={formData.leaderName}
-                        onChange={handleInputChange}
-                        className="w-full rounded-xl border bg-gray-50 px-4 py-1 text-gray-700"
-                      />
-                    </div>
-                    <div className="mt-2">
-                      <label htmlFor="teamMembers" className="font-medium mb-1 text-gray-500">
-                        Team Members
-                      </label>
-                      <input
-                        type="text"
-                        name="teamMembers"
-                        value={formData.teamMembers}
-                        onChange={handleInputChange}
-                        className="w-full rounded-xl border bg-gray-50 px-4 py-1 text-gray-700"
-                      />
-                    </div>
-                    <div className="mt-2">
-                      <label htmlFor="groupName" className="font-medium mb-1 text-gray-500">
-                        Group Name
-                      </label>
-                      <input
-                        type="text"
-                        name="groupName"
-                        value={formData.groupName}
-                        onChange={handleInputChange}
-                        className="w-full rounded-xl border bg-gray-50 px-4 py-1 text-gray-700"
-                      />
-                    </div>
-                  </>
-                )}
-                <div className="mt-2">
-                  <label htmlFor="taskName" className="font-medium mb-1 text-gray-500">
-                    Task Name
-                  </label>
-                  <input
-                    type="text"
-                    name="taskName"
-                    value={formData.taskName}
-                    onChange={handleInputChange}
-                    className="w-full rounded-xl border bg-gray-50 px-4 py-1 text-gray-700"
-                  />
-                </div>
                 <div className="mt-2">
                   <label htmlFor="fileUrl" className="font-medium mb-1 text-gray-500">
-                    URL
+                    If You have any file URL Please Enter Google Drive Link
                   </label>
                   <input
                     type="text"
@@ -255,8 +180,6 @@ const EventDetails = () => {
                     className="w-full rounded-xl border bg-gray-50 px-4 py-1 text-gray-700"
                   />
                 </div>
-
-
               </div>
 
               <div className="flex gap-4">
@@ -264,7 +187,7 @@ const EventDetails = () => {
                   onClick={handleSubmit}
                   className="btn btn-danger w-full mt-4 rounded-xl bg-red-600 px-4 py-3 text-xl font-medium text-white"
                 >
-                  Save
+                  Register
                 </button>
               </div>
             </div>

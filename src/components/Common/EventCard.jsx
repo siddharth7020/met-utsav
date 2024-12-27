@@ -11,63 +11,80 @@ const EventsCard = ({ events }) => {
         let formattedDateTime = 'Invalid Date';
         try {
           const date = new Date(event.date);
+          console.log('date', date);
+
           if (!isNaN(date)) {
             formattedDateTime = date.toLocaleString('en-US', {
-              year: 'numeric',
-              month: '2-digit',
-              day: '2-digit',
-              hour: '2-digit',
-              minute: '2-digit'
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
             });
           }
-        } catch  {
+        } catch {
           console.error(`Invalid date for event ID ${event.id}:`, event.date);
         }
+
+        const formatTime = (time) => {
+          const [hour, minute] = time.split(':');
+          const date = new Date();
+          date.setHours(hour);
+          date.setMinutes(minute);
+        
+          const options = { hour: 'numeric', minute: '2-digit', hour12: true };
+          return new Intl.DateTimeFormat('en-US', options).format(date);
+        };
+        
+        const fromTimeFormatted = formatTime(event.fromTime);
+        const toTimeFormatted = formatTime(event.toTime);   
+        const formattedTimeRange = `${fromTimeFormatted} to ${toTimeFormatted}`;
+
+
 
         return (
           <div
             key={event.id}
-            className="max-w-sm w-full sm:w-1/2 md:w-1/3 lg:w-1/3 bg-white border border-gray-200 rounded-lg shadow"
+            className="max-w-sm w-full sm:w-1/2 md:w-1/3 lg:w-1/3 bg-white border border-gray-300 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
           >
             <a href="#">
               <img
-                className="rounded-t-lg"
+                className="rounded-t-lg object-cover h-48 w-full"
                 src={`${Base_URL}${event.banner}`} // Assuming the banner URL is stored in the 'banner' field
                 alt={event.name}
               />
             </a>
-            <div className="p-5">
+            <div className="p-5 space-y-4">
               <a href="#">
-                <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">{event.name}</h5>
+                <h5 className="text-xl font-semibold tracking-tight text-gray-900 hover:underline">
+                  {event.name}
+                </h5>
               </a>
-              <div>
-                <p className="font-bold">
-                  {formattedDateTime} | {event.location}
+              <div className="space-y-1">
+                <p className="font-medium text-gray-700">
+                  <span className="text-gray-500">Date:</span> {formattedDateTime}, {formattedTimeRange}
+                </p>
+                <p className="font-medium text-gray-700">
+                  <span className="text-gray-500">Location:</span> {event.location}
                 </p>
               </div>
               <button
                 onClick={() => navigate('/eventsdeatils', { state: { event } })}
-                className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800"
+                className="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors duration-200"
               >
                 Read more
                 <svg
-                  className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
-                  aria-hidden="true"
+                  className="w-4 h-4 ml-2 rtl:rotate-180"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 14 10"
+                  stroke="currentColor"
+                  strokeWidth="2"
                 >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M1 5h12m0 0L9 1m4 4L9 9"
-                  />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M1 5h12m0 0L9 1m4 4L9 9" />
                 </svg>
               </button>
             </div>
           </div>
+
         );
       })}
     </div>
