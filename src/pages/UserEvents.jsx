@@ -53,13 +53,10 @@ const UserEventsTable = () => {
       Category: categories.find(cat => cat.id === event.categoryId)?.name || 'N/A',
       "Email ": event.Users.email,
       "Phone Number": event.Users.phoneNo,
-      "Type of Participation": event.typeOfParticipation,
-      "Leader Name": event.leaderName || 'N/A',
-      "Team Members": event.teamMembers || 'N/A',
-      "Group Name": event.groupName || 'N/A',
-      "Track Name": event.trackName || 'N/A',
       "File URL": event.fileUrl || 'N/A',
       "Status": event.status,
+      "Reason for rejection": event.reason || 'N/A',
+      "Date": new Date(event.date).toLocaleDateString(),
     }));
 
     const worksheet = utils.json_to_sheet(dataToExport);
