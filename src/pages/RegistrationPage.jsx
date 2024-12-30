@@ -1,3 +1,4 @@
+
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -8,8 +9,9 @@ const RegistrationPage = () => {
   const [selectGender, setSelectGender] = useState("");
   const [selectInstitute, setSelectInstitute] = useState("");
   // const [selectCategory, setSelectCategory] = useState("");
-  const [selectType, setSelectType] = useState("");
   const Navigation = useNavigate();
+  const [selectType, setSelectType] = useState("");
+  const [selectYear, setSelectYear] = useState("");
 
 
   // Refs for input fields
@@ -60,6 +62,7 @@ const RegistrationPage = () => {
       password: createPassword.current.value,
       role: "User", // Default role
       type: selectType,
+      class: selectYear,
       rollNo: addRollNo.current.value,
       instituteId: parseInt(selectInstitute),
       phoneNo: addPhoneNo.current.value,
@@ -124,6 +127,15 @@ const RegistrationPage = () => {
 
               <input ref={addLName} placeholder="Last Name" required className="text-sm mt-3 focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700" type="text" />
 
+              <select required value={selectGender} onChange={(e) => setSelectGender(e.target.value)} className="text-sm mt-3 focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700">
+                <option>Select gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+
+              <input ref={addPhoneNo} placeholder="Phone No." required className="text-sm mt-3 focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700" type="text" pattern="^\d{10}$" />
+
               <input ref={addEmail} placeholder="Email" required className="text-sm mt-3 focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700" type="email" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" />
 
               <input
@@ -137,28 +149,7 @@ const RegistrationPage = () => {
                 onChange={handleInputChange}
               />
 
-              <input ref={addRollNo} placeholder="Roll No." required className="text-sm mt-3 focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700" type="text" />
-
-              <input ref={addPhoneNo} placeholder="Phone No." required className="text-sm mt-3 focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700" type="text" pattern="^\d{10}$" />
-
-
-              <label className="text-sm mt-3 mb-2 text-gray-900">Type</label>
-              <select required value={selectType} onChange={(e) => setSelectType(e.target.value)} className="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700">
-                <option >Select type</option>
-                <option value="Staff">Staff</option>
-                <option value="Student">Student</option>
-              </select>
-
-              <label className="text-sm mt-3 mb-2 text-gray-900">Gender</label>
-              <select required value={selectGender} onChange={(e) => setSelectGender(e.target.value)} className="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700">
-                <option>Select gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
-              </select>
-
-              <label className="text-sm mt-3 mb-2 text-gray-900">Institute</label>
-              <select required value={selectInstitute} onChange={(e) => setSelectInstitute(e.target.value)} className="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700">
+              <select required value={selectInstitute} onChange={(e) => setSelectInstitute(e.target.value)} className="text-sm mt-3 focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700">
                 <option value="">Select Institute</option>
                 {institutes.map((institute) => (
                   <option key={institute.id} value={institute.id}>
@@ -166,6 +157,24 @@ const RegistrationPage = () => {
                   </option>
                 ))}
               </select>
+
+              <input ref={addRollNo} placeholder="Roll No." required className="text-sm mt-3 focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700" type="text" />
+
+              <select required value={selectType} onChange={(e) => setSelectType(e.target.value)} className="text-sm mt-3 focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700">
+                <option >Select type</option>
+                <option value="Staff">Staff</option>
+                <option value="Student">Student</option>
+              </select>
+
+              <select required value={selectYear} onChange={(e) => setSelectYear(e.target.value)} className="text-sm  mt-3 focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700">
+                <option >Select Year</option>
+                <option value="Firstyear">First year</option>
+                <option value="Secondyear">Second year</option>
+                <option value="Thirdyear">Third year</option>
+                <option value="Fourthyear">Fourth year</option>
+              </select>
+
+
 
               {/* <label className="text-sm mt-3 mb-2 text-gray-900">Category</label>
             <select required value={selectCategory} onChange={(e) => setSelectCategory(e.target.value)} className="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700">
