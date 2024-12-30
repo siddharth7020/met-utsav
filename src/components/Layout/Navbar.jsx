@@ -20,6 +20,7 @@ const Navbar = () => {
     { label: "Attendance", path: "/attendance", roles: ["Trustee", "HOE", "Coordinator", "Volunteer", "Participant"] },
     { label: "Notice", path: "/notice", roles: ["Trustee", "HOE", "Coordinator", "Volunteer", "Participant"] },
     { label: "Roles", path: "/roles", roles: ["Trustee", "HOE", "Coordinator"] },
+    { label: "Register User", path: "/registeredparticipants", roles: ["Trustee", "HOE", "Coordinator"] },
   ];
 
   const filteredMenuItems = menuItems.filter((item) => !item.roles || item.roles.includes(user?.role));
