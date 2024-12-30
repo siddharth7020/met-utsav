@@ -124,14 +124,14 @@ const Navbar = () => {
                 </>
               )}
               {isLoggedIn && (
-                <li>
+                <div>
                   <button
                     onClick={handleLogout}
                     className="block py-2 px-6 bg-gradient-to-r from-red-500 to-red-700 hover:from-red-700 hover:to-red-900 text-sm text-white font-bold rounded-xl transition duration-200"
                   >
                     Log out
                   </button>
-                </li>
+                </div>
               )}
             </nav>
           </div>
