@@ -102,6 +102,13 @@ const RegistrationPage = () => {
     }
   };
 
+  const handleInputChange = (event) => {
+    const inputValue = event.target.value;
+    if (inputValue.length > 4) {
+      event.target.value = inputValue.slice(0, 4);
+    }
+  };
+
   return (
     <div className="bg-gray-100">
       <div className="flex flex-col items-center justify-center h-screen">
@@ -119,7 +126,16 @@ const RegistrationPage = () => {
 
               <input ref={addEmail} placeholder="Email" required className="text-sm mt-3 focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700" type="email" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" />
 
-              <input ref={createPassword} placeholder="PIN" required className="text-sm mt-3 focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700" type="password" pattern="^\d{4}$" title="PIN should be a 4-digit number" />
+              <input
+                ref={createPassword}
+                placeholder="Enter a 4-digit PIN"
+                required
+                className="text-sm mt-3 focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700"
+                type="password"
+                pattern="^\d{4}$"
+                title="PIN should be a 4-digit number"
+                onChange={handleInputChange}
+              />
 
               <input ref={addRollNo} placeholder="Roll No." required className="text-sm mt-3 focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-gray-700" type="text" />
 

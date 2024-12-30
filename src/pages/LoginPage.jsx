@@ -24,7 +24,6 @@ const LoginPage = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault();
-  
     try {
       const isSuccess = await login(email, password);
       if (isSuccess) {
@@ -35,12 +34,22 @@ const LoginPage = () => {
         }, 3000);
       }
     } catch (err) {
-      setError(err.message || "Login failed. Please try again.");
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Something went wrong!",
-      });
+      if (err.response && err.response.status === 401) {
+        // 401 status code indicates invalid credentials
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Email or password is incorrect.",
+        });
+      } else {
+        // Some other error occurred
+        setError(err.message || "Login failed. Please try again.");
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong!",
+        });
+      }
     }
   };
 
