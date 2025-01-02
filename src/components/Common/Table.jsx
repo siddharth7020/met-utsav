@@ -9,6 +9,8 @@ const Table = ({ columns, data, roles }) => {
   const [updatedData, setUpdatedData] = useState({ role: "" }); // Track role and category changes
   const [loading, setLoading] = useState(false);
 
+
+
   Table.propTypes = {
     columns: PropTypes.arrayOf(
       PropTypes.shape({
@@ -37,8 +39,8 @@ const Table = ({ columns, data, roles }) => {
       await axios.put(`http://utsav.hello.met.edu/api/auth/${rowId}`, {
         role: updatedData.role
       });
-
-      // Reset editing state
+     const updatedRow = data.find((row) => row.id === rowId);
+      updatedRow.role = updatedData.role;
       setEditRow(null);
 
       // alert("Role and category updated successfully!");
