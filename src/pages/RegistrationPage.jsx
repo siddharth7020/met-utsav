@@ -4,12 +4,10 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const RegistrationPage = () => {
+  const Navigation = useNavigate();
   const [institutes, setInstitutes] = useState([]);
-  // const [categories, setCategories] = useState([]);
   const [selectGender, setSelectGender] = useState("");
   const [selectInstitute, setSelectInstitute] = useState("");
-  // const [selectCategory, setSelectCategory] = useState("");
-  const Navigation = useNavigate();
   const [selectType, setSelectType] = useState("");
   const [selectYear, setSelectYear] = useState("");
 
@@ -35,18 +33,8 @@ const RegistrationPage = () => {
       }
     };
 
-    // const fetchCategories = async () => {
-    //   try {
-    //     const response = await fetch("http://utsav.hello.met.edu/api/categories");
-    //     const data = await response.json();
-    //     // setCategories(data);
-    //   } catch (error) {
-    //     console.error("Error fetching categories:", error);
-    //   }
-    // };
 
     fetchInstitutes();
-    // fetchCategories();
   }, []);
 
   // Handle registration form submission
@@ -62,7 +50,7 @@ const RegistrationPage = () => {
       password: createPassword.current.value,
       role: "User", // Default role
       type: selectType,
-      class: selectYear,
+      pg_class: selectYear,
       rollNo: addRollNo.current.value,
       instituteId: parseInt(selectInstitute),
       phoneNo: addPhoneNo.current.value,

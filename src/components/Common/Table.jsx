@@ -2,10 +2,12 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
+import OvelLoader from "../Common/OvelLoader";
 
-const Table = ({ columns, data, roles, categories }) => {
+const Table = ({ columns, data, roles }) => {
   const [editRow, setEditRow] = useState(null); // State to track which row is being edited
-  const [updatedData, setUpdatedData] = useState({ role: "", category: "" }); // Track role and category changes
+  const [updatedData, setUpdatedData] = useState({ role: "" }); // Track role and category changes
+  const [loading, setLoading] = useState(false);
 
   Table.propTypes = {
     columns: PropTypes.arrayOf(
@@ -20,13 +22,7 @@ const Table = ({ columns, data, roles, categories }) => {
         id: PropTypes.number.isRequired,
         name: PropTypes.string.isRequired,
       })
-    ),
-    categories: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        name: PropTypes.string.isRequired,
-      })
-    ),
+    )
   };
 
   const handleEditClick = (rowId) => {
@@ -34,11 +30,12 @@ const Table = ({ columns, data, roles, categories }) => {
   };
 
   const handleSaveClick = async (rowId) => {
+    setLoading(true);
+    setTimeout(() => setLoading(false), 2000);
     try {
       // Send API request to update role and category
       await axios.put(`http://utsav.hello.met.edu/api/auth/${rowId}`, {
-        role: updatedData.role,
-        categoryId: updatedData.category,
+        role: updatedData.role
       });
 
       // Reset editing state
@@ -50,6 +47,7 @@ const Table = ({ columns, data, roles, categories }) => {
         title: "Success!",
         text: "Role and category updated successfully!",
       });
+
     } catch (error) {
       console.error("Error updating role and category:", error);
       // alert("Failed to update role and category.");
@@ -78,67 +76,55 @@ const Table = ({ columns, data, roles, categories }) => {
             <th className="px-6 py-3">Actions</th>
           </tr>
         </thead>
-        <tbody>
-          {data.map((row) => (
-            <tr
-              key={row.id}
-              className="border-b text-gray-700 bg-gray-50 hover:bg-gray-600 hover:text-white"
-            >
-              {columns.map((column) => (
-                <td className="px-6 py-4" key={column.field}>
-                  {/* Editable Dropdown for Role */}
-                  {editRow === row.id && column.field === "role" ? (
-                    <select
-                      defaultValue={row[column.field]}
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
-                      onChange={(e) => handleInputChange("role", e.target.value)}
+        {loading ? (<table className="center"><OvelLoader /></table>) : (
+          <tbody>
+            {data.map((row) => (
+              <tr
+                key={row.id}
+                className="border-b text-gray-700 bg-gray-50 hover:bg-gray-600 hover:text-white"
+              >
+                {columns.map((column) => (
+                  <td className="px-6 py-4" key={column.field}>
+                    {/* Editable Dropdown for Role */}
+                    {editRow === row.id && column.field === "role" ? (
+                      <select
+                        defaultValue={row[column.field]}
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
+                        onChange={(e) => handleInputChange("role", e.target.value)}
+                      >
+                        {roles.map((role) => (
+                          <option key={role.id} value={role.name}>
+                            {role.name}
+                          </option>
+                        ))}
+                      </select>
+                    ) : (
+                      row[column.field]
+                    )}
+                  </td>
+                ))}
+                <td className="px-6 py-4">
+                  {editRow === row.id ? (
+                    <button
+                      onClick={() => handleSaveClick(row.id)}
+                      className="px-4 py-2 text-white bg-gray-500 rounded hover:bg-red-600"
                     >
-                      {roles.map((role) => (
-                        <option key={role.id} value={role.name}>
-                          {role.name}
-                        </option>
-                      ))}
-                    </select>
-                  ) : editRow === row.id && column.field === "category" ? (
-                    // Editable Dropdown for Category Status
-                    <select
-                      defaultValue={row[column.field]}
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
-                      onChange={(e) =>
-                        handleInputChange("category", e.target.value)
-                      }
-                    >
-                      {categories.map((category) => (
-                        <option key={category.id} value={category.id}>
-                          {category.name}
-                        </option>
-                      ))}
-                    </select>
+                      Save
+                    </button>
                   ) : (
-                    row[column.field]
+                    <button
+                      onClick={() => handleEditClick(row.id)}
+                      className="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600"
+                    >
+                      Edit
+                    </button>
                   )}
                 </td>
-              ))}
-              <td className="px-6 py-4">
-                {editRow === row.id ? (
-                  <button
-                    onClick={() => handleSaveClick(row.id)}
-                    className="px-4 py-2 text-white bg-gray-500 rounded hover:bg-red-600"
-                  >
-                    Save
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => handleEditClick(row.id)}
-                    className="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600"
-                  >
-                    Edit
-                  </button>
-                )}
-              </td>
-            </tr>
-          ))}
-        </tbody>
+              </tr>
+            ))}
+          </tbody>
+        )}
+
       </table>
     </div>
   );

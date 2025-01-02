@@ -10,7 +10,6 @@ const RolesTab = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const [users, setUsers] = useState([]);
-  const [categories, setCategories] = useState([]);
   const [institutes, setInstitutes] = useState([]);
   const [roles, setRoles] = useState([]);
 
@@ -21,10 +20,6 @@ const RolesTab = () => {
     axios.get("http://utsav.hello.met.edu/api/auth/allusers")
       .then(response => setUsers(response.data))
       .catch(error => console.error("Error fetching users:", error));
-
-    axios.get("http://utsav.hello.met.edu/api/categories")
-      .then(response => setCategories(response.data))
-      .catch(error => console.error("Error fetching categories:", error));
 
     axios.get("http://utsav.hello.met.edu/api/institutes/")
       .then(response => setInstitutes(response.data))
@@ -39,7 +34,6 @@ const RolesTab = () => {
   const columns = [
     { field: "name", header: "Name" }, // Use the computed fullName field
     { field: "role", header: "Role" },
-    { field: "category", header: "Category Status" },
     { field: "institute", header: "Institute" }, // Use the computed instituteName field
   ];
 
@@ -47,8 +41,7 @@ const RolesTab = () => {
   const formattedUsers = users.map(user => ({
     ...user,
     name: `${user.firstName} ${user.middleName || ""} ${user.lastName || ""}`.trim(),
-    institute: user.Institute?.name || "",
-    category: user.Category?.name || "",
+    institute: user.Institute?.name || ""
   }));
 
 
@@ -188,8 +181,7 @@ const RolesTab = () => {
           <Table
             columns={columns}
             data={currentRows}
-            roles={roles} // Pass roles for dropdown
-            categories={categories} // Pass categories for dropdown
+            roles={roles} // Pass roles for dropdowns
           />
 
           <div className="flex justify-between items-center mt-4 flex-wrap">
