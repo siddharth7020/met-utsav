@@ -37,7 +37,9 @@ const Navbar = () => {
     <div>
       <nav className="relative px-4 py-4 flex justify-between items-center bg-white">
         <a className="text-3xl font-bold leading-none" href="#">
-          <img src={METLOGO} width="100" height="70" alt="Logo" />
+          <Link to="/">
+            <img src={METLOGO} width="100" height="70" alt="Logo" />
+          </Link>
         </a>
         <div className="lg:hidden">
           <button className="navbar-burger flex items-center text-gray-600 p-3" onClick={handleMenuToggle}>
@@ -52,9 +54,8 @@ const Navbar = () => {
           {filteredMenuItems.map((item) => (
             <li className="flex gap-2" key={item.label}>
               <a
-                className={`text-sm ${
-                  window.location.pathname === item.path ? "text-red-600 hover:text-black font-bold" : "text-gray-400"
-                } hover:text-black font-bold`}
+                className={`text-sm ${window.location.pathname === item.path ? "text-red-600 hover:text-black font-bold" : "text-gray-400"
+                  } hover:text-black font-bold`}
                 onClick={() => navigate(item.path)}
               >
                 {item.label}
