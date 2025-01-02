@@ -11,7 +11,6 @@ const NoticeTab = () => {
   const [institutes, setInstitutes] = useState([]);
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({});
-  const allowedRoles = ["HOE", "Trustee", "Participant", "Coordinator", "Volunteer"];
 
   useEffect(() => {
     // Fetch user data from localStorage
@@ -97,12 +96,14 @@ const NoticeTab = () => {
     );
   });
 
+  const allowedRolesForButtons = ["HOE", "Trustee", "Coordinator", "Volunteer"];
+
   return (
     <div className="bg-gray-200 h-full">
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="flex flex-row justify-between mb-2">
           <h2 className="text-2xl font-bold mb-2">Notices</h2>
-          {allowedRoles.includes(user.role) && (
+          {allowedRolesForButtons.includes(user.role) && (
             <button
               onClick={handleNoticeButtonClick}
               className="flex gap-2 text-white px-6 py-2 rounded-lg bg-gradient-to-r from-red-500 to-red-700 hover:from-red-700 hover:to-red-900 transition-colors"
@@ -144,7 +145,11 @@ const NoticeTab = () => {
                   ...notice,
                   instituteName: getInstituteNameById(notice.instituteId), // Pass instituteName to the card
                 }}
-                onEdit={handleEditNotice}
+                onEdit={
+                  allowedRolesForButtons.includes(user.role)
+                    ? handleEditNotice
+                    : null
+                }
               />
             ))}
         </div>
