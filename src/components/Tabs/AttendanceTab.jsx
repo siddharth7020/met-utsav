@@ -10,6 +10,7 @@ const AttendanceTab = () => {
   const [selectedInstitute, setSelectedInstitute] = useState("");
   const [allSelected, setAllSelected] = useState(false);
   const [searchQuery, setSearchQuery] = useState(""); // State to store search query
+  const [selectedDate, setSelectedDate] = useState(""); // State to store the selected date
 
   // Fetch data for institutes, roles, and users
   useEffect(() => {
@@ -20,11 +21,16 @@ const AttendanceTab = () => {
           axios.get("http://utsav.hello.met.edu/api/auth/allusers"),
         ]);
         setInstitutes(instituteRes.data);
-        setUserData(userRes.data);
-        setFilteredData(userRes.data);
+
+        // Filter the users to include only "Volunteer" and "Participant"
+        const filteredUsers = userRes.data.filter(
+          (user) => user.role === "Volunteer" || user.role === "Participant"
+        );
+        setUserData(filteredUsers);
+        setFilteredData(filteredUsers);
 
         // Initialize attendance state
-        const initialAttendance = userRes.data.reduce((acc, user) => {
+        const initialAttendance = filteredUsers.reduce((acc, user) => {
           acc[user.id] = false;
           return acc;
         }, {});
@@ -43,8 +49,6 @@ const AttendanceTab = () => {
     filterData(value, searchQuery);
   };
 
-  
-
   // Handle search query change
   const handleSearchChange = (e) => {
     const query = e.target.value;
@@ -52,12 +56,11 @@ const AttendanceTab = () => {
     filterData(selectedInstitute, query);
   };
 
-  // Filter data based on Institute, Role, and Search query
-  const filterData = (institute, role, query) => {
+  // Filter data based on Institute and Search query
+  const filterData = (institute, query) => {
     let filtered = userData;
 
     if (institute) filtered = filtered.filter((user) => user.instituteName === institute);
-    if (role) filtered = filtered.filter((user) => user.role === role);
 
     if (query) {
       filtered = filtered.filter((user) =>
@@ -94,23 +97,48 @@ const AttendanceTab = () => {
   };
 
   // Save attendance data
-  const handleSaveAttendance = async () => {
-    try {
-      const selectedUsers = Object.entries(attendance)
-        .filter(([isSelected]) => isSelected)
-        .map(([id]) => ({
-          userId: parseInt(id),
-          date: new Date().toISOString().split("T")[0],
-          status: "present",
-        }));
+  // Save attendance data
+const handleSaveAttendance = async () => {
+  try {
+    // Retrieve user data from local storage (assuming the user data is stored as a JSON string)
+    // const user = JSON.parse(localStorage.getItem("user"));
 
-      await axios.post("http://utsav.hello.met.edu/api/attendance", selectedUsers);
-      alert("Attendance saved successfully!");
-    } catch (error) {
-      console.error("Error saving attendance:", error);
-      alert("Failed to save attendance.");
+    // Combine firstName and lastName to create full name
+    // const addedBy = `${user.firstName} ${user.lastName}`;
+
+    // Create the attendance payload
+    const selectedUsers = Object.entries(attendance).map(([id, isSelected]) => ({
+      userId: parseInt(id),
+      date: selectedDate, // Save the selected date
+      status: isSelected ? "present" : "absent", // Mark "present" or "absent" based on the checkbox
+      addby: "addedBy", // Add the combined name in addBy field
+    }));
+
+    // Log the payload to verify it's correct
+    console.log("Attendance Payload:", selectedUsers);
+
+    const response = await axios.post("http://localhost:5500/api/attendance", selectedUsers);
+
+    // Check the response
+    console.log("API Response:", response);
+
+    alert("Attendance saved successfully!");
+  } catch (error) {
+    console.error("Error saving attendance:", error);
+
+    // Log the full error response
+    if (error.response) {
+      console.error("Error Response:", error.response.data);
+    } else {
+      console.error("Error Message:", error.message);
     }
-  };
+
+    alert("Failed to save attendance.");
+  }
+};
+
+  // console.log(handleSaveAttendance);
+  
 
   // Prepare data for the table
   const tableData = filteredData.map((user) => ({
@@ -158,7 +186,19 @@ const AttendanceTab = () => {
             ))}
           </select>
         </div>
-
+        {/* Date Picker */}
+        <div>
+          <label htmlFor="date" className="block text-gray-700 mb-2">
+            Select Date
+          </label>
+          <input
+            type="date"
+            id="date"
+            value={selectedDate}
+            onChange={(e) => setSelectedDate(e.target.value)}
+            className="w-full p-2 bg-gray-100 rounded-md"
+          />
+        </div>
       </div>
 
       {/* Table */}
@@ -187,7 +227,7 @@ const AttendanceTab = () => {
           { field: "pg_class", header: "Year" },
         ]}
         data={tableData}
-        onEdit={() => { }}
+        onEdit={() => {}}
         onSave={handleSaveAttendance}
       />
     </div>
