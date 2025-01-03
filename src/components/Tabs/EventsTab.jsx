@@ -107,7 +107,7 @@ const EventsTab = () => {
           </div>
 
           {/* Categories Section */}
-          <div className="flex flex-wrap gap-6 mt-8">
+          {/* <div className="flex flex-wrap gap-6 mt-8">
             <h1 className="text-lg sm:text-xl font-semibold text-gray-800 mb-4">Categories:</h1>
             {categories.map((category) => (
               <span
@@ -117,7 +117,7 @@ const EventsTab = () => {
                 {category.name}
               </span>
             ))}
-          </div>
+          </div> */}
 
           {/* Loading State */}
           {loading && <OvelLoader />}
