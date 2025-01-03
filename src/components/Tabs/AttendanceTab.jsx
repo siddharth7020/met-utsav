@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Table from "../Common/AtdTable"; // Adjust the path based on your project structure
+import Swal from "sweetalert2";
+
 
 const AttendanceTab = () => {
   const [institutes, setInstitutes] = useState([]);
@@ -11,21 +13,42 @@ const AttendanceTab = () => {
   const [allSelected, setAllSelected] = useState(false);
   const [searchQuery, setSearchQuery] = useState(""); // State to store search query
   const [selectedDate, setSelectedDate] = useState(""); // State to store the selected date
+  const [isAttendanceTaken, setIsAttendanceTaken] = useState(false);
 
   // Fetch data for institutes, roles, and users
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // Fetch logged-in user data from localStorage
+        const loggedInUser = JSON.parse(localStorage.getItem("user"));
+        if (!loggedInUser) {
+          alert("User not logged in!");
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "User not logged in!",
+          });
+          return;
+        }
+
         const [instituteRes, userRes] = await Promise.all([
           axios.get("http://utsav.hello.met.edu/api/institutes/"),
           axios.get("http://utsav.hello.met.edu/api/auth/allusers"),
         ]);
+
         setInstitutes(instituteRes.data);
 
-        // Filter the users to include only "Volunteer" and "Participant"
-        const filteredUsers = userRes.data.filter(
+        // Filter users based on logged-in user role and institute
+        let filteredUsers = userRes.data.filter(
           (user) => user.role === "Volunteer" || user.role === "Participant"
         );
+
+        if (loggedInUser.role === "Volunteer" || loggedInUser.role === "Coordinator") {
+          filteredUsers = filteredUsers.filter(
+            (user) => user.instituteId === loggedInUser.instituteId
+          );
+        }
+
         setUserData(filteredUsers);
         setFilteredData(filteredUsers);
 
@@ -42,6 +65,8 @@ const AttendanceTab = () => {
     fetchData();
   }, []);
 
+
+
   // Handle Institute filter
   const handleInstituteChange = (e) => {
     const value = e.target.value;
@@ -57,10 +82,16 @@ const AttendanceTab = () => {
   };
 
   // Filter data based on Institute and Search query
+  // Filter data based on Institute and Search query
   const filterData = (institute, query) => {
     let filtered = userData;
 
-    if (institute) filtered = filtered.filter((user) => user.instituteName === institute);
+    if (institute) {
+      filtered = filtered.filter((user) => {
+        const instituteDetail = institutes.find((inst) => inst.name === institute);
+        return instituteDetail && user.instituteId === instituteDetail.id;
+      });
+    }
 
     if (query) {
       filtered = filtered.filter((user) =>
@@ -68,15 +99,10 @@ const AttendanceTab = () => {
       );
     }
 
+    console.log("Filtered Data:", filtered);
     setFilteredData(filtered);
-
-    // Update attendance state for filtered data
-    const updatedAttendance = {};
-    filtered.forEach((user) => {
-      updatedAttendance[user.id] = attendance[user.id] || false;
-    });
-    setAttendance(updatedAttendance);
   };
+
 
   // Toggle "Select All" attendance
   const handleSelectAll = () => {
@@ -96,49 +122,167 @@ const AttendanceTab = () => {
     }));
   };
 
-  // Save attendance data
-  // Save attendance data
-const handleSaveAttendance = async () => {
-  try {
-    // Retrieve user data from local storage (assuming the user data is stored as a JSON string)
-    // const user = JSON.parse(localStorage.getItem("user"));
+  // Fetch attendance for selected date and institute
+  const checkAttendance = async (date, displayAttendanceCallback) => {
+    console.log("Date Selected:", date);
+  
+    try {
+      const loggedInUser = JSON.parse(localStorage.getItem("user"));
+  
+      if (!loggedInUser) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "User not logged in!",
+        });
+        return false;
+      }
+  
+      const response = await axios.get("http://localhost:5500/api/attendance", {
+        params: {
+          instituteId: loggedInUser.instituteId,
+        },
+      });
+  
+      const attendanceData = response.data.attendanceRecords;
+      console.log("Full Attendance Data:", attendanceData);
+  
+      // Ensure date format consistency
+      const formatDate = (inputDate) => {
+        const dateObj = new Date(inputDate);
+        return dateObj.toISOString().split("T")[0];
+      };
+  
+      const formattedSelectedDate = formatDate(date);
+      console.log("Formatted Selected Date:", formattedSelectedDate);
+  
+      // Filter attendance for the selected date
+      const filteredAttendance = attendanceData.filter(
+        (record) => formatDate(record.date) === formattedSelectedDate
+      );
+  
+      console.log("Filtered Attendance:", filteredAttendance);
+  
+      if (filteredAttendance.length > 0) {
+        if (typeof displayAttendanceCallback === "function") {
+          displayAttendanceCallback(filteredAttendance);
+        }
+  
+        // Disable checkboxes
+        const checkboxes = document.querySelectorAll("input[type='checkbox']");
+        checkboxes.forEach((checkbox) => {
+          checkbox.disabled = true;
+        });
+  
+        return true;
+      } else {
+        // Enable checkboxes if no attendance is found
+        const checkboxes = document.querySelectorAll("input[type='checkbox']");
+        checkboxes.forEach((checkbox) => {
+          checkbox.disabled = false;
+        });
+  
+        Swal.fire({
+          icon: "info",
+          title: "No Attendance",
+          text: "No attendance records found for the selected date. You can mark attendance now.",
+        });
+  
+        return false;
+      }
+    } catch (error) {
+      console.error("Error fetching attendance data:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Failed to fetch attendance data. Please try again later.",
+      });
+      return false;
+    }
+  };
+  
+  
 
-    // Combine firstName and lastName to create full name
-    // const addedBy = `${user.firstName} ${user.lastName}`;
+  const handleDateChange = async (e) => {
+    const date = e.target.value;
+    setSelectedDate(date);
 
-    // Create the attendance payload
-    const selectedUsers = Object.entries(attendance).map(([id, isSelected]) => ({
-      userId: parseInt(id),
-      date: selectedDate, // Save the selected date
-      status: isSelected ? "present" : "absent", // Mark "present" or "absent" based on the checkbox
-      addby: "addedBy", // Add the combined name in addBy field
-    }));
+    if (!date) return;
 
-    // Log the payload to verify it's correct
-    console.log("Attendance Payload:", selectedUsers);
+    const alreadyTaken = await checkAttendance(date);
 
-    const response = await axios.post("http://localhost:5500/api/attendance", selectedUsers);
+    console.log("Attendance Taken:", alreadyTaken);
+    console.log("Filtered Data After Attendance Check:", filteredData);
 
-    // Check the response
-    console.log("API Response:", response);
-
-    alert("Attendance saved successfully!");
-  } catch (error) {
-    console.error("Error saving attendance:", error);
-
-    // Log the full error response
-    if (error.response) {
-      console.error("Error Response:", error.response.data);
+    if (alreadyTaken) {
+      const presentUsers = userData.filter((user) =>
+        Object.keys(attendance).includes(user.id.toString())
+      );
+      console.log("Present Users:", presentUsers);
+      setFilteredData(presentUsers);
     } else {
-      console.error("Error Message:", error.message);
+      filterData(selectedInstitute, searchQuery); // Reset data
     }
 
-    alert("Failed to save attendance.");
-  }
-};
+    setIsAttendanceTaken(alreadyTaken); // Update button state
+  };
+
+
+
+  // Save attendance data
+  const handleSaveAttendance = async () => {
+    try {
+      // Retrieve user data from local storage (assuming the user data is stored as a JSON string)
+      const user = JSON.parse(localStorage.getItem("user"));
+
+      // Combine firstName and lastName to create full name
+      const addedBy = `${user.firstName} ${user.lastName}`;
+
+
+      // Create the attendance payload
+      const selectedUsers = Object.entries(attendance).map(([id, isSelected]) => ({
+        userId: parseInt(id),
+        instituteId: user.instituteId,
+        date: selectedDate, // Save the selected date
+        status: isSelected ? "present" : "absent", // Mark "present" or "absent" based on the checkbox
+        addby: addedBy, // Add the combined name in addBy field
+      }));
+
+      // Log the payload to verify it's correct
+      console.log("Attendance Payload:", selectedUsers);
+
+      const response = await axios.post("http://localhost:5500/api/attendance", selectedUsers);
+
+      // Check the response
+      console.log("API Response:", response);
+
+      // alert("Attendance saved successfully!");
+      Swal.fire({
+        icon: "success",
+        title: "Success",
+        text: "Attendance saved successfully!",
+      });
+    } catch (error) {
+      console.error("Error saving attendance:", error);
+
+      // Log the full error response
+      if (error.response) {
+        console.error("Error Response:", error.response.data);
+      } else {
+        console.error("Error Message:", error.message);
+      }
+
+      // alert("Failed to save attendance.");
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Attendance already taken!",
+      });
+    }
+  };
 
   // console.log(handleSaveAttendance);
-  
+
 
   // Prepare data for the table
   const tableData = filteredData.map((user) => ({
@@ -146,7 +290,9 @@ const handleSaveAttendance = async () => {
     name: `${user.firstName} ${user.lastName}`,
     instituteName: institutes.find((inst) => inst.id === user.instituteId)?.name || "",
     rollNo: user.rollNo || "N/A", // Fallback if rollNo is missing
-    pg_class: user.pg_class || "N/A", 
+    // if attendance already taken then show Status column
+    status: isAttendanceTaken ? (attendance[user.id] ? "present" : "absent") : "",
+    pg_class: user.pg_class || "N/A",
   }));
 
   return (
@@ -195,7 +341,7 @@ const handleSaveAttendance = async () => {
             type="date"
             id="date"
             value={selectedDate}
-            onChange={(e) => setSelectedDate(e.target.value)}
+            onChange={handleDateChange}
             className="w-full p-2 bg-gray-100 rounded-md"
           />
         </div>
@@ -224,12 +370,21 @@ const handleSaveAttendance = async () => {
           { field: "name", header: "Name" },
           { field: "rollNo", header: "Roll No." },
           { field: "instituteName", header: "Institute" },
+          { field: "status", header: "Status" },
           { field: "pg_class", header: "Year" },
         ]}
         data={tableData}
-        onEdit={() => {}}
-        onSave={handleSaveAttendance}
       />
+      <button
+        onClick={handleSaveAttendance}
+        disabled={isAttendanceTaken}
+        className={`mt-4 p-2 rounded-md ${isAttendanceTaken
+          ? "bg-gray-400 cursor-not-allowed"
+          : "bg-red-500 text-white hover:bg-blue-600"
+          }`}
+      >
+        {isAttendanceTaken ? "Already Taken" : "Save Attendance"}
+      </button>
     </div>
   );
 };
