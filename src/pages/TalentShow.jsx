@@ -25,10 +25,11 @@ const TalentShow = () => {
                 <div className="container px-6 py-16 mx-auto text-center">
                     <div className="max-w-lg mx-auto">
                         <h1 className="text-3xl font-semibold text-white   lg:text-4xl">
-                            Building Your Next App with our Awesome components
+                            Talent Show
                         </h1>
-                        <p className="mt-6 text-gray-500 dark:text-gray-300">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Libero similique
-                            obcaecati illum mollitia.</p>
+                        <p className="mt-6 text-gray-500 dark:text-gray-300">
+                            A talent show highlights diverse skills like singing, dancing, and acting. It celebrates creativity, boosts confidence, and provides a platform for participants to showcase their abilities.
+                        </p>
                     </div>
 
                     <div className="flex justify-center mt-10">
