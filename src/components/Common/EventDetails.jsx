@@ -26,18 +26,39 @@ const EventDetails = () => {
   const categoryName = event.Category.name;
 
 
-  const date = new Date(event.date);
-  const formattedDateTime = date.toLocaleString("en-US", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  });
+  let formattedDate = 'Invalid Date';
+        try {
+          const date = new Date(event.date);
+          if (!isNaN(date)) {
+            formattedDate = date.toLocaleDateString('en-GB', {
+              day: '2-digit',
+              month: 'short',
+              year: 'numeric',
+            }); // DD/MMM/YYYY format
+          }
+        } catch {
+          console.error(`Invalid date for event ID ${event.id}:`, event.date);
+        }
+      
+        const formatTime = (time) => {
+          const [hour, minute] = time.split(':');
+          const date = new Date();
+          date.setHours(hour);
+          date.setMinutes(minute);
+      
+          const options = { hour: 'numeric', minute: '2-digit', hour12: true };
+          return new Intl.DateTimeFormat('en-US', options).format(date);
+        };
+      
+        const fromTimeFormatted = formatTime(event.fromTime);
+        const formattedTimeRange = `${fromTimeFormatted} Onwards`;
+  
 
   useEffect(() => {
     const checkRegistrationStatus = async () => {
       try {
         const response = await axios.get(
-          `http://utsav.hello.met.edu/api/userevents/user/${userId}/event/${eventId}`,
+          `https://utsav.met.edu/api/userevents/user/${userId}/event/${eventId}`,
           {
             timeout: 10000, // 10 seconds
           }
@@ -74,7 +95,7 @@ const EventDetails = () => {
     };
 
     try {
-      await axios.post("http://utsav.hello.met.edu/api/userevents", payload);
+      await axios.post("https://utsav.met.edu/api/userevents", payload);
       Swal.fire({
         icon: "success",
         title: "Registration successful!",
@@ -123,10 +144,10 @@ const EventDetails = () => {
               {/* Date and Time */}
               <div className="mb-4">
                 <p className="text-center text-gray-700">
-                  <span className="font-medium">Date:</span> {formattedDateTime}
+                  <span className="font-medium">Audition Date:</span> {formattedDate}
                 </p>
                 <p className="text-center text-gray-700">
-                  <span className="font-medium">Time:</span> {event.fromTime} - {event.toTime}
+                  <span className="font-medium">Time:</span> {formattedTimeRange}
                 </p>
               </div>
 

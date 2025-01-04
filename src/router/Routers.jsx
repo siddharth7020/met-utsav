@@ -14,10 +14,12 @@ import EventDeatils from '../components/Common/EventDetails';
 import TalentShow from '../pages/TalentShow';
 import Report from '../pages/Report';
 import UserEventsTable from '../pages/UserEvents';
+import ScrollToTop from '../components/Common/ScrollToTop';
 
 const Routers = () => {
   return (
     <Router>
+      <ScrollToTop />
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegistrationPage />} />

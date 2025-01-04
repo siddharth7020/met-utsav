@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import EventsCard from "../components/Common/EventCard"
 import axios from "axios";
 import Photo1 from "../assets/MET-USTAV/talentshow.jpg";
+import Photo2 from "../assets/MET-USTAV/tlshow.jpg";
 
 const TalentShow = () => {
     const [events, setEvents] = useState([]);
 
     useEffect(() => {
         axios
-            .get('http://utsav.hello.met.edu/api/events')
+            .get('https://utsav.met.edu/api/events')
             .then((response) => {
                 const filteredEvents = response.data.filter(event => event.categoryId === event.Category.id && event.Category.name === 'Talent Show');
                 console.log(filteredEvents);
@@ -21,14 +22,14 @@ const TalentShow = () => {
 
     return (
         <div>
-            <section className="bg-white dark:bg-gray-900">
+            <section className="bg-gray-900">
                 <div className="container px-6 py-16 mx-auto text-center">
                     <div className="max-w-lg mx-auto">
                         <h1 className="text-3xl font-semibold text-white   lg:text-4xl">
                             Talent Show
                         </h1>
                         <p className="mt-6 text-gray-500 dark:text-gray-300">
-                            A talent show highlights diverse skills like singing, dancing, and acting. It celebrates creativity, boosts confidence, and provides a platform for participants to showcase their abilities.
+                            Be ready to shine and showcase your unique talents. Whether you sing, dance, act, or have a skill that amazes the crowd, this is your moment to step into the spotlight!
                         </p>
                     </div>
 
@@ -123,7 +124,7 @@ const TalentShow = () => {
                         </div>
 
                         <div className="hidden lg:flex lg:items-center lg:w-1/2 lg:justify-center">
-                            <img className="w-[28rem] h-[28rem] object-cover xl:w-[34rem] xl:h-[34rem] " src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=755&q=80" alt="" />
+                            <img className="w-[28rem] h-[28rem] object-cover xl:w-[34rem] xl:h-[34rem] rounded-2xl " src={Photo2} alt="" />
                         </div>
                     </div>
 

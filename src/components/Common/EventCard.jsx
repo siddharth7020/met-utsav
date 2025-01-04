@@ -8,35 +8,33 @@ const EventsCard = ({ events }) => {
   return (
     <div className="flex flex-wrap gap-4 justify-center">
       {events.map((event) => {
-        let formattedDateTime = 'Invalid Date';
+        let formattedDate = 'Invalid Date';
         try {
           const date = new Date(event.date);
-          console.log('date', date);
-
           if (!isNaN(date)) {
-            formattedDateTime = date.toLocaleString('en-US', {
-              year: "numeric",
-              month: "2-digit",
-              day: "2-digit",
-            });
+            formattedDate = date.toLocaleDateString('en-GB', {
+              day: '2-digit',
+              month: 'short',
+              year: 'numeric',
+            }); // DD/MMM/YYYY format
           }
         } catch {
           console.error(`Invalid date for event ID ${event.id}:`, event.date);
         }
-
+      
         const formatTime = (time) => {
           const [hour, minute] = time.split(':');
           const date = new Date();
           date.setHours(hour);
           date.setMinutes(minute);
-        
+      
           const options = { hour: 'numeric', minute: '2-digit', hour12: true };
           return new Intl.DateTimeFormat('en-US', options).format(date);
         };
-        
+      
         const fromTimeFormatted = formatTime(event.fromTime);
-        const toTimeFormatted = formatTime(event.toTime);   
-        const formattedTimeRange = `${fromTimeFormatted} to ${toTimeFormatted}`;
+        const formattedTimeRange = `${fromTimeFormatted} Onwards`;
+      
 
 
 
@@ -60,14 +58,21 @@ const EventsCard = ({ events }) => {
               </a>
               <div className="space-y-1">
                 <p className="font-medium text-gray-700">
-                  <span className="text-gray-500">Date:</span> {formattedDateTime}, {formattedTimeRange}
+                  <span className="text-gray-500">Audition Date:</span> {formattedDate}, {formattedTimeRange}
                 </p>
                 <p className="font-medium text-gray-700">
                   <span className="text-gray-500">Location:</span> {event.location}
                 </p>
               </div>
               <button
-                onClick={() => navigate('/eventsdeatils', { state: { event } })}
+                onClick={() => {
+                  const isLoggedIn = !!localStorage.getItem('authToken'); // Assuming 'authToken' is used for login
+                  if (isLoggedIn) {
+                    navigate('/eventsdeatils', { state: { event } });
+                  } else {
+                    navigate('/login', { state: { redirectTo: '/eventsdeatils', event } });
+                  }
+                }}
                 className="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors duration-200"
               >
                 Read more

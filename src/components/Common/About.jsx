@@ -24,14 +24,10 @@ const About = () => {
                                 </h2>
                                 <p
                                     className="text-gray-500 text-base font-normal leading-relaxed lg:text-start text-center">
-                                    MET Utsav, the Grand Annual Cultural and Sports Fest of the Mumbai Educational Trust
-                                    (MET) returns with a bang! Amidst the uncertainty, let us resolve to be optimistic,
-                                    having a positive outlook at life. Thus, the theme for MET Utsav 2025 is All is
-                                    Well.
-                                    So lets gear up for fun and enthusiasm.
+                                    The Mega Annual Cultural and Sports Fest of the Mumbai Educational Trust (MET) returns with a bang! The theme for MET Utsav 2025 is Sanskruti. Let's gear up for fun and enthusiasm.
                                 </p>
                             </div>
-                            <div
+                            {/* <div
                                 className="w-full lg:justify-start justify-center items-center sm:gap-10 gap-5 inline-flex">
                                 <div className="flex-col justify-start items-start inline-flex">
                                     <h3 className="text-gray-900 text-4xl font-bold font-manrope leading-normal">33+</h3>
@@ -47,12 +43,12 @@ const About = () => {
                                     <h4 className="text-gray-900 text-4xl font-bold font-manrope leading-normal">52+</h4>
                                     <h6 className="text-gray-500 text-base font-normal leading-relaxed">Happy Clients</h6>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
-                        <button
+                        {/* <button
                             className="sm:w-fit w-full px-3.5 py-2 bg-gradient-to-r from-red-500 to-red-700 hover:from-red-700 hover:to-red-900 transition-all duration-700 ease-in-out rounded-lg shadow-[0px_1px_2px_0px_rgba(16,_24,_40,_0.05)] justify-center items-center flex">
                             <span className="px-1.5 text-white text-sm font-medium leading-6">Read More</span>
-                        </button>
+                        </button> */}
                     </div>
                 </div>
             </div>

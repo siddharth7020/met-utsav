@@ -26,13 +26,13 @@ const EventsTab = () => {
   useEffect(() => {
     // Fetch all events
     axios
-      .get("http://utsav.hello.met.edu/api/events")
+      .get("https://utsav.met.edu/api/events")
       .then((response) => setEvents(response.data))
       .catch((error) => console.error("Error fetching events:", error));
 
     // Fetch all categories
     axios
-      .get("http://utsav.hello.met.edu/api/categories")
+      .get("https://utsav.met.edu/api/categories")
       .then((response) => setCategories(response.data))
       .catch((error) => console.error("Error fetching categories:", error));
   }, []);
@@ -45,7 +45,7 @@ const EventsTab = () => {
       eventData.append("addBy", currentUser);
 
       const response = await axios.post(
-        "http://utsav.hello.met.edu/api/events",
+        "https://utsav.met.edu/api/events",
         eventData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -164,7 +164,7 @@ const CategoryForm = ({ setShowCategoryForm, setLoading }) => {
     setLoading(true);
     const currentUser = "logged-in-user"; // Replace with actual user from auth context
     try {
-      const response = await fetch('http://utsav.hello.met.edu/api/categories', {
+      const response = await fetch('https://utsav.met.edu/api/categories', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, addBy: currentUser }),

@@ -36,7 +36,7 @@ const Table = ({ columns, data, roles }) => {
     setTimeout(() => setLoading(false), 2000);
     try {
       // Send API request to update role and category
-      await axios.put(`http://utsav.hello.met.edu/api/auth/${rowId}`, {
+      await axios.put(`https://utsav.met.edu/api/auth/${rowId}`, {
         role: updatedData.role
       });
      const updatedRow = data.find((row) => row.id === rowId);

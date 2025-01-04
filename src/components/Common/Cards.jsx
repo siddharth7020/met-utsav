@@ -94,7 +94,7 @@ const Cards = ({ events = [] }) => {
             </div>
             <p className="text-gray-700 mb-2"><strong>Date:</strong> {new Date(selectedEvent.date).toLocaleDateString()}</p>
             <p className="text-gray-700 mb-4"><strong>Category:</strong> {selectedEvent.description}</p>
-            <img src={`http://utsav.hello.met.edu${selectedEvent.poster}`} alt={selectedEvent.name} className="w-full h-64 object-cover rounded-lg mb-4" />
+            <img src={`https://utsav.met.edu${selectedEvent.poster}`} alt={selectedEvent.name} className="w-full h-64 object-cover rounded-lg mb-4" />
             <button
               onClick={handleCloseModal}
               className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-800 transition"

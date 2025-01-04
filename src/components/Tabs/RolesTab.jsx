@@ -17,15 +17,15 @@ const RolesTab = () => {
 
   useEffect(() => {
     // Fetch Users, Categories, and Roles
-    axios.get("http://utsav.hello.met.edu/api/auth/allusers")
+    axios.get("https://utsav.met.edu/api/auth/allusers")
       .then(response => setUsers(response.data))
       .catch(error => console.error("Error fetching users:", error));
 
-    axios.get("http://utsav.hello.met.edu/api/institutes/")
+    axios.get("https://utsav.met.edu/api/institutes/")
       .then(response => setInstitutes(response.data))
       .catch(error => console.error("Error fetching institutes:", error));
 
-    axios.get("http://utsav.hello.met.edu/api/roles/")
+    axios.get("https://utsav.met.edu/api/roles/")
       .then(response => setRoles(response.data))
       .catch(error => console.error("Error fetching roles:", error));
   }, []);

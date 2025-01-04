@@ -25,7 +25,7 @@ const RegistrationPage = () => {
   useEffect(() => {
     const fetchInstitutes = async () => {
       try {
-        const response = await fetch("http://utsav.hello.met.edu/api/institutes/");
+        const response = await fetch("https://utsav.met.edu/api/institutes/");
         const data = await response.json();
         setInstitutes(data);
       } catch (error) {
@@ -57,7 +57,7 @@ const RegistrationPage = () => {
       // categoryId: parseInt(selectCategory),
     };
     try {
-      const response = await fetch("http://utsav.hello.met.edu/api/auth/register", {
+      const response = await fetch("https://utsav.met.edu/api/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -160,6 +160,7 @@ const RegistrationPage = () => {
                 <option value="Secondyear">Second year</option>
                 <option value="Thirdyear">Third year</option>
                 <option value="Fourthyear">Fourth year</option>
+                <option value="Staff">Staff</option>
               </select>
 
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import METLOGO from "../../assets/logo.png";
+import METLOGO from "/metlogo.jpg";
 import { useAuth } from "../../context/AuthContext";
 
 const Navbar = () => {
@@ -52,10 +52,10 @@ const Navbar = () => {
         {/* Desktop Menu */}
         <ul className="hidden lg:flex lg:mx-auto lg:flex lg:items-center lg:w-auto lg:space-x-6">
           {filteredMenuItems.map((item) => (
-            <li className="flex gap-2" key={item.label}>
+            <li className="flex gap-2 " key={item.label}>
               <a
-                className={`text-sm ${window.location.pathname === item.path ? "text-red-600 hover:text-black font-bold" : "text-gray-400"
-                  } hover:text-black font-bold`}
+                className={`text-sm ${window.location.pathname === item.path ? "text-red-600 hover:text-black font-bold" : "text-gray-400  "
+                  } hover:text-black font-bold focus:cursor-auto`}
                 onClick={() => navigate(item.path)}
               >
                 {item.label}
@@ -98,7 +98,7 @@ const Navbar = () => {
                 {filteredMenuItems.map((item) => (
                   <li key={item.label}>
                     <a
-                      className="block p-4 text-sm font-semibold text-red-500 hover:bg-red-100 hover:text-red-600 rounded"
+                      className="block p-4 text-sm font-semibold text-red-500 hover:bg-red-100 hover:text-red-600 rounded focus:cursor-auto"
                       onClick={() => {
                         navigate(item.path);
                         setMenuOpen(false); // Close the menu after navigation

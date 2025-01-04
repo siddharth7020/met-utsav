@@ -21,7 +21,7 @@ const ForgetPasswordPage = () => {
     }
 
     try {
-      const response = await axios.get(`http://utsav.hello.met.edu/api/auth/allusers`);
+      const response = await axios.get(`https://utsav.met.edu/api/auth/allusers`);
       const users = response.data;
       const user = users.find((user) => user.email === email);
       if (!user) {
@@ -30,7 +30,7 @@ const ForgetPasswordPage = () => {
       }
 
       const userId = user.id;
-      await axios.put(`http://utsav.hello.met.edu/api/auth/${userId}`, {
+      await axios.put(`https://utsav.met.edu/api/auth/${userId}`, {
         password: newPin,
       });
       navigate("/login");

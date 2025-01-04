@@ -32,8 +32,8 @@ const AttendanceTab = () => {
         }
 
         const [instituteRes, userRes] = await Promise.all([
-          axios.get("http://utsav.hello.met.edu/api/institutes/"),
-          axios.get("http://utsav.hello.met.edu/api/auth/allusers"),
+          axios.get("https://utsav.met.edu/api/institutes/"),
+          axios.get("https://utsav.met.edu/api/auth/allusers"),
         ]);
 
         setInstitutes(instituteRes.data);
@@ -138,7 +138,7 @@ const AttendanceTab = () => {
         return false;
       }
   
-      const response = await axios.get("http://localhost:5500/api/attendance", {
+      const response = await axios.get("https://utsav.met.edu/api/attendance", {
         params: {
           instituteId: loggedInUser.instituteId,
         },
@@ -251,7 +251,7 @@ const AttendanceTab = () => {
       // Log the payload to verify it's correct
       console.log("Attendance Payload:", selectedUsers);
 
-      const response = await axios.post("http://localhost:5500/api/attendance", selectedUsers);
+      const response = await axios.post("https://utsav.met.edu/api/attendance", selectedUsers);
 
       // Check the response
       console.log("API Response:", response);

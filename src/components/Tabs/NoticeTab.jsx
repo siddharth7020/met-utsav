@@ -32,7 +32,7 @@ const NoticeTab = () => {
   useEffect(() => {
     const fetchInstitutes = async () => {
       try {
-        const response = await axios.get("http://utsav.hello.met.edu/api/institutes/");
+        const response = await axios.get("https://utsav.met.edu/api/institutes/");
         setInstitutes(response.data);
       } catch (error) {
         console.error("Error fetching institutes:", error);
@@ -45,7 +45,7 @@ const NoticeTab = () => {
   useEffect(() => {
     const fetchNotices = async () => {
       try {
-        const response = await axios.get("http://utsav.hello.met.edu/api/notice");
+        const response = await axios.get("https://utsav.met.edu/api/notice");
         const data = response.data;
         setNotices(data);
       } catch (error) {

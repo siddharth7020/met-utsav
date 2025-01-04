@@ -20,7 +20,7 @@ const NoticeForm = ({ setShowNoticeForm, initialData, onFormSubmit,setLoading })
   useEffect(() => {
     const fetchInstitutes = async () => {
       try {
-        const response = await fetch("http://utsav.hello.met.edu/api/institutes/");
+        const response = await fetch("https://utsav.met.edu/api/institutes/");
         if (response.ok) {
           const data = await response.json();
           setInstitutes(data);
@@ -51,8 +51,8 @@ const NoticeForm = ({ setShowNoticeForm, initialData, onFormSubmit,setLoading })
     setIsSubmitting(true);
     try {
       const url = initialData
-        ? `http://utsav.hello.met.edu/api/notice/${initialData.id}`
-        : "http://utsav.hello.met.edu/api/notice/add";
+        ? `https://utsav.met.edu/api/notice/${initialData.id}`
+        : "https://utsav.met.edu/api/notice/add";
 
       const method = initialData ? "PUT" : "POST";
 

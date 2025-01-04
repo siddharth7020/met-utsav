@@ -12,7 +12,7 @@ const UserEventsTable = () => {
 
   useEffect(() => {
     // Fetch user events
-    axios.get('http://utsav.hello.met.edu/api/userevents/')
+    axios.get('https://utsav.met.edu/api/userevents/')
       .then(response => {
         setUserEvents(response.data);
         setFilteredEvents(response.data);
@@ -20,12 +20,12 @@ const UserEventsTable = () => {
       .catch(error => console.error('Error fetching user events:', error));
 
     // Fetch institutes
-    axios.get('http://utsav.hello.met.edu/api/institutes/')
+    axios.get('https://utsav.met.edu/api/institutes/')
       .then(response => setInstitutes(response.data))
       .catch(error => console.error('Error fetching institutes:', error));
 
     // Fetch categories
-    axios.get('http://utsav.hello.met.edu/api/categories/')
+    axios.get('https://utsav.met.edu/api/categories/')
       .then(response => setCategories(response.data))
       .catch(error => console.error('Error fetching categories:', error));
   }, []);
@@ -69,7 +69,7 @@ const UserEventsTable = () => {
 
   const handleStatusChange = (eventId, newStatus) => {
     // Update the status via API
-    axios.put(`http://utsav.hello.met.edu/api/userevents/${eventId}`, { status: newStatus })
+    axios.put(`https://utsav.met.edu/api/userevents/${eventId}`, { status: newStatus })
       .then(() => {
         // Update the local state with the new status
         setUserEvents(prevEvents =>
