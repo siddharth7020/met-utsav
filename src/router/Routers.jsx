@@ -15,6 +15,9 @@ import TalentShow from '../pages/TalentShow';
 import Report from '../pages/Report';
 import UserEventsTable from '../pages/UserEvents';
 import ScrollToTop from '../components/Common/ScrollToTop';
+import TotalRegistrationReport from '../pages/TotalRegistrationReport';
+import CreativityExihibition from '../pages/CreativityExihibition';
+import Competition from '../pages/Competition';
 
 const Routers = () => {
   return (
@@ -35,8 +38,10 @@ const Routers = () => {
           <Route path="roles" element={<RolesTab />} />
           <Route path="eventsdeatils" element={<EventDeatils />} />
           <Route path="talentshow" element={<TalentShow />} />
-          <Route path="talentshow" element={<TalentShow />} />
+          <Route path="creativityexhibition" element={<CreativityExihibition />} />
+          <Route path="competition" element={<Competition />} />
           <Route path="registeredparticipants" element={<UserEventsTable />} />
+          <Route path="totalregistrationsreport" element={<TotalRegistrationReport />} />
         </Route>
       </Routes>
     </Router>

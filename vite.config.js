@@ -3,6 +3,13 @@ import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
+  server: {
+    hmr: true, // Enables Hot Module Replacement
+  },
+  workbox: {
+    cleanupOutdatedCaches: true, // Clean up old caches
+    skipWaiting: true, // Skip waiting for new service worker
+  },
   plugins: [
     react(),
     VitePWA({

@@ -58,7 +58,7 @@ const EventsCard = ({ events }) => {
               </a>
               <div className="space-y-1">
                 <p className="font-medium text-gray-700">
-                  <span className="text-gray-500">Audition Date:</span> {formattedDate}, {formattedTimeRange}
+                  <span className="text-gray-500">Date:</span> {formattedDate}, {formattedTimeRange}
                 </p>
                 <p className="font-medium text-gray-700">
                   <span className="text-gray-500">Location:</span> {event.location}

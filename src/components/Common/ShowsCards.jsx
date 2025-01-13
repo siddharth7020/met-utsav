@@ -1,6 +1,7 @@
 import TALENTSHOW from '../../assets/MET-USTAV/talentshow.jpg'
 import WORKSHOP from '../../assets/MET-USTAV/workshop.jpg'
 import COMPETITION from '../../assets/MET-USTAV/competition.jpg'
+import Exhibition from "../../assets/MET-USTAV/creativityexhibition.jpeg";
 import { useNavigate } from 'react-router-dom';
 
 const ShowsCards = () => {
@@ -11,11 +12,11 @@ const ShowsCards = () => {
     console.log(role);
 
 
-    const handleClick = () => {
+    const handleClick = (destination) => {
         if (role === null) {
             navigate('/register');
         } else {
-            navigate('/talentshow');
+            navigate(destination);
         }
     };
 
@@ -40,7 +41,7 @@ const ShowsCards = () => {
                     </div>
                     <div className="flex items-center justify-between p-4">
                         <div className="flex items-center">
-                            <button className='bg-red-600 text-white px-4 py-2 rounded-md' onClick={handleClick}>
+                            <button className='bg-red-600 text-white px-4 py-2 rounded-md' onClick={() => handleClick('/talentshow')}>
                                 Register Here
                             </button>
                         </div>
@@ -61,13 +62,13 @@ const ShowsCards = () => {
                             WORKSHOP
                         </h6>
                         <p className="text-slate-600 leading-normal font-light">
-                        Learn, grow, and master new skills. Workshops are the perfect opportunity for you to gain hands-on experience, explore exciting concepts, and connect with experts who inspire.
+                            Learn, grow, and master new skills. Workshops are the perfect opportunity for you to gain hands-on experience, explore exciting concepts, and connect with experts who inspire.
                         </p>
                     </div>
                     <div className="flex items-center justify-between p-4">
                         <div className="flex items-center">
                             <button className='bg-gray-400 text-white px-4 py-2 rounded-md' >
-                                Comming Soon
+                                Coming Soon
                             </button>
                         </div>
                     </div>
@@ -86,13 +87,39 @@ const ShowsCards = () => {
                             COMPETITION
                         </h6>
                         <p className="text-slate-600 leading-normal font-light">
-                        Test your skills, challenge your limits, and showcase your talent. Participate in competitions to compete in a dynamic and engaging environment where determination take center stage.
+                            Test your skills, challenge your limits, and showcase your talent. Participate in competitions to compete in a dynamic and engaging environment where determination take center stage.
                         </p>
                     </div>
                     <div className="flex items-center justify-between p-4">
                         <div className="flex items-center">
-                            <button className='bg-gray-400 text-white px-4 py-2 rounded-md' >
-                                Comming Soon
+                            <button className='bg-gray-600 text-white px-4 py-2 rounded-md'  >
+                                Coming Soon
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                {/* 4 */}
+                <div className="relative flex flex-col bg-white shadow-sm border border-slate-200 rounded-lg w-full">
+                    <div className="relative m-2.5 overflow-hidden text-white rounded-md">
+                        <img src={Exhibition} alt="card-image" />
+                    </div>
+                    <div className="p-4">
+                        {/* <div className="mb-4 rounded-full bg-cyan-600 py-0.5 px-2.5 border border-transparent text-xs text-white transition-all shadow-sm w-20 text-center">
+                            POPULAR
+                        </div> */}
+                        <h6 className="mb-2 text-slate-800 text-xl font-semibold">
+                            Creativity Exhibition
+                        </h6>
+                        <p className="text-slate-600 leading-normal font-light">
+                        The Creativity Exhibition at MET Utsav showcases the richness of Indian culture under the theme 
+                        "Sanskriti."
+                        </p>
+                    </div>
+                    <div className="flex items-center justify-between p-4">
+                        <div className="flex items-center">
+                            <button className='bg-red-600 text-white px-4 py-2 rounded-md' onClick={() => handleClick('/creativityexhibition')}>
+                                Register Here
                             </button>
                         </div>
                     </div>

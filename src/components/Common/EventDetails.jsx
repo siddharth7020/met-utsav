@@ -144,7 +144,7 @@ const EventDetails = () => {
               {/* Date and Time */}
               <div className="mb-4">
                 <p className="text-center text-gray-700">
-                  <span className="font-medium">Audition Date:</span> {formattedDate}
+                  <span className="font-medium">Date:</span> {formattedDate}
                 </p>
                 <p className="text-center text-gray-700">
                   <span className="font-medium">Time:</span> {formattedTimeRange}

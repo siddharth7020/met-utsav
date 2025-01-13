@@ -105,7 +105,7 @@ const RegistrationPage = () => {
       <div className="flex flex-col items-center justify-center h-screen">
 
         <div className="w-full max-w-md bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Register Here</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">Sign Up Here</h2>
           <form onSubmit={handleRegistration}>
             <div className="overflow-auto h-96 flex flex-col p-2">
 

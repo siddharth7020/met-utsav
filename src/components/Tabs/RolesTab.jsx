@@ -7,6 +7,7 @@ const RolesTab = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedInstitute, setSelectedInstitute] = useState("");
   const [selectedRole, setSelectedRole] = useState("");
+  const [selectedType, setSelectedType] = useState(""); // New state for Type filter
   const [currentPage, setCurrentPage] = useState(1);
 
   const [users, setUsers] = useState([]);
@@ -26,31 +27,35 @@ const RolesTab = () => {
       .catch(error => console.error("Error fetching institutes:", error));
 
     axios.get("https://utsav.met.edu/api/roles/")
-      .then(response => setRoles(response.data))
+      .then(response => {
+        // Filter out the HOE role
+        const filteredRoles = response.data.filter(role => role.name !== "HOE" && role.name !== "Trustee");
+        setRoles(filteredRoles);
+      })
       .catch(error => console.error("Error fetching roles:", error));
   }, []);
 
-
   const columns = [
-    { field: "name", header: "Name" }, // Use the computed fullName field
+    { field: "name", header: "Name" },
     { field: "role", header: "Role" },
-    { field: "institute", header: "Institute" }, // Use the computed instituteName field
+    { field: "institute", header: "Institute" },
+    { field: "type", header: "Type" }, // New column for Type
   ];
 
   // Combine name fields
   const formattedUsers = users.map(user => ({
     ...user,
     name: `${user.firstName} ${user.middleName || ""} ${user.lastName || ""}`.trim(),
-    institute: user.Institute?.name || ""
+    institute: user.Institute?.name || "",
+    type: user.type || "" // Assuming 'type' is a field in the user data
   }));
 
-
-  // Filter data dynamically based on search term, institute, and role
+  // Filter data dynamically based on search term, institute, role, and type
   const filteredData = formattedUsers.filter((user) => {
     const matchesSearch = searchTerm
       ? user.name.toLowerCase().includes(searchTerm) ||
-      user.role.toLowerCase().includes(searchTerm) ||
-      user.institute.toLowerCase().includes(searchTerm)
+        user.role.toLowerCase().includes(searchTerm) ||
+        user.institute.toLowerCase().includes(searchTerm)
       : true;
 
     const matchesInstitute = selectedInstitute
@@ -59,7 +64,9 @@ const RolesTab = () => {
 
     const matchesRole = selectedRole ? user.role === selectedRole : true;
 
-    return matchesSearch && matchesInstitute && matchesRole;
+    const matchesType = selectedType ? user.type === selectedType : true;
+
+    return matchesSearch && matchesInstitute && matchesRole && matchesType;
   });
 
   // Paginate filtered data
@@ -81,17 +88,22 @@ const RolesTab = () => {
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value.toLowerCase());
-    setCurrentPage(1); // Reset to page 1 when search changes
+    setCurrentPage(1);
   };
 
   const handleInstituteChange = (e) => {
     setSelectedInstitute(e.target.value);
-    setCurrentPage(1); // Reset to page 1 when filter changes
+    setCurrentPage(1);
   };
 
   const handleRoleChange = (e) => {
     setSelectedRole(e.target.value);
-    setCurrentPage(1); // Reset to page 1 when filter changes
+    setCurrentPage(1);
+  };
+
+  const handleTypeChange = (e) => {
+    setSelectedType(e.target.value);
+    setCurrentPage(1);
   };
 
   return (
@@ -110,7 +122,6 @@ const RolesTab = () => {
         {filteropen && (
           <div className="flex flex-col bg-white rounded-lg p-4 shadow-sm mb-2">
             <div className="flex flex-col lg:flex-row lg:space-x-4 mb-4">
-              {/* Search Input */}
               <div className="flex-1 mb-4 lg:mb-0">
                 <label className="text-black font-bold" htmlFor="search">
                   Search
@@ -125,7 +136,6 @@ const RolesTab = () => {
                 />
               </div>
 
-              {/* Institute Dropdown */}
               <div className="flex-1 mb-4 lg:mb-0">
                 <label className="text-black font-bold" htmlFor="institute">
                   Institute
@@ -145,7 +155,6 @@ const RolesTab = () => {
                 </select>
               </div>
 
-              {/* Roles Dropdown */}
               <div className="flex-1 mb-4 lg:mb-0">
                 <label className="text-black font-bold" htmlFor="role">
                   Roles
@@ -162,6 +171,22 @@ const RolesTab = () => {
                       {role.name}
                     </option>
                   ))}
+                </select>
+              </div>
+
+              <div className="flex-1 mb-4 lg:mb-0">
+                <label className="text-black font-bold" htmlFor="type">
+                  Type
+                </label>
+                <select
+                  className="w-full bg-gray-100 rounded-md border-gray-300 text-black px-2 py-1"
+                  id="type"
+                  value={selectedType}
+                  onChange={handleTypeChange}
+                >
+                  <option value="">Select a Type</option>
+                  <option value="Staff">Staff</option>
+                  <option value="Student">Student</option>
                 </select>
               </div>
             </div>
@@ -181,7 +206,7 @@ const RolesTab = () => {
           <Table
             columns={columns}
             data={currentRows}
-            roles={roles} // Pass roles for dropdowns
+            roles={roles}
           />
 
           <div className="flex justify-between items-center mt-4 flex-wrap">
