@@ -367,6 +367,7 @@ const AttendanceTab = () => {
               />
             ),
           },
+          {field: "id", header: "ID"},
           { field: "name", header: "Name" },
           { field: "rollNo", header: "Roll No." },
           { field: "instituteName", header: "Institute" },

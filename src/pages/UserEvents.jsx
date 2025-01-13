@@ -14,6 +14,8 @@ const UserEvents = () => {
   const [searchQuery, setSearchQuery] = useState(''); // State for the search query
   const [userRole, setUserRole] = useState('');
   const [eventCount, setEventCount] = useState(0);
+  const [selectedStatus, setSelectedStatus] = useState('');
+  const [statusCounts, setStatusCounts] = useState({ selected: 0, rejected: 0, submitted: 0 });
 
 
   useEffect(() => {
@@ -56,6 +58,12 @@ const UserEvents = () => {
       filtered = filtered.filter(event => event.eventId === parseInt(selectedEvent));
     }
 
+    if (selectedStatus) {
+      filtered = filtered.filter(event =>
+        event.status?.toLowerCase() === selectedStatus.toLowerCase() // Case insensitive check
+      );
+    }
+
     if (searchQuery) {
       filtered = filtered.filter(event =>
         `${event.Users.firstName} ${event.Users.lastName}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -63,8 +71,24 @@ const UserEvents = () => {
       );
     }
 
+    filtered = filtered.sort((a, b) => Number(a.Users.id) - Number(b.Users.id));
+
+    // Update filtered events
     setFilteredEvents(filtered);
-  }, [selectedInstitute, selectedCategory, selectedEvent, searchQuery, userEvents]);
+    setEventCount(filtered.length);
+
+    // Update counts for filtered data
+    const counts = {
+      selected: filtered.filter(event => event.status?.toLowerCase() === 'selected').length,
+      rejected: filtered.filter(event => event.status?.toLowerCase() === 'rejected').length,
+      submitted: filtered.filter(event => event.status?.toLowerCase() === 'submitted').length,
+    };
+    setStatusCounts(counts);
+
+    console.log('Filtered Events:', filtered); // Debugging
+  }, [selectedInstitute, selectedCategory, selectedEvent, selectedStatus, searchQuery, userEvents]);
+
+
 
   const downloadExcel = () => {
     const dataToExport = filteredEvents.map(event => ({
@@ -122,21 +146,18 @@ const UserEvents = () => {
           onChange={(e) => setSearchQuery(e.target.value)}
         />
 
-        <div>
-          <select
-            style={{ maxWidth: '325px' }}
-            className="border rounded px-4 py-2 flex-grow"
-            value={selectedInstitute}
-            onChange={(e) => setSelectedInstitute(e.target.value)}
-          >
-            <option value="">All Institutes</option>
-            {institutes.map((institute) => (
-              <option key={institute.id} value={institute.id}>
-                {institute.name}
-              </option>
-            ))}
-          </select>
-        </div>
+        <select
+          className="border rounded px-4 py-2 flex-grow"
+          value={selectedInstitute}
+          onChange={(e) => setSelectedInstitute(e.target.value)}
+        >
+          <option value="">All Institutes</option>
+          {institutes.map((institute) => (
+            <option key={institute.id} value={institute.id}>
+              {institute.name}
+            </option>
+          ))}
+        </select>
 
         <select
           className="border rounded px-4 py-2 flex-grow"
@@ -160,6 +181,18 @@ const UserEvents = () => {
           ))}
         </select>
 
+        <select
+          className="border rounded px-4 py-2 flex-grow"
+          value={selectedStatus}
+          onChange={(e) => setSelectedStatus(e.target.value)}
+        >
+          <option value="">All Statuses</option>
+          <option value="Submitted">Submitted</option>
+          <option value="Selected">Selected</option>
+          <option value="Rejected">Rejected</option>
+        </select>
+
+
         <button
           onClick={downloadExcel}
           className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
@@ -169,7 +202,10 @@ const UserEvents = () => {
       </div>
 
       <div className="mb-4">
-        <span className="text-lg text-red-600 font-bold">Total Registrations: {eventCount}</span>
+        <span className="text-lg font-bold">Total Registrations: {eventCount}</span> |
+        <span className="text-lg font-bold text-green-600 ml-4">Selected: {statusCounts.selected}</span> |
+        <span className="text-lg font-bold text-red-600 ml-4">Rejected: {statusCounts.rejected}</span> |
+        <span className="text-lg font-bold text-blue-600 ml-4">Submitted: {statusCounts.submitted}</span>
       </div>
 
       <div className="overflow-x-auto">
@@ -191,7 +227,7 @@ const UserEvents = () => {
           <tbody>
             {filteredEvents.map((event) => (
               <tr key={event.id}>
-                <td className="border px-4 py-2">{event.id}</td>
+                <td className="border px-4 py-2">{event.Users.id}</td>
                 <td className="border px-4 py-2">
                   {`${event.Users.firstName} ${event.Users.lastName}`}
                 </td>
