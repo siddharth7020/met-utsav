@@ -4,7 +4,7 @@ import About from '../Common/About';
 // import { useEffect, useState } from 'react';
 import ShowsCards from '../Common/ShowsCards';
 // import Banner1 from '../../assets/MET-USTAV/slider/2.png';
-import localVideoFile from "../../assets/MET-USTAV/METUTSAV.mp4"
+import localVideoFile from "../../assets/MET-USTAV/METUTSAVV.mp4"
 import METLOGO from "/metlogo.jpg";
 
 
