@@ -14,6 +14,8 @@ const AttendanceTab = () => {
   const [searchQuery, setSearchQuery] = useState(""); // State to store search query
   const [selectedDate, setSelectedDate] = useState(""); // State to store the selected date
   const [isAttendanceTaken, setIsAttendanceTaken] = useState(false);
+  const [existingAttendance, setExistingAttendance] = useState({});
+
 
   // Fetch data for institutes, roles, and users
   useEffect(() => {
@@ -82,7 +84,6 @@ const AttendanceTab = () => {
   };
 
   // Filter data based on Institute and Search query
-  // Filter data based on Institute and Search query
   const filterData = (institute, query) => {
     let filtered = userData;
 
@@ -125,10 +126,11 @@ const AttendanceTab = () => {
   // Fetch attendance for selected date and institute
   const checkAttendance = async (date, displayAttendanceCallback) => {
     console.log("Date Selected:", date);
-  
+
+
     try {
       const loggedInUser = JSON.parse(localStorage.getItem("user"));
-  
+
       if (!loggedInUser) {
         Swal.fire({
           icon: "error",
@@ -137,43 +139,50 @@ const AttendanceTab = () => {
         });
         return false;
       }
-  
+
       const response = await axios.get("https://utsav.met.edu/api/attendance", {
         params: {
           instituteId: loggedInUser.instituteId,
         },
       });
-  
+
       const attendanceData = response.data.attendanceRecords;
       console.log("Full Attendance Data:", attendanceData);
-  
+
       // Ensure date format consistency
       const formatDate = (inputDate) => {
         const dateObj = new Date(inputDate);
         return dateObj.toISOString().split("T")[0];
       };
-  
+
       const formattedSelectedDate = formatDate(date);
       console.log("Formatted Selected Date:", formattedSelectedDate);
-  
+
       // Filter attendance for the selected date
       const filteredAttendance = attendanceData.filter(
         (record) => formatDate(record.date) === formattedSelectedDate
       );
-  
+
+      // Store already marked records
+      const existingRecords = {};
+      filteredAttendance.forEach(record => {
+        existingRecords[record.userId] = record.status === "present";
+      });
+      setExistingAttendance(existingRecords);
+
       console.log("Filtered Attendance:", filteredAttendance);
-  
+
       if (filteredAttendance.length > 0) {
         if (typeof displayAttendanceCallback === "function") {
           displayAttendanceCallback(filteredAttendance);
         }
-  
+
         // Disable checkboxes
         const checkboxes = document.querySelectorAll("input[type='checkbox']");
         checkboxes.forEach((checkbox) => {
           checkbox.disabled = true;
         });
-  
+
         return true;
       } else {
         // Enable checkboxes if no attendance is found
@@ -181,13 +190,13 @@ const AttendanceTab = () => {
         checkboxes.forEach((checkbox) => {
           checkbox.disabled = false;
         });
-  
+
         Swal.fire({
           icon: "info",
           title: "No Attendance",
           text: "No attendance records found for the selected date. You can mark attendance now.",
         });
-  
+
         return false;
       }
     } catch (error) {
@@ -200,8 +209,8 @@ const AttendanceTab = () => {
       return false;
     }
   };
-  
-  
+
+
 
   const handleDateChange = async (e) => {
     const date = e.target.value;
@@ -238,14 +247,13 @@ const AttendanceTab = () => {
       // Combine firstName and lastName to create full name
       const addedBy = `${user.firstName} ${user.lastName}`;
 
-
-      // Create the attendance payload
-      const selectedUsers = Object.entries(attendance).map(([id, isSelected]) => ({
+      const newAttendance = Object.entries(attendance).filter(([id]) => !(id in existingAttendance));
+      const selectedUsers = newAttendance.map(([id, isSelected]) => ({
         userId: parseInt(id),
         instituteId: user.instituteId,
-        date: selectedDate, // Save the selected date
-        status: isSelected ? "present" : "absent", // Mark "present" or "absent" based on the checkbox
-        addby: addedBy, // Add the combined name in addBy field
+        date: selectedDate,
+        status: isSelected ? "present" : "absent",
+        addby: addedBy,
       }));
 
       // Log the payload to verify it's correct
@@ -357,6 +365,7 @@ const AttendanceTab = () => {
                 type="checkbox"
                 checked={allSelected}
                 onChange={handleSelectAll}
+                disabled={isAttendanceTaken}
               />
             ),
             render: (row) => (
@@ -364,10 +373,12 @@ const AttendanceTab = () => {
                 type="checkbox"
                 checked={!!attendance[row.id]}
                 onChange={() => handleAttendanceChange(row.id)}
+                disabled={existingAttendance[row.id] !== undefined} // Disable if already marked
               />
             ),
           },
-          {field: "id", header: "ID"},
+
+          { field: "id", header: "ID" },
           { field: "name", header: "Name" },
           { field: "rollNo", header: "Roll No." },
           { field: "instituteName", header: "Institute" },

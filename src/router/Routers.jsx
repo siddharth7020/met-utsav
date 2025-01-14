@@ -18,6 +18,7 @@ import ScrollToTop from '../components/Common/ScrollToTop';
 import TotalRegistrationReport from '../pages/TotalRegistrationReport';
 import CreativityExihibition from '../pages/CreativityExihibition';
 import Competition from '../pages/Competition';
+import MyRegistrations from '../pages/MyRegistrations';
 
 const Routers = () => {
   return (
@@ -42,6 +43,7 @@ const Routers = () => {
           <Route path="competition" element={<Competition />} />
           <Route path="registeredparticipants" element={<UserEventsTable />} />
           <Route path="totalregistrationsreport" element={<TotalRegistrationReport />} />
+          <Route path="myregistrations" element={<MyRegistrations />} />
         </Route>
       </Routes>
     </Router>
