@@ -21,13 +21,13 @@ const CreativityExihibition = () => {
 
     return (
         <div>
-            <section className="bg-white dark:bg-gray-900">
+            <section className=" bg-gray-900">
                 <div className="container px-6 py-16 mx-auto text-center">
                     <div className="max-w-lg mx-auto">
                         <h1 className="text-3xl font-semibold text-white   lg:text-4xl">
                             Creativity Exhibition
                         </h1>
-                        <p className="mt-6 text-gray-500 dark:text-gray-300 ">
+                        <p className="mt-6 text-gray-300 ">
                             The Creativity Exhibition at MET Utsav showcases the richness of Indian culture under the theme 
                             "Sanskriti." 
                         </p>
