@@ -92,8 +92,8 @@ const ShowsCards = () => {
                     </div>
                     <div className="flex items-center justify-between p-4">
                         <div className="flex items-center">
-                            <button className='bg-gray-600 text-white px-4 py-2 rounded-md'  >
-                                Coming Soon
+                            <button className='bg-red-600 text-white px-4 py-2 rounded-md' onClick={() => handleClick('/competition')}  >
+                                Register Here
                             </button>
                         </div>
                     </div>
