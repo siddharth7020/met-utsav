@@ -19,6 +19,8 @@ import TotalRegistrationReport from '../pages/TotalRegistrationReport';
 import CreativityExihibition from '../pages/CreativityExihibition';
 import Competition from '../pages/Competition';
 import MyRegistrations from '../pages/MyRegistrations';
+import Attendance from '../pages/Attendance';
+import AttendaceReport from '../pages/AttendanceReport';
 
 const Routers = () => {
   return (
@@ -34,7 +36,7 @@ const Routers = () => {
           <Route index element={<HomeTab />} />
           <Route path='report' element={<Report />} />
           <Route path="events" element={<EventsTab />} />
-          <Route path="attendance" element={<AttendanceTab />} />
+          {/* <Route path="attendance" element={<AttendanceTab />} /> */}
           <Route path="notice" element={<NoticeTab />} />
           <Route path="roles" element={<RolesTab />} />
           <Route path="eventsdeatils" element={<EventDeatils />} />
@@ -44,6 +46,8 @@ const Routers = () => {
           <Route path="registeredparticipants" element={<UserEventsTable />} />
           <Route path="totalregistrationsreport" element={<TotalRegistrationReport />} />
           <Route path="myregistrations" element={<MyRegistrations />} />
+          <Route path="attendance" element={<Attendance />} />
+          <Route path="attendancereport" element={<AttendaceReport />} />
         </Route>
       </Routes>
     </Router>
