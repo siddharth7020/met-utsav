@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import EventsCard from "../components/Common/EventCard"
 import axios from "axios";
 import Photo1 from "../assets/MET-USTAV/competition.jpg";
+import Photo2 from "../assets/MET-USTAV/competition-mobile.jpg";
 
 const Competition = () => {
     const [events, setEvents] = useState([]);
@@ -21,21 +22,33 @@ const Competition = () => {
 
     return (
         <div>
-            <section className="bg-white dark:bg-gray-900">
+            <section className="bg-gray-900">
                 <div className="container px-6 py-16 mx-auto text-center">
                     <div className="max-w-lg mx-auto">
                         <h1 className="text-3xl font-semibold text-white   lg:text-4xl">
-                            Competition
+                            Competitions
                         </h1>
-                        <p className="mt-6 text-gray-500 dark:text-gray-300 ">
-                            The Creativity Exhibition at MET Utsav showcases the richness of Indian culture under the theme 
-                            "Sanskriti". 
+                        <p className="mt-6 text-gray-300 ">
+                            Competitions in MET Utsav celebrate talent and creativity through diverse events that embody the vibrant spirit of Bharatiya Sanskriti.
                         </p>
                     </div>
 
                     <div className="flex justify-center mt-10">
-                        <img className=" w-full h-96  rounded-xl " src={Photo1} />
+                        {/* Display Photo1 on desktop */}
+                        <img
+                            className="w-full h-96 rounded-xl hidden sm:block"
+                            src={Photo1}
+                            alt="Desktop Photo"
+                        />
+
+                        {/* Display Photo2 on mobile */}
+                        <img
+                            className="w-full h-96 rounded-xl sm:hidden"
+                            src={Photo2}
+                            alt="Mobile Photo"
+                        />
                     </div>
+
                 </div>
             </section>
 
@@ -203,6 +216,9 @@ const Competition = () => {
                     <h1 className="mb-4 text-4xl tracking-tight font-bold ">
                         GET SET READY
                     </h1>
+                    <h2 className="font-bold">
+                        The specific timings will be provided upon registration for each competition. For team events, each participant must register individually and submit their team details on the day of the event.
+                    </h2>
                     <div className=" space-y-12 p-6  ">
                         <EventsCard events={events} />
                     </div>

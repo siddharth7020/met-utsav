@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import EventsCard from "../components/Common/EventCard"
 import axios from "axios";
 import Photo1 from "../assets/MET-USTAV/talentshow.jpg";
-import Photo2 from "../assets/MET-USTAV/tlshow.jpg";
+import Photo2 from "../assets/MET-USTAV/talentshow-mobile.jpg";
 
 const TalentShow = () => {
     const [events, setEvents] = useState([]);
@@ -34,7 +34,19 @@ const TalentShow = () => {
                     </div>
 
                     <div className="flex justify-center mt-10">
-                        <img className=" w-full h-96  rounded-xl " src={Photo1} />
+                        {/* Display Photo1 on desktop */}
+                        <img
+                            className="w-full h-96 rounded-xl hidden sm:block"
+                            src={Photo1}
+                            alt="Desktop Photo"
+                        />
+
+                        {/* Display Photo2 on mobile */}
+                        <img
+                            className="w-full h-96 rounded-xl sm:hidden"
+                            src={Photo2}
+                            alt="Mobile Photo"
+                        />
                     </div>
                 </div>
             </section>

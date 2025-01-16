@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import EventsCard from "../components/Common/EventCard"
 import axios from "axios";
-import Photo1 from "../assets/MET-USTAV/talentshow.jpg";
+import Photo1 from "../assets/MET-USTAV/workshop.jpg";
+import Photo2 from "../assets/MET-USTAV/workshop-mobile.jpg";
 
 const CreativityExihibition = () => {
     const [events, setEvents] = useState([]);
@@ -28,13 +29,25 @@ const CreativityExihibition = () => {
                             Competition
                         </h1>
                         <p className="mt-6 text-gray-500 dark:text-gray-300 ">
-                            The Creativity Exhibition at MET Utsav showcases the richness of Indian culture under the theme 
-                            "Sanskriti". 
+                            The Creativity Exhibition at MET Utsav showcases the richness of Indian culture under the theme
+                            "Sanskriti".
                         </p>
                     </div>
 
                     <div className="flex justify-center mt-10">
-                        <img className=" w-full h-96  rounded-xl " src={Photo1} />
+                        {/* Display Photo1 on desktop */}
+                        <img
+                            className="w-full h-96 rounded-xl hidden sm:block"
+                            src={Photo1}
+                            alt="Desktop Photo"
+                        />
+
+                        {/* Display Photo2 on mobile */}
+                        <img
+                            className="w-full h-96 rounded-xl sm:hidden"
+                            src={Photo2}
+                            alt="Mobile Photo"
+                        />
                     </div>
                 </div>
             </section>
