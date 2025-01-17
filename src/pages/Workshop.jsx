@@ -19,16 +19,63 @@ const Workshop = () => {
             .catch((error) => console.error('Error fetching events:', error));
     }, []);
 
+    const workshops = [
+        {
+            name: "Nritya Utsav (Festival of Dance)",
+            timings: ["10:30 am to 12:00 pm", "12:30 pm to 2:00 pm", "2:30 pm to 4:00 pm"],
+            venue: "5th Floor, Recreation Centre",
+        },
+        {
+            name: "Drishyakala (Photography)",
+            timings: ["11:00 am to 1:00 pm", "2:30 pm to 4:30 pm"],
+            venue: "7th Floor, IMM Studio",
+        },
+        {
+            name: "Warli Chitrakala",
+            timings: ["11:00 am to 12:30 pm", "1:30 pm to 3:00 pm", "3:15 pm to 4:45 pm"],
+            venue: "Seminar Hall 1, 8th Floor",
+        },
+        {
+            name: "Abhinay Kala (Acting)",
+            timings: ["10:30 am to 1:30 pm", "2:00 pm to 4:00 pm"],
+            venue: "7th Floor, C1, Mass Media Classroom",
+        },
+        {
+            name: "Vrukshavalli Aamha Soyari (Gardening)",
+            timings: [
+                "10:45 am to 12:00 pm",
+                "12:15 pm to 1:30 pm",
+                "2:00 pm to 3:15 pm",
+                "3:30 pm to 4:45 pm",
+            ],
+            venue: "8th Floor, Seminar Hall 2",
+        },
+        {
+            name: "Shringar Pratha",
+            timings: ["11:00 am to 1:00 pm", "2:00 pm to 4:00 pm"],
+            venue: "3rd Floor, T-9, AMDC Classroom",
+        },
+        {
+            name: "Naad Anubhuti (The Experience of Sound)",
+            timings: ["12:00 pm to 1:00 pm", "2:00 pm to 3:00 pm"],
+            venue: "S9, 2nd Floor",
+        },
+        {
+            name: "Maharashtratil Sanskrutik Yudhakala",
+            timings: ["12:00 pm to 1:30 pm", "3:15 pm to 4:45 pm"],
+            venue: "Ground Floor, Stilt Area",
+        },
+    ];
 
     return (
         <div>
-            <section className="bg-white dark:bg-gray-900">
+            <section className="bg-gray-900">
                 <div className="container px-6 py-16 mx-auto text-center">
                     <div className="max-w-lg mx-auto">
                         <h1 className="text-3xl font-semibold text-white   lg:text-4xl">
                             Workshop
                         </h1>
-                        <p className="mt-6 text-gray-500 dark:text-gray-300 ">
+                        <p className="mt-6 text-gray-500  ">
                             The Workshop at MET Utsav is a unique opportunity for students to learn new skills, explore their interests, and connect with like-minded individuals.
                         </p>
                     </div>
@@ -51,164 +98,52 @@ const Workshop = () => {
                 </div>
             </section>
 
-            {/* <section className="bg-white ">
-                <div className="px-6 py-16 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
-                    <div className="max-w-screen-lg text-gray-900 sm:text-lg ">
-                        <h2 className="mb-4 text-4xl tracking-tight font-bold ">
-                            Step Into the Spotlight at  <span className="font-extrabold text-red-600">MET Utsav Talent Show 2025!</span>
-                        </h2>
-                        <p className="mb-4 ">
-                            Are you ready to turn your talent into something extraordinary? The MET Utsav Talent Show isn’t just a stage—it’s your gateway to being trained,
-                            mentored, and judged by industry professionals who know what it takes to succeed!
+            <seaction className="bg-gray-100 p-4 min-h-screen">
+                <div className="container mx-auto">
+                    <h1 className="text-2xl md:text-3xl font-bold text-red-600 mb-6 text-center">
+                        Workshops Schedule
+                    </h1>
 
-                            This isn’t just a competition; it’s a once-in-a-lifetime experience where participants get the chance to refine their skills, learn insider secrets,
-                            and elevate their craft to new heights. Whether you’re a singer, actor, if you have a band, play an instrument, magician, or have a talent that
-                            defies categories, this is your moment to shine!
-                        </p>
-
-                        <h2 className="mb-4 text-4xl tracking-tight font-bold ">
-
-                        </h2>
-                        <p className="mb-4 font-medium">
-
-                        </p>
+                    {/* Responsive Table Container */}
+                    <div className="overflow-x-auto">
+                        <table className="w-full border-collapse border border-red-600">
+                            <thead>
+                                <tr className="bg-red-600 text-white">
+                                    <th className="border border-red-600 px-4 py-2 text-left text-sm md:text-base">
+                                        Workshops
+                                    </th>
+                                    <th className="border border-red-600 px-4 py-2 text-left text-sm md:text-base">
+                                        Timings
+                                    </th>
+                                    <th className="border border-red-600 px-4 py-2 text-left text-sm md:text-base">
+                                        Venue
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {workshops.map((workshop, index) => (
+                                    <tr
+                                        key={index}
+                                        className={`${index % 2 === 0 ? "bg-white" : "bg-gray-100"}`}
+                                    >
+                                        <td className="border border-red-600 px-2 py-2 text-sm md:text-base">
+                                            {workshop.name}
+                                        </td>
+                                        <td className="border border-red-600 px-2 py-2 text-sm md:text-base">
+                                            {workshop.timings.map((time, idx) => (
+                                                <div key={idx}>{time}</div>
+                                            ))}
+                                        </td>
+                                        <td className="border border-red-600 px-2 py-2 text-sm md:text-base">
+                                            {workshop.venue}
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            </section> */}
-
-            {/* <section className="bg-white">
-                <div className="container px-6 py-10 mx-auto">
-                    <div className="lg:flex lg:items-center">
-                        <div className="w-full space-y-12 lg:w-1/2 ">
-                            <div>
-                                <h1 className="mb-4 text-4xl tracking-tight font-bold ">
-                                    Why You Can’t Miss <br /> This Opportunity:
-                                </h1>
-
-                                <div className="mt-2">
-                                    <span className="inline-block w-40 h-1 bg-red-500 rounded-full"></span>
-                                    <span className="inline-block w-3 h-1 ml-1 bg-red-500 rounded-full"></span>
-                                    <span className="inline-block w-1 h-1 ml-1 bg-red-500 rounded-full"></span>
-                                </div>
-                            </div>
-
-                            <div className="md:flex md:items-start md:-mx-4">
-                                <span className="inline-block p-2 bg-blue-100 rounded-xl md:mx-4">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-                                    </svg>
-                                </span>
-
-                                <div className="mt-4 md:mx-4 md:mt-0">
-                                    <p className="text-xl font-semibold text-gray-900 capitalize ">
-                                        Train with the Best: Industry experts will guide and prepare you to deliver a stellar performance.
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div className="md:flex md:items-start md:-mx-4">
-                                <span className="inline-block p-2 bg-blue-100 rounded-xl md:mx-4">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-                                    </svg>
-                                </span>
-
-                                <div className="mt-4 md:mx-4 md:mt-0">
-                                    <p className="text-xl font-semibold text-gray-900 capitalize ">
-                                        Your talent will be evaluated by renowned professionals who know what it takes to stand out.
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div className="md:flex md:items-start md:-mx-4">
-                                <span className="inline-block p-2 bg-blue-100 rounded-xl md:mx-4">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-                                    </svg>
-                                </span>
-
-                                <div className="mt-4 md:mx-4 md:mt-0">
-                                    <p className="text-xl font-semibold text-gray-900 capitalize ">
-                                        Unleash Your Potential: Learn, grow, and showcase your talent like never before.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="hidden lg:flex lg:items-center lg:w-1/2 lg:justify-center">
-                            <img className="w-[28rem] h-[28rem] object-cover xl:w-[34rem] xl:h-[34rem] " src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=755&q=80" alt="" />
-                        </div>
-                    </div>
-
-                    <hr className="my-12 border-gray-200 dark:border-gray-700" />
-
-                    <div className="lg:flex lg:items-center">
-                        <div className="w-full space-y-12 lg:w-1/2 ">
-                            <div>
-                                <h1 className="mb-4 text-4xl tracking-tight font-bold ">
-                                    Event Highlights:
-                                </h1>
-
-                                <div className="mt-2">
-                                    <span className="inline-block w-40 h-1 bg-red-500 rounded-full"></span>
-                                    <span className="inline-block w-3 h-1 ml-1 bg-red-500 rounded-full"></span>
-                                    <span className="inline-block w-1 h-1 ml-1 bg-red-500 rounded-full"></span>
-                                </div>
-                            </div>
-
-
-                            <div className="md:flex md:items-start md:-mx-4">
-                                <span className="inline-block p-2 bg-blue-100 rounded-xl md:mx-4">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-                                    </svg>
-                                </span>
-
-                                <div className="mt-4 md:mx-4 md:mt-0">
-                                    <p className="text-xl font-semibold text-gray-900 capitalize ">
-                                        Open to all MET students and staff.
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div className="md:flex md:items-start md:-mx-4">
-                                <span className="inline-block p-2 bg-blue-100 rounded-xl md:mx-4">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-                                    </svg>
-                                </span>
-
-                                <div className="mt-4 md:mx-4 md:mt-0">
-                                    <p className="text-xl font-semibold text-gray-900 capitalize ">
-                                        Personalized guidance to perfect your act.
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div className="md:flex md:items-start md:-mx-4">
-                                <span className="inline-block p-2 bg-blue-100 rounded-xl md:mx-4">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-                                    </svg>
-                                </span>
-
-                                <div className="mt-4 md:mx-4 md:mt-0">
-                                    <p className="text-xl font-semibold text-gray-900 capitalize ">
-                                        A prestigious platform to wow the audience and experts alike.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="hidden lg:flex lg:items-center lg:w-1/2 lg:justify-center">
-
-                        </div>
-                    </div>
-
-                    <hr className="mt-12 border-gray-200 dark:border-gray-700" />
-
-                </div>
-            </section> */}
+            </seaction>
 
             <section className="bg-white mt-5">
                 <div className="container px-4  mx-auto text-center">
