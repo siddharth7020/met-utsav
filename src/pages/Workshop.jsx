@@ -148,7 +148,7 @@ const Workshop = () => {
             <section className="bg-white mt-5">
                 <div className="container px-4  mx-auto text-center">
                     <h1 className="mb-4 text-4xl tracking-tight font-bold ">
-                        Ready to Showcase Your Talent?
+                        Unleash Your Creativity: Join the Exciting Workshops!
                     </h1>
                     <div className=" space-y-12 p-6  ">
                         <EventsCard events={events} />
