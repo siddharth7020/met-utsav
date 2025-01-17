@@ -5,7 +5,7 @@ import ForgetPasswordPage from '../pages/ForgetPasswordPage';
 import Layout from '../components/Layout/Layout';
 import HomeTab from '../components/Tabs/HomeTab';
 import EventsTab from '../components/Tabs/EventsTab';
-import AttendanceTab from '../components/Tabs/AttendanceTab';
+// import AttendanceTab from '../components/Tabs/AttendanceTab';
 import NoticeTab from '../components/Tabs/NoticeTab';
 import RolesTab from '../components/Tabs/RolesTab';
 import OTP from '../pages/OTP';
@@ -21,6 +21,8 @@ import Competition from '../pages/Competition';
 import MyRegistrations from '../pages/MyRegistrations';
 import Attendance from '../pages/Attendance';
 import AttendaceReport from '../pages/AttendanceReport';
+import Workshop from '../pages/Workshop';
+
 
 const Routers = () => {
   return (
@@ -43,6 +45,7 @@ const Routers = () => {
           <Route path="talentshow" element={<TalentShow />} />
           <Route path="creativityexhibition" element={<CreativityExihibition />} />
           <Route path="competition" element={<Competition />} />
+          <Route path="workshop" element={<Workshop />} />
           <Route path="registeredparticipants" element={<UserEventsTable />} />
           <Route path="totalregistrationsreport" element={<TotalRegistrationReport />} />
           <Route path="myregistrations" element={<MyRegistrations />} />

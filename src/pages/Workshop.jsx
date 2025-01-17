@@ -4,14 +4,14 @@ import axios from "axios";
 import Photo1 from "../assets/MET-USTAV/workshop.jpg";
 import Photo2 from "../assets/MET-USTAV/workshop-mobile.jpg";
 
-const CreativityExihibition = () => {
+const Workshop = () => {
     const [events, setEvents] = useState([]);
 
     useEffect(() => {
         axios
             .get('http://utsav.met.edu/api/events')
             .then((response) => {
-                const filteredEvents = response.data.filter(event => event.categoryId === event.Category.id && event.Category.name === 'Creativity Exhibition');
+                const filteredEvents = response.data.filter(event => event.categoryId === event.Category.id && event.Category.name === 'Workshop');
                 console.log(filteredEvents);
 
                 setEvents(filteredEvents);
@@ -26,11 +26,10 @@ const CreativityExihibition = () => {
                 <div className="container px-6 py-16 mx-auto text-center">
                     <div className="max-w-lg mx-auto">
                         <h1 className="text-3xl font-semibold text-white   lg:text-4xl">
-                            Competition
+                            Workshop
                         </h1>
                         <p className="mt-6 text-gray-500 dark:text-gray-300 ">
-                            The Creativity Exhibition at MET Utsav showcases the richness of Indian culture under the theme
-                            "Sanskriti".
+                            The Workshop at MET Utsav is a unique opportunity for students to learn new skills, explore their interests, and connect with like-minded individuals.
                         </p>
                     </div>
 
@@ -226,4 +225,4 @@ const CreativityExihibition = () => {
     )
 }
 
-export default CreativityExihibition
+export default Workshop
