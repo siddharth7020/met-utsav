@@ -9,7 +9,7 @@ const Workshop = () => {
 
     useEffect(() => {
         axios
-            .get('http://utsav.met.edu/api/events')
+            .get('https://utsav.met.edu/api/events')
             .then((response) => {
                 const filteredEvents = response.data.filter(event => event.categoryId === event.Category.id && event.Category.name === 'Workshop');
                 console.log(filteredEvents);
