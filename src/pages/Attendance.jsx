@@ -10,6 +10,7 @@ function Attendance() {
     const [selectedDate, setSelectedDate] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
     const [userAttendance, setUserAttendance] = useState({});
+    const [reportData, setReportData] = useState([]);
 
     // Fetch user from localStorage
     const user = JSON.parse(localStorage.getItem('user'));
@@ -43,17 +44,18 @@ function Attendance() {
     useEffect(() => {
         if (selectedDate) {
             // Fetch attendance for the selected date
-            fetch('https://utsav.met.edu/api/attendance')
+            fetch(`https://utsav.met.edu/api/attendance/${selectedDate}`)
                 .then(response => response.json())
                 .then(data => {
-                    const filtered = data.filter(attendance => attendance.date === selectedDate);
-                    setUserAttendance(filtered.reduce((acc, attendance) => ({ ...acc, [attendance.userId]: attendance.status }), {}));
+                    if (data.attendanceRecords) {
+                        setUserAttendance(data.attendanceRecords.reduce((acc, attendance) => ({
+                            ...acc,
+                            [attendance.userId]: attendance.status,
+                        }), {}));
+                        setReportData(data.attendanceRecords);
+                    }
                 })
                 .catch(() => Swal.fire('Error', 'Failed to fetch attendance. Please try again later.', 'error'));
-
-                console.log(selectedDate);
-                console.log();
-                
         }
     }, [selectedDate]);
 
@@ -101,7 +103,6 @@ function Attendance() {
             })
             .then(() => {
                 Swal.fire('Success', `Attendance marked as ${status}!`, 'success');
-                // Update attendance locally
                 setUserAttendance(prev => ({ ...prev, [userId]: status }));
             })
             .catch(() => Swal.fire('Error', 'Failed to mark attendance. Please try again later.', 'error'));
@@ -123,11 +124,35 @@ function Attendance() {
         return today.toISOString().split('T')[0]; // Format as yyyy-mm-dd
     };
 
+    const generateReport = () => {
+        if (!reportData.length) {
+            Swal.fire('Info', 'No attendance data available for the selected date.', 'info');
+            return;
+        }
+
+        const csvContent = [
+            ['Name', 'Institute', 'Status'],
+            ...reportData.map(record => [
+                `${record.User.firstName} ${record.User.lastName}`,
+                institutes.find(inst => inst.id === record.User.instituteId)?.name || 'N/A',
+                record.status,
+            ]),
+        ]
+            .map(row => row.join(','))
+            .join('\n');
+
+        const blob = new Blob([csvContent], { type: 'text/csv' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `attendance_${selectedDate}.csv`;
+        link.click();
+    };
+
     return (
         <div className="p-6">
             <h1 className="text-3xl font-bold mb-4">Attendance System</h1>
 
-            {/* Date Picker */}
             <div className="mb-4">
                 <label htmlFor="date-picker" className="block text-lg mb-2">Select Date:</label>
                 <input
@@ -136,11 +161,10 @@ function Attendance() {
                     className="block w-full border rounded-md p-2"
                     onChange={(e) => setSelectedDate(e.target.value)}
                     value={selectedDate}
-                    max={getMaxDate()} // Prevent future date selection
+                    max={getMaxDate()}
                 />
             </div>
 
-            {/* Event Selector */}
             <div className="mb-4">
                 <label htmlFor="event-select" className="block text-lg mb-2">Select Event:</label>
                 <select
@@ -156,7 +180,6 @@ function Attendance() {
                 </select>
             </div>
 
-            {/* Search Bar */}
             <div className="mb-4">
                 <label htmlFor="search-bar" className="block text-lg mb-2">Search Users:</label>
                 <input
@@ -169,7 +192,13 @@ function Attendance() {
                 />
             </div>
 
-            {/* Users Table */}
+            <button
+                onClick={generateReport}
+                className="mb-4 px-4 py-2 rounded bg-blue-500 hover:bg-blue-600 text-white"
+            >
+                Download Attendance Report
+            </button>
+
             <table className="table-auto w-full border-collapse border border-gray-300">
                 <thead>
                     <tr>
@@ -182,7 +211,7 @@ function Attendance() {
                 <tbody>
                     {filteredUsers.map(user => {
                         const userInstituteName = institutes.find(inst => inst.id === user.instituteId)?.name || 'N/A';
-                        const status = userAttendance[user.id] || 'Absent'; // Default to "Absent"
+                        const status = userAttendance[user.id] || 'Absent';
                         return (
                             <tr key={user.id} className="hover:bg-gray-100">
                                 <td className="border border-gray-300 p-2">{user.firstName} {user.lastName}</td>
